@@ -239,18 +239,8 @@ void createWebServer(){
             Serial.println("Received password: " +  String(qpassword));
             Serial.println("Writing new SSID to EEPROM");
             writeEEPROM(qssid, ssid_add);
-            // for (int i = 0; i<qssid.length(); ++i){
-            //     EEPROM.write(i, qssid[i]);
-            //     Serial.print("Wrote: ");
-            //     Serial.println(qssid[i]);
-            // }
             Serial.println("Writing new PASSWORD to EEPROM");
             writeEEPROM(qpassword, pass_add);
-            // for (int i = 0; i < qpassword.length(); ++i){
-            //     EEPROM.write(i + pass_add, qpassword[i]);
-            //     Serial.print("Wrote: ");
-            //     Serial.println(qpassword[i]);
-            // }
         }
 
         if(qmqtt_address.length()>0){
@@ -263,18 +253,8 @@ void createWebServer(){
             Serial.println("Received MQTT PASSWORD: " +  String(qmqtt_password));
             Serial.println("Writing new MQTT ADDRESS to EEPROM");
             writeEEPROM(qmqtt_address, mqtt_add);
-            // for (int i = 0; i<qmqtt_address.length(); ++i){
-            //     EEPROM.write(i + mqtt_add, qmqtt_address[i]);
-            //     Serial.print("Wrote: ");
-            //     Serial.println(qmqtt_address[i]);
-            // }
             Serial.println("Writing new MQTT PASSWORD to EEPROM");
             writeEEPROM(qmqtt_password, mqtt_pass_add);
-            // for (int i = 0; i < qmqtt_password.length(); ++i){
-            //     EEPROM.write(i + mqtt_pass_add , qmqtt_password[i]);
-            //     Serial.print("Wrote: ");
-            //     Serial.println(qmqtt_password[i]);
-            // }
         }
         
         if(qmqtt_port.length()>0){
@@ -286,11 +266,6 @@ void createWebServer(){
             Serial.println("Received MQTT PORT: " + String(qmqtt_port));
             Serial.println("Writing new MQTT PORT to EEPROM");
             writeEEPROM(qmqtt_port, mqtt_port_add);
-            // for (int i = 0; i<qmqtt_port.length(); ++i){
-            //     EEPROM.write(i + mqtt_port_add, qmqtt_port[i]);
-            //     Serial.print("Wrote: ");
-            //     Serial.println(qmqtt_port[i]);
-            // }
         }
 
         if(qpub_topic.length()>0){
@@ -302,11 +277,6 @@ void createWebServer(){
             Serial.println("Received MQTT PUBLISH TOPIC: " + String(qpub_topic));
             Serial.println("Writing new MQTT PUBLISH TOPIC to EEPROM");
             writeEEPROM(qpub_topic, pub_topic_add);
-            // for (int i = 0; i<qpub_topic.length(); ++i){
-            //     EEPROM.write(i + pub_topic_add, qpub_topic[i]);
-            //     Serial.print("Wrote: ");
-            //     Serial.println(qpub_topic[i]);
-            // }
         }
 
         if(qsub_topic.length()>0){
@@ -318,11 +288,6 @@ void createWebServer(){
             Serial.println("Received MQTT SUBSCRIBE TOPIC: " + String(qsub_topic));
             Serial.println("Writing new MQTT SUBSCRIBE TOPIC to EEPROM");
             writeEEPROM(qsub_topic, sub_topic_add);
-            // for (int i = 0; i<qsub_topic.length(); ++i){
-            //     EEPROM.write(i + sub_topic_add, qsub_topic[i]);
-            //     Serial.print("Wrote: ");
-            //     Serial.println(qsub_topic[i]);
-            // }
         }
 
         if(isUpdated){
