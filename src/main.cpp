@@ -30,6 +30,7 @@ String subscribe_topic = "";
 #define RED_LED 33
 #define YELLOW_LED 25
 #define GREEN_LED 26
+#define temperaturePin 5
 
 // Address of the first memory cell
 const int ssid_add = 0;
@@ -52,6 +53,19 @@ LiquidCrystal_I2C LCD(0X27,16,2);
 WiFiClient espClient;
 PubSubClient client(espClient);
 
+OneWire oneWire(temperaturePin); 
+DallasTemperature temperatureSensor(&oneWire);
+// Create a JSON document to write sensor data
+DynamicJsonDocument doc(256); 
+
+long lastSentMsg = 0;// The last theim a message was published the server
+
+float waterTemperature = 0.0;
+
+bool temperatureSensor_Active = true;
+
+int16_t timeToUpdate = 3000; //Time to update the data by default (MiliSeconds)
+
 void display(int cursorLine0, int cursorLine1, String textLine0, String textLine1){
   LCD.clear();
   LCD.setCursor(cursorLine0, 0);
@@ -62,6 +76,7 @@ void display(int cursorLine0, int cursorLine1, String textLine0, String textLine
 
 void setupWiFi(){
     delay(10);
+    digitalWrite(YELLOW_LED, HIGH);
     Serial.println("\nConnecting to: " + essid);
     display(2, 5, "Connecting to ", "WIFI");
     WiFi.begin(essid.c_str(), epass.c_str());
@@ -82,12 +97,34 @@ void setupWiFi(){
         Serial.println("IP address: ");
         Serial.println(WiFi.localIP());
         display(3, 2, "IP Address", WiFi.localIP().toString());
-        digitalWrite(GREEN_LED, HIGH);
+        digitalWrite(YELLOW_LED, LOW);
     }
 }
 
-void setupConnection(){
-    setupWiFi();
+void setupMQTTConnection(){
+    digitalWrite(YELLOW_LED, HIGH);
+    int count = 0;
+    while (!client.connected()) {
+        Serial.println("Attempting MQTT connection...");
+        if (!client.connect("ESP32Client")) {
+        Serial.print("failed, rc=");
+        Serial.print(client.state());                        
+        Serial.println(" try again in 5 seconds");
+        count ++;
+        if (count >5){
+            Serial.println("False to set up MQTT connection");
+            display(0, 4, "Failed to connect", "to MQTT");
+            break;
+        }
+        // wait 5s before reconnecting
+        delay(500);
+        }
+        else{
+        Serial.println("Successfully connect to mqtt server");
+        display(2,2 , "Connected to", "MQTT server");
+        digitalWrite(YELLOW_LED, LOW);
+        }
+    }
 }
 
 void getConfig(){
@@ -351,6 +388,81 @@ void setupAP(void){
     Serial.println("over");
 }
 
+void loopFunction(){
+    Serial.println("Ham loop dang chay");
+    digitalWrite(GREEN_LED, HIGH);
+    last = millis();
+}
+void JSONProcessing(String &message){
+    StaticJsonDocument<250> sub_doc;
+    deserializeJson(sub_doc, message.c_str());
+    // Get the time to update the sensors data from server
+    timeToUpdate = sub_doc["timeToUpdate"];
+    Serial.println("Successfully set time to update the new data to server to " + String(timeToUpdate) + " miliSeconds");
+    display(0, 4, "Time to update:", String(timeToUpdate) + " ms");
+}
+
+void getSensorsActiveStatus(String &message){
+    const char* str = message.c_str();
+    // Update sensor operating status
+    if (strcmp(str, "ON_temperatureSensor") == 0){
+        temperatureSensor_Active = true;
+        Serial.println("Successfully TURN ON the water temperature sensor");
+        display(3, 1, "Turned on", "temperature ss");
+    }
+    else if (strcmp(str, "OFF_temperatureSensor") == 0){
+        temperatureSensor_Active = false;
+        Serial.println("Successfully TURN OFF the water temperature sensor");
+        display(3, 1, "Turned off", "temperature ss");
+    }
+    else{
+        JSONProcessing(message);
+    }
+    Serial.println("______________________________________________");
+}
+
+float getTemperature(){
+    // Request temperatures
+    temperatureSensor.requestTemperatures();
+    float temperature = temperatureSensor.getTempCByIndex(0);
+
+    return temperature;
+}
+
+void sendSensorsData(){
+    long now = millis();
+    if (now - lastSentMsg > timeToUpdate){
+        lastSentMsg = now;
+        
+        //Add data to the Json document
+        //  Temperature sensor
+        if(temperatureSensor_Active == true)
+        doc["temperature"]  = getTemperature();
+        String message;
+        serializeJson(doc, message);
+        // Serial.println(message);
+        //Send data to publish topic
+        client.publish(publish_topic.c_str(), message.c_str());
+        digitalWrite(GREEN_LED, HIGH);
+    }
+    if (now - lastSentMsg >=1000){
+        digitalWrite(GREEN_LED, LOW);
+    }
+}
+
+void callback(char* topic, byte* payload, int length) {
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  String message = "";
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+    message += (char)payload[i];
+  }
+  Serial.println();
+  getSensorsActiveStatus(message);
+}
+
 
 void setup(){
     Serial.begin(115200);
@@ -370,20 +482,25 @@ void setup(){
     Serial.println("Starting up");
 
     readEEPROM();
-    setupConnection();
+    setupWiFi();
+
+    client.setServer(mqtt_server.c_str(), mqtt_port.toInt()); 
+    client.setCallback(callback);
+
+    temperatureSensor.begin();
 }
 
-void loopFunction(){
-    Serial.println("Ham loop dang chay");
-    digitalWrite(YELLOW_LED, HIGH);
-    last = millis();
-}
 void loop(){
     if(isButtonPressed == true){
         getConfig();
     }
-    if(millis() - last>=200){
-        loopFunction();
+    if (!client.connected()) {
+    setupMQTTConnection();
     }
+    
+    client.loop();
+    client.subscribe(subscribe_topic.c_str());
+
+    sendSensorsData();
 }
 // Test
