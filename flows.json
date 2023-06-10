@@ -1,0 +1,369 @@
+[
+    {
+        "id": "5573791f89190ff0",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "dfb4a60f.d788f8",
+        "type": "ui_group",
+        "name": "Data Export",
+        "tab": "48418b79.0f5834",
+        "order": 1,
+        "disp": true,
+        "width": "12"
+    },
+    {
+        "id": "48418b79.0f5834",
+        "type": "ui_tab",
+        "name": "Dashboard",
+        "icon": "dashboard",
+        "order": 1
+    },
+    {
+        "id": "8290a3e457ebf20f",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "26bb56a265ba606e",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "hungviet.hopto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "6682b3c208fa9673",
+        "type": "inject",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f31a598d.9fd2c8",
+        "type": "function",
+        "z": "5573791f89190ff0",
+        "name": "Set base path",
+        "func": "//restrict to c:\\temp\\\nvar basePath = \"c:\\\\temp\\\\\";\nvar filename = msg.req.params.fn;\n\n\nif(filename.includes(\"..\\\\\")){\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} else if(filename.includes(\"../\")){\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} \n//TODO: add more checks\n\nmsg.filename = basePath + filename;\nreturn [msg, null];//fire output 1\n\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 340,
+        "wires": [
+            [
+                "34dc99e5.495466"
+            ],
+            [
+                "98261154.3006"
+            ]
+        ]
+    },
+    {
+        "id": "98261154.3006",
+        "type": "http response",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "34dc99e5.495466",
+        "type": "file in",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "98261154.3006"
+            ]
+        ]
+    },
+    {
+        "id": "38d65d59.1d8aa2",
+        "type": "catch",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 240,
+        "y": 420,
+        "wires": [
+            [
+                "3b8014a.86ad8ec",
+                "5b18a8e7.fb8da8"
+            ]
+        ]
+    },
+    {
+        "id": "3b8014a.86ad8ec",
+        "type": "function",
+        "z": "5573791f89190ff0",
+        "name": "Set 404",
+        "func": "msg.payload = msg.error;\nmsg.statusCode = 404;//resource not found\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 420,
+        "wires": [
+            [
+                "98261154.3006"
+            ]
+        ]
+    },
+    {
+        "id": "5b18a8e7.fb8da8",
+        "type": "debug",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 270,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "a8c2985e.d23ad8",
+        "type": "ui_template",
+        "z": "5573791f89190ff0",
+        "d": true,
+        "group": "dfb4a60f.d788f8",
+        "name": "ui_temlplate - present download links on dashboard",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<div >\n    <a href=\"/files/log.log\">download log.log</a>\n    <a href=\"/files/log2.log\">download log2.log</a>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 610,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5de7cbb4.fa21a4",
+        "type": "comment",
+        "z": "5573791f89190ff0",
+        "name": "Create http endpoint <nodered>/files/xxx  where xxx is the file name to download",
+        "info": "",
+        "x": 460,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "67ecfa7f.3f0e24",
+        "type": "http in",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "url": "/files/:fn",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 340,
+        "wires": [
+            [
+                "f31a598d.9fd2c8"
+            ]
+        ]
+    },
+    {
+        "id": "48aa585c2f889b57",
+        "type": "mqtt in",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "topic": "test",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "42e2877419fd3e2b",
+        "type": "ui_template",
+        "z": "5573791f89190ff0",
+        "group": "dfb4a60f.d788f8",
+        "name": "",
+        "order": 1,
+        "width": "8",
+        "height": "10",
+        "format": "<!DOCTYPE HTML>\n<html>\n\n<head>\n    <style>\n        .list-box {\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            background-color: #f2f2f2;\n            padding: 10px;\n            width: 300px;\n            /* display: inline-block; */\n        }\n\n        .list-box li {\n            border-bottom: 1px solid #fff;\n            padding: 3px 0px;\n            font-size: 18px;\n        }\n\n        .list-box li.highlight {\n            background-color: cyan;\n        }\n\n        .submit-box {\n            margin-top: 10px;\n            text-align: center;\n            width: 300px;\n        }\n\n        .submit-box input[type=\"submit\"] {\n            height: 40px;\n            width: 100px;\n            background-color: #3c9b41;\n            color: #fff;\n            border: none;\n            /* padding: 10px 20px; */\n            border-radius: 4px;\n            cursor: pointer;\n            font-size: 20px;\n        }\n\n        .submit-box input[type=\"submit\"]:hover {\n            background-color: #338036;\n        }\n\n        .config-box {\n            margin-top: 10px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            background-color: #f2f2f2;\n            padding: 10px;\n            width: 300px;\n        }\n\n        .data {\n            height: 30px;\n            box-sizing: border-box;\n            margin: 7px;\n        }\n\n        form label {\n            display: inline-block;\n            width: 90px;\n            height: 100%;\n        }\n\n        form input {\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            width: 160px;\n            height: 100%;\n            box-sizing: border-box;\n            padding-left: 10px;\n            font-size: 15px;\n        }\n\n        p {\n            display:flex;\n            p-align: center;\n            font-size: 20px;\n            margin: 0;\n            font-weight: bold;\n            justify-content: center;\n        }\n    </style>\n    <script>\n        function copyToSSID(li) {\n            var ssidInput = document.getElementById('ssid');\n            ssidInput.value = li.innerHTML;\n\n            // Xóa highlight của tất cả các thẻ li khác\n            var listItems = document.querySelectorAll('.list-box li');\n            listItems.forEach(function(item) {\n                item.classList.remove('highlight');\n            });\n\n            // Thêm highlight vào thẻ li được bấm\n            li.classList.add('highlight');\n        }\n    </script>\n</head>\n\n<body>\n    <h1>Welcome to Home Automation System Configuration</h1>\n    <div class=\"list-box\">\n        <p>Sellect network for ESP32</p>\n        <ol>\n            <li onclick=\"copyToSSID(this)\">1602</li>\n            <li onclick=\"copyToSSID(this)\">P1602</li>\n            <li onclick=\"copyToSSID(this)\">1602_5GHz</li>\n            <li onclick=\"copyToSSID(this)\">Le Huong</li>\n            <li onclick=\"copyToSSID(this)\">Le Thi Huong</li>\n        </ol>\n    </div>\n    <form action=\"setting\" method=\"get\">\n        <div class=\"config-box\">\n            <p>WIFI</p>\n            <div class=\"data\">\n                <label>SSID </label>\n                <input id=\"ssid\" name=\"ssid\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PASSWORD </label>\n                <input name=\"password\" length=\"64\">\n            </div>\n        </div>\n        <div class=\"config-box\">\n            <p>MQTT</p>\n            <div class=\"data\">\n                <label>ADDRESS</label>\n                <input name=\"mqtt_address\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PASSWORD </label>\n                <input name=\"mqtt_password\" length=\"64\">\n            </div>\n            <div class=\"data\">\n                <label>PORT </label>\n                <input name=\"mqtt_port\" length=\"64\">\n            </div>\n        </div>\n\n        <div class=\"submit-box\">\n            <input type=\"submit\">\n        </div>\n    </form>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 380,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    }
+]
