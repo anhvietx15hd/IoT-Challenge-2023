@@ -12,8 +12,6 @@
 #include<DallasTemperature.h>
 
 int statusCode;
-const char* ssid = "Default SSID";
-const char* password = "Default password";
 
 String st;
 String content;
@@ -22,6 +20,7 @@ String essid = "";
 String epass = "";
 //MQTT
 String mqtt_server = "";
+String mqtt_username = "";
 String mqtt_pass = "";
 String mqtt_port = "";
 String publish_topic = "";
@@ -36,10 +35,11 @@ String subscribe_topic = "";
 const int ssid_add = 0;
 const int pass_add = 32;
 const int mqtt_add = 64;
-const int mqtt_pass_add = 96;
-const int mqtt_port_add = 128;
-const int pub_topic_add = 160;
-const int sub_topic_add = 192;
+const int mqtt_username_add = 96;
+const int mqtt_pass_add = 128;
+const int mqtt_port_add = 160;
+const int pub_topic_add = 192;
+const int sub_topic_add = 224;
 
 const int8_t buttonPin = 2;
 bool isButtonPressed = false;
@@ -106,7 +106,7 @@ void setupMQTTConnection(){
     int count = 0;
     while (!client.connected()) {
         Serial.println("Attempting MQTT connection...");
-        if (!client.connect("ESP32Client")) {
+        if (!client.connect("ESP32Client", mqtt_username.c_str(), mqtt_pass.c_str())) {
         Serial.print("failed, rc=");
         Serial.print(client.state());                        
         Serial.println(" try again in 5 seconds");
@@ -163,6 +163,7 @@ void writeEEPROM(String index, int add){
 
 void readEEPROM(){
     //read ssid from EEPROM
+    //const int ssid_add-> pass_add ->  mqtt_add -> mqtt_username_add -> mqtt_pass_ad -> mqtt_port_add -> pub_topic_add ->  sub_topic_add
     Serial.println("Reading WiFi SSID from EEPROM");
     for (int i = 0; i < pass_add; i++){
         essid += char(EEPROM.read(i));
@@ -176,10 +177,15 @@ void readEEPROM(){
     Serial.println("PASSWORD: " + epass);
     //read mqtt server address from EEPROM
     Serial.println("\nReading MQTT ADDRESS from EEPROM");
-    for (int i = mqtt_add; i < mqtt_pass_add; i++){
+    for (int i = mqtt_add; i < mqtt_username_add; i++){
         mqtt_server += char(EEPROM.read(i));
     }
     Serial.println("MQTT ADDRESS: " + mqtt_server);
+    //read mqtt username from EEPROM
+    Serial.println("\nReading MQTT USERNAME from EEPROM");
+    for (int i = mqtt_username_add; i < mqtt_pass_add; i++){
+        mqtt_username += char(EEPROM.read(i));
+    }
     //read mqtt password from EEPROM
     Serial.println("\nReading MQTT PASSWORD from EEPROM");
     for (int i = mqtt_pass_add; i < mqtt_port_add; i++){
@@ -240,7 +246,7 @@ void createWebServer(){
         // Config box
         content += "<form action=\"setting\" method=\"get\">";
         content += "<div class=\"config-box\"> <p>WIFI</p> <div class=\"data\"> <label>SSID </label> <input id=\"ssid\" name=\"ssid\" length=\"32\"> </div> <div class=\"data\"> <label>PASSWORD </label> <input id=\"password\" name=\"password\" length=\"64\">  </div> </div>";
-        content += "<div class=\"config-box\"> <p>MQTT</p> <div class=\"data\"> <label>ADDRESS</label> <input name=\"mqtt_address\" length=\"32\"> </div> <div class=\"data\"> <label>PASSWORD </label> <input name=\"mqtt_password\" length=\"64\">  </div> <div class=\"data\"> <label>PORT </label> <input name=\"mqtt_port\" length=\"64\">  </div> <div class=\"data\"> <label>PUB TOPIC </label> <input name=\"pub_topic\" length=\"32\">  </div> <div class=\"data\"> <label> SUB TOPIC</label> <input name=\"sub_topic\" length=\"32\">  </div> </div>";
+        content += "<div class=\"config-box\"> <p>MQTT</p> <div class=\"data\"> <label>ADDRESS</label> <input name=\"mqtt_address\" length=\"32\"> </div> <div class=\"data\"> <label>USERNAME </label> <input name=\"mqtt_username\" length=\"32\">  </div> <div class=\"data\"> <label>PASSWORD </label> <input name=\"mqtt_password\" length=\"64\">  </div> <div class=\"data\"> <label>PORT </label> <input name=\"mqtt_port\" length=\"64\">  </div> <div class=\"data\"> <label>PUB TOPIC </label> <input name=\"pub_topic\" length=\"32\">  </div> <div class=\"data\"> <label> SUB TOPIC</label> <input name=\"sub_topic\" length=\"32\">  </div> </div>";
         // submit button
         content += "<div class = \"submit-box\"> <input type=\"submit\" value=\"SUBMIT\"> </div>";
         content += "</form> </body>";
@@ -260,6 +266,7 @@ void createWebServer(){
         String qssid = server.arg("ssid");
         String qpassword = server.arg("password");
         String qmqtt_address = server.arg("mqtt_address");
+        String qmqtt_username = server.arg("mqtt_username");
         String qmqtt_password = server.arg("mqtt_password");
         String qmqtt_port = server.arg("mqtt_port");
         String qpub_topic = server.arg("pub_topic");
@@ -290,6 +297,8 @@ void createWebServer(){
             Serial.println("Received MQTT PASSWORD: " +  String(qmqtt_password));
             Serial.println("Writing new MQTT ADDRESS to EEPROM");
             writeEEPROM(qmqtt_address, mqtt_add);
+            Serial.println("Writing new MQTT USERNAME to EEPROM");
+            writeEEPROM(qmqtt_username, mqtt_username_add);
             Serial.println("Writing new MQTT PASSWORD to EEPROM");
             writeEEPROM(qmqtt_password, mqtt_pass_add);
         }
