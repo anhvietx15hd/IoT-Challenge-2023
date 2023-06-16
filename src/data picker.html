@@ -2,11 +2,23 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
     <style>
-        .datePicker {
+        .my-button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        }
+
+        .Picker {
 
             display: flex;
             background-color: antiquewhite;
+            box-sizing: border-box;
 
             height: 50px;
             width: 200px;
@@ -14,22 +26,50 @@
             margin-left: 100px;
             align-items: center;
         }
-        .datePicker input[type = "text"]{
-            box-sizing: border-box;
-            border: none; 
-            background-color: inherit; 
-            outline: none;
-            padding: 0;
-            height: 40px;
-            width: 100px;
-            font-size: 15px;
+
+        .datepicker-modal{
+            max-width: 500px;
+        }
+        .datepicker-date-display{
+            flex: 0 1 170px;
+        }   
+        
+        .datePicker{
+            max-width: 120px;
         }
     </style>
 </head>
+
 <body>
-    <div class="datePicker">
+    <div class="Picker">
         <i class="far fa-calendar-alt" style="color: blueviolet; box-sizing: border-box; padding: 0px 20px;"></i>
-        <input type="text" placeholder="Date">
+        <input type class="datePicker" placeholder="Date">
     </div>
+    <button class="my-button" id="myButton">Click here</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        const Day = document.querySelector('.datePicker');
+        var selectedDate;
+        var fileName;
+        var link;
+
+        M.Datepicker.init(Day, {
+            format : 'dd-mm-yyyy',
+            showClearBtn : true
+        });
+        Day.addEventListener('change', function() {
+        selectedDate = Day.value.replace(/-/g, "_");
+        fileName = selectedDate + '.csv';
+        link = 'download/' + fileName;
+        });
+
+        var button = document.getElementById("myButton");
+        button.addEventListener("click", function() {
+        console.log(link);
+        // window.location.href =link;
+        });
+    </script>
 </body>
+
 </html>
