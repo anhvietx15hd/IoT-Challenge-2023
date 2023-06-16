@@ -8,20 +8,39 @@
         "env": []
     },
     {
-        "id": "dfb4a60f.d788f8",
-        "type": "ui_group",
-        "name": "Data Export",
-        "tab": "48418b79.0f5834",
-        "order": 1,
-        "disp": true,
-        "width": "12"
+        "id": "2a56bfc6aa5f9e50",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
     },
     {
-        "id": "48418b79.0f5834",
-        "type": "ui_tab",
-        "name": "Dashboard",
-        "icon": "dashboard",
-        "order": 1
+        "id": "26bb56a265ba606e",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "hungviet.hopto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
     },
     {
         "id": "8290a3e457ebf20f",
@@ -121,31 +140,33 @@
         }
     },
     {
-        "id": "26bb56a265ba606e",
-        "type": "mqtt-broker",
-        "name": "",
-        "broker": "hungviet.hopto.org",
-        "port": "1883",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
+        "id": "48418b79.0f5834",
+        "type": "ui_tab",
+        "name": "Dashboard",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "dfb4a60f.d788f8",
+        "type": "ui_group",
+        "name": "Data Export",
+        "tab": "48418b79.0f5834",
+        "order": 1,
+        "disp": true,
+        "width": "24",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e8d3a60cfc58017f",
+        "type": "ui_group",
+        "name": "Group 2",
+        "tab": "48418b79.0f5834",
+        "order": 2,
+        "disp": true,
+        "width": 6
     },
     {
         "id": "6682b3c208fa9673",
@@ -278,28 +299,6 @@
         "wires": []
     },
     {
-        "id": "a8c2985e.d23ad8",
-        "type": "ui_template",
-        "z": "5573791f89190ff0",
-        "d": true,
-        "group": "dfb4a60f.d788f8",
-        "name": "ui_temlplate - present download links on dashboard",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "format": "<div >\n    <a href=\"/files/log.log\">download log.log</a>\n    <a href=\"/files/log2.log\">download log2.log</a>\n</div>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": false,
-        "templateScope": "local",
-        "className": "",
-        "x": 610,
-        "y": 500,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "5de7cbb4.fa21a4",
         "type": "comment",
         "z": "5573791f89190ff0",
@@ -331,7 +330,7 @@
         "type": "mqtt in",
         "z": "5573791f89190ff0",
         "name": "",
-        "topic": "test",
+        "topic": "esp32/data",
         "qos": "2",
         "datatype": "auto-detect",
         "broker": "26bb56a265ba606e",
@@ -339,8 +338,48 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 270,
+        "x": 280,
         "y": 100,
+        "wires": [
+            [
+                "6fcc2612cebb3368"
+            ]
+        ]
+    },
+    {
+        "id": "6fcc2612cebb3368",
+        "type": "debug",
+        "z": "5573791f89190ff0",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "a8c2985e.d23ad8",
+        "type": "ui_template",
+        "z": "5573791f89190ff0",
+        "d": true,
+        "group": "dfb4a60f.d788f8",
+        "name": "ui_temlplate - present download links on dashboard",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<div >\n    <a href=\"/files/log.log\">download log.log</a>\n    <a href=\"/files/log2.log\">download log2.log</a>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 610,
+        "y": 500,
         "wires": [
             []
         ]
@@ -349,12 +388,13 @@
         "id": "42e2877419fd3e2b",
         "type": "ui_template",
         "z": "5573791f89190ff0",
-        "group": "dfb4a60f.d788f8",
+        "d": true,
+        "group": "e8d3a60cfc58017f",
         "name": "",
         "order": 1,
-        "width": "8",
-        "height": "10",
-        "format": "<!DOCTYPE HTML>\n<html>\n\n<head>\n    <style>\n        .list-box {\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            background-color: #f2f2f2;\n            padding: 10px;\n            width: 300px;\n            /* display: inline-block; */\n        }\n\n        .list-box li {\n            border-bottom: 1px solid #fff;\n            padding: 3px 0px;\n            font-size: 18px;\n        }\n\n        .list-box li.highlight {\n            background-color: cyan;\n        }\n\n        .submit-box {\n            margin-top: 10px;\n            text-align: center;\n            width: 300px;\n        }\n\n        .submit-box input[type=\"submit\"] {\n            height: 40px;\n            width: 100px;\n            background-color: #3c9b41;\n            color: #fff;\n            border: none;\n            /* padding: 10px 20px; */\n            border-radius: 4px;\n            cursor: pointer;\n            font-size: 20px;\n        }\n\n        .submit-box input[type=\"submit\"]:hover {\n            background-color: #338036;\n        }\n\n        .config-box {\n            margin-top: 10px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            background-color: #f2f2f2;\n            padding: 10px;\n            width: 300px;\n        }\n\n        .data {\n            height: 30px;\n            box-sizing: border-box;\n            margin: 7px;\n        }\n\n        form label {\n            display: inline-block;\n            width: 90px;\n            height: 100%;\n        }\n\n        form input {\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            width: 160px;\n            height: 100%;\n            box-sizing: border-box;\n            padding-left: 10px;\n            font-size: 15px;\n        }\n\n        p {\n            display:flex;\n            p-align: center;\n            font-size: 20px;\n            margin: 0;\n            font-weight: bold;\n            justify-content: center;\n        }\n    </style>\n    <script>\n        function copyToSSID(li) {\n            var ssidInput = document.getElementById('ssid');\n            ssidInput.value = li.innerHTML;\n\n            // Xóa highlight của tất cả các thẻ li khác\n            var listItems = document.querySelectorAll('.list-box li');\n            listItems.forEach(function(item) {\n                item.classList.remove('highlight');\n            });\n\n            // Thêm highlight vào thẻ li được bấm\n            li.classList.add('highlight');\n        }\n    </script>\n</head>\n\n<body>\n    <h1>Welcome to Home Automation System Configuration</h1>\n    <div class=\"list-box\">\n        <p>Sellect network for ESP32</p>\n        <ol>\n            <li onclick=\"copyToSSID(this)\">1602</li>\n            <li onclick=\"copyToSSID(this)\">P1602</li>\n            <li onclick=\"copyToSSID(this)\">1602_5GHz</li>\n            <li onclick=\"copyToSSID(this)\">Le Huong</li>\n            <li onclick=\"copyToSSID(this)\">Le Thi Huong</li>\n        </ol>\n    </div>\n    <form action=\"setting\" method=\"get\">\n        <div class=\"config-box\">\n            <p>WIFI</p>\n            <div class=\"data\">\n                <label>SSID </label>\n                <input id=\"ssid\" name=\"ssid\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PASSWORD </label>\n                <input name=\"password\" length=\"64\">\n            </div>\n        </div>\n        <div class=\"config-box\">\n            <p>MQTT</p>\n            <div class=\"data\">\n                <label>ADDRESS</label>\n                <input name=\"mqtt_address\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PASSWORD </label>\n                <input name=\"mqtt_password\" length=\"64\">\n            </div>\n            <div class=\"data\">\n                <label>PORT </label>\n                <input name=\"mqtt_port\" length=\"64\">\n            </div>\n        </div>\n\n        <div class=\"submit-box\">\n            <input type=\"submit\">\n        </div>\n    </form>\n</body>\n\n</html>",
+        "width": "12",
+        "height": "13",
+        "format": "<!DOCTYPE HTML>\n<html>\n\n<head>\n    <style>\n        .list-box {\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            background-color: #f2f2f2;\n            padding: 10px;\n            width: 300px;\n        }\n\n        .list-box li {\n            border-bottom: 1px solid #752525;\n            padding: 3px 0px 3px 10px;\n            font-size: 18px;\n            list-style: none;\n        }\n\n        .list-box li.highlight {\n            background-color: #5ad1f294;\n        }\n\n        .submit-box {\n            margin-top: 10px;\n            text-align: center;\n            width: 300px;\n        }\n\n        .submit-box input[type=\"submit\"] {\n            height: 40px;\n            width: 100px;\n            background-color: #3c9b41;\n            color: #fff;\n            border: none;\n            border-radius: 4px;\n            cursor: pointer;\n            font-size: 20px;\n        }\n\n        .submit-box input[type=\"submit\"]:hover {\n            background-color: #86d188;\n        }\n\n        .config-box {\n            margin-top: 10px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            background-color: #f2f2f2;\n            padding: 10px;\n            width: 300px;\n        }\n\n        .data {\n            height: 30px;\n            box-sizing: border-box;\n            margin: 7px;\n        }\n\n        form label {\n            display: inline-block;\n            width: 90px;\n            height: 100%;\n        }\n\n        form input {\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            width: 190px;\n            height: 100%;\n            box-sizing: border-box;\n            padding-left: 10px;\n            font-size: 15px;\n        }\n\n        p {\n            text-align: center;\n            font-size: 20px;\n            margin: 0;\n            font-weight: bold;\n            width: 300px;\n        }\n\n        ol {\n            box-sizing: border-box;\n            padding: 0px 10px 0px 0px;\n        }\n\n        body {\n            display: grid;\n            place-items: center;\n        }\n    </style>\n    <script>\n        function copyToSSID(li) {\n            var ssidInput = document.getElementById('ssid');\n            ssidInput.value = li.innerHTML;\n            var listItems = document.querySelectorAll('.list-box li');\n            listItems.forEach(function(item) {\n                item.classList.remove('highlight');\n            });\n            li.classList.add('highlight');\n        }\n    </script>\n</head>\n\n<body>\n    <p style=\"margin: 10px;\">Welcome to Home Automation System Configuration</p>\n    <div class=\"list-box\">\n        <p>Sellect network for ESP32</p>\n        <ol>\n            <li onclick=\"copyToSSID(this)\">1602</li>\n            <li onclick=\"copyToSSID(this)\">P1602</li>\n            <li onclick=\"copyToSSID(this)\">1602_5GHz</li>\n            <li onclick=\"copyToSSID(this)\">Le Huong</li>\n            <li onclick=\"copyToSSID(this)\">Le Thi Huong</li>\n        </ol>\n    </div>\n    <form action=\"setting\" method=\"get\">\n        <div class=\"config-box\">\n            <p>WIFI</p>\n            <div class=\"data\">\n                <label>SSID </label>\n                <input id=\"ssid\" name=\"ssid\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PASSWORD </label>\n                <input id=\"password\" name=\"password\" length=\"32\">\n            </div>\n        </div>\n        <div class=\"config-box\">\n            <p>MQTT</p>\n            <div class=\"data\">\n                <label>ADDRESS</label>\n                <input name=\"mqtt_address\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PASSWORD </label>\n                <input name=\"mqtt_password\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PORT </label>\n                <input name=\"mqtt_port\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PUB TOPIC </label>\n                <input name=\"pub_topic\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label> SUB TOPIC</label>\n                <input name=\"sub_topic\" length=\"32\">\n            </div>\n        </div>\n\n        <div class=\"submit-box\">\n            <input type=\"submit\" value=\"SUBMIT\">\n        </div>\n    </form>\n</body>\n\n</html>\n\n<!-- alo  -->",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -365,5 +405,432 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "e6f8edcd03e4f92a",
+        "type": "mqtt in",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "topic": "thinh2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 470,
+        "y": 180,
+        "wires": [
+            [
+                "271fbe0828f6dbc9"
+            ]
+        ]
+    },
+    {
+        "id": "271fbe0828f6dbc9",
+        "type": "debug",
+        "z": "5573791f89190ff0",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "e3c42cfc65aa79f3",
+        "type": "inject",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 40,
+        "wires": [
+            [
+                "aa8e22914c37b7a5"
+            ]
+        ]
+    },
+    {
+        "id": "aa8e22914c37b7a5",
+        "type": "mqtt out",
+        "z": "5573791f89190ff0",
+        "name": "",
+        "topic": "thinh1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 450,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "6e13d1e1013932a4",
+        "type": "mqtt in",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "",
+        "topic": "Pub",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "9d35af316183f91e"
+            ]
+        ]
+    },
+    {
+        "id": "9d35af316183f91e",
+        "type": "function",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "add timestamp",
+        "func": "var data = {};\nvar currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = currentTime.getHours();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\n\n// Chuyển đổi thành chuỗi dạng HH:mm:ss\nvar timeStamp = hours.toString().padStart(2, '0') + ':' +\n    minutes.toString().padStart(2, '0') + ':' +\n    seconds.toString().padStart(2, '0');\nvar day = currentTime.getDate();\nvar month = currentTime.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentTime.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nmsg.fileName = '/home/viet/data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n\n\ndata.timeStamp = timeStamp;\ndata.temperature = parseFloat(msg.payload.temperature.toFixed(2));\nmsg.payload = data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 220,
+        "wires": [
+            [
+                "a4143fd6da0a72a4",
+                "4005fee39c8a367b"
+            ]
+        ]
+    },
+    {
+        "id": "dfb4b53b26457858",
+        "type": "ui_gauge",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "",
+        "group": "dfb4a60f.d788f8",
+        "order": 1,
+        "width": "6",
+        "height": "8",
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "gauge",
+        "x": 1070,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "a4143fd6da0a72a4",
+        "type": "function",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "split sensor data",
+        "func": "msg.payload = msg.payload.temperature;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 220,
+        "wires": [
+            [
+                "dfb4b53b26457858"
+            ]
+        ]
+    },
+    {
+        "id": "19c3a6cc7db05684",
+        "type": "ui_template",
+        "z": "2a56bfc6aa5f9e50",
+        "group": "e8d3a60cfc58017f",
+        "name": "",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "format": "<style>\n    .gauge{\n    color: red !important;\n    }\n    .gauge tspan{\n    font-size: 15px;\n    color:green !important;}\n\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 540,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4005fee39c8a367b",
+        "type": "csv",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "Create csv row",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "timeStamp, temperature",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 800,
+        "y": 140,
+        "wires": [
+            [
+                "b1219fa7bc69a96c"
+            ]
+        ]
+    },
+    {
+        "id": "b1219fa7bc69a96c",
+        "type": "file",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "",
+        "filename": "fileName",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1100,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "41f5a5374045a90f",
+        "type": "function",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "Set base path",
+        "func": "var basePath = \"/home/viet/data/\";\nvar filename = msg.req.params.fn;\n\n\nif (filename.includes(\"..\\\\\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} else if (filename.includes(\"../\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n}\n//TODO: add more checks\n\nmsg.filename = basePath + filename;\nreturn msg\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 500,
+        "wires": [
+            [
+                "88c45d185ab7c3d7"
+            ]
+        ]
+    },
+    {
+        "id": "14569bf52f58e301",
+        "type": "http response",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1230,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "88c45d185ab7c3d7",
+        "type": "file in",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 1060,
+        "y": 500,
+        "wires": [
+            [
+                "14569bf52f58e301"
+            ]
+        ]
+    },
+    {
+        "id": "b94ebd88bc7c1d13",
+        "type": "http in",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "",
+        "url": "/download/:fn",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 550,
+        "y": 460,
+        "wires": [
+            [
+                "41f5a5374045a90f"
+            ]
+        ]
+    },
+    {
+        "id": "fa55bcfbfee081aa",
+        "type": "ui_template",
+        "z": "2a56bfc6aa5f9e50",
+        "group": "e8d3a60cfc58017f",
+        "name": "ui_temlplate - present download links on dashboard",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<!DOCTYPE html>\n<html>\n\n<head>\n  <style>\n    .my-button {\n      padding: 10px 20px;\n      background-color: #4CAF50;\n      color: white;\n      border: none;\n      cursor: pointer;\n      border-radius: 4px;\n    }\n  </style>\n</head>\n\n<body>\n  <button class=\"my-button\" id=\"myButton\">Click here</button>\n  <input type=\"text\" id=\"datepicker\" />\n\n  <script>\n    \n    var button = document.getElementById(\"myButton\");\n    button.addEventListener(\"click\", function() {\n      var link = document.getElementById(\"datepicker\").value;\n      console.log(link);\n      window.location.href =link;\n    });\n\n    \n  </script>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1070,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "376a08751dc25f6d",
+        "type": "inject",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 00 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 350,
+        "y": 40,
+        "wires": [
+            [
+                "935b5e25e1830256"
+            ]
+        ]
+    },
+    {
+        "id": "935b5e25e1830256",
+        "type": "function",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "Create new file",
+        "func": "var currentDate = new Date();\nvar data = {};\n\nvar day = currentDate.getDate();\nvar month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentDate.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nvar fileName = '/home/viet/data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\nmsg.fileName = fileName;\nmsg.payload = {};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 40,
+        "wires": [
+            [
+                "8770a9368728794f",
+                "b5ddea54e71fd852"
+            ]
+        ]
+    },
+    {
+        "id": "8770a9368728794f",
+        "type": "csv",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "Create csv header",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "once",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "timeStamp, temperature",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 890,
+        "y": 40,
+        "wires": [
+            [
+                "cbc8181cec40cb88"
+            ]
+        ]
+    },
+    {
+        "id": "cbc8181cec40cb88",
+        "type": "file",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "new file at the start of new day",
+        "filename": "fileName",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1190,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b5ddea54e71fd852",
+        "type": "debug",
+        "z": "2a56bfc6aa5f9e50",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "fileName",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 20,
+        "wires": []
     }
 ]
