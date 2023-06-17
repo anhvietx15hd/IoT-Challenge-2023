@@ -16,6 +16,14 @@
         "env": []
     },
     {
+        "id": "f44abf5a8dec2d0a",
+        "type": "tab",
+        "label": "File Explore",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "26bb56a265ba606e",
         "type": "mqtt-broker",
         "name": "",
@@ -171,6 +179,26 @@
         "className": ""
     },
     {
+        "id": "b63d1f91.68095",
+        "type": "ui_tab",
+        "name": "File Manager",
+        "icon": "dashboard",
+        "order": 15,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "387c58da45e62fbf",
+        "type": "ui_group",
+        "name": "File Manager",
+        "tab": "b63d1f91.68095",
+        "order": 1,
+        "disp": true,
+        "width": "18",
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "3848a3cb01e4bf1e",
         "type": "inject",
         "z": "476a12a01ee6b415",
@@ -296,6 +324,8 @@
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
         "x": 270,
         "y": 460,
         "wires": []
@@ -529,7 +559,8 @@
         "wires": [
             [
                 "0992b06598018f6d",
-                "b13b7d22e0e1e2a1"
+                "b13b7d22e0e1e2a1",
+                "04c92d5ff6d1b6b6"
             ]
         ]
     },
@@ -566,7 +597,7 @@
         "type": "function",
         "z": "fb7b6ef3825348ee",
         "name": "split sensor data",
-        "func": "msg.payload = msg.payload.temperature;\nreturn msg;",
+        "func": "msg.payload = msg.payload.temperature;\nmsg.topic = \"temperature\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -576,7 +607,8 @@
         "y": 220,
         "wires": [
             [
-                "2fccc20909298aa6"
+                "2fccc20909298aa6",
+                "c4d35706b7d26fbf"
             ]
         ]
     },
@@ -723,8 +755,8 @@
         "resendOnRefresh": false,
         "templateScope": "local",
         "className": "",
-        "x": 680,
-        "y": 440,
+        "x": 1080,
+        "y": 340,
         "wires": [
             []
         ]
@@ -773,8 +805,7 @@
         "y": 40,
         "wires": [
             [
-                "f8da16a662a9cbbe",
-                "c0f68cd1c73be295"
+                "f8da16a662a9cbbe"
             ]
         ]
     },
@@ -819,23 +850,6 @@
         ]
     },
     {
-        "id": "c0f68cd1c73be295",
-        "type": "debug",
-        "z": "fb7b6ef3825348ee",
-        "name": "debug 6",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "fileName",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 740,
-        "y": 20,
-        "wires": []
-    },
-    {
         "id": "a11269f998162254",
         "type": "ui_form",
         "z": "fb7b6ef3825348ee",
@@ -864,8 +878,8 @@
         "topicType": "msg",
         "splitLayout": "",
         "className": "",
-        "x": 870,
-        "y": 440,
+        "x": 250,
+        "y": 560,
         "wires": [
             [
                 "95ef3d77bf239562"
@@ -880,8 +894,8 @@
         "property": "payload",
         "action": "str",
         "pretty": false,
-        "x": 1010,
-        "y": 440,
+        "x": 390,
+        "y": 560,
         "wires": [
             [
                 "25c5fb2df4d3288e"
@@ -902,8 +916,393 @@
         "correl": "",
         "expiry": "",
         "broker": "26bb56a265ba606e",
-        "x": 1190,
-        "y": 440,
+        "x": 570,
+        "y": 560,
         "wires": []
+    },
+    {
+        "id": "cd7b94397e87e625",
+        "type": "catch",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 400,
+        "y": 420,
+        "wires": [
+            [
+                "84a3ade8101421cb",
+                "e814553f4e33c384"
+            ]
+        ]
+    },
+    {
+        "id": "84a3ade8101421cb",
+        "type": "function",
+        "z": "fb7b6ef3825348ee",
+        "name": "Set 404",
+        "func": "msg.payload = msg.error;\nmsg.statusCode = 404;//resource not found\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 420,
+        "wires": [
+            [
+                "a650f7533aafbca3"
+            ]
+        ]
+    },
+    {
+        "id": "e814553f4e33c384",
+        "type": "debug",
+        "z": "fb7b6ef3825348ee",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "c4d35706b7d26fbf",
+        "type": "ui_chart",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "group": "dfb4a60f.d788f8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "50",
+        "removeOlder": "30",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1110,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "04c92d5ff6d1b6b6",
+        "type": "function",
+        "z": "fb7b6ef3825348ee",
+        "name": "split sensor data 2",
+        "func": "msg.payload = msg.payload.temperature + 5;\nmsg.topic = \"temperature2\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 794.5999755859375,
+        "y": 263.1999816894531,
+        "wires": [
+            [
+                "c4d35706b7d26fbf"
+            ]
+        ]
+    },
+    {
+        "id": "c9d918bd737c7df1",
+        "type": "inject",
+        "z": "f44abf5a8dec2d0a",
+        "name": "Init folder",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 00 * * *",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "homeDataFoler",
+        "payload": "/home/viet/data/",
+        "payloadType": "str",
+        "x": 230,
+        "y": 120,
+        "wires": [
+            [
+                "e139221492892edb",
+                "337f335a549d5d16"
+            ]
+        ]
+    },
+    {
+        "id": "e139221492892edb",
+        "type": "change",
+        "z": "f44abf5a8dec2d0a",
+        "name": "set to global value",
+        "rules": [
+            {
+                "t": "set",
+                "p": "folder",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "337f335a549d5d16",
+        "type": "fs-file-lister",
+        "z": "f44abf5a8dec2d0a",
+        "name": "File explore",
+        "start": "/home/viet/data/",
+        "pattern": "*.*",
+        "folders": "*",
+        "hidden": true,
+        "lstype": "files",
+        "path": false,
+        "single": true,
+        "depth": 0,
+        "stat": true,
+        "showWarnings": true,
+        "x": 430,
+        "y": 120,
+        "wires": [
+            [
+                "14f055ad78d2e445"
+            ]
+        ]
+    },
+    {
+        "id": "14f055ad78d2e445",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "function 1",
+        "func": "// format the data for the dropdown\nmsg.options = [];\nfor (var i = 0; i < msg.payload.length; i++) {\n   msg.options.push(msg.payload[i].name);\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 120,
+        "wires": [
+            [
+                "8d034c5e461283fa"
+            ]
+        ]
+    },
+    {
+        "id": "8d034c5e461283fa",
+        "type": "ui_dropdown",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "label": "File selector",
+        "tooltip": "",
+        "place": "Select file",
+        "group": "387c58da45e62fbf",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 910,
+        "y": 120,
+        "wires": [
+            [
+                "69e96dc3beb4697b"
+            ]
+        ]
+    },
+    {
+        "id": "69e96dc3beb4697b",
+        "type": "change",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "fileSelected",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1130,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e388f6f614da18e9",
+        "type": "ui_button",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "group": "387c58da45e62fbf",
+        "order": 2,
+        "width": "2",
+        "height": "1",
+        "passthru": false,
+        "label": "Delete",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "delete",
+        "payload": "Do you want to delete this file?",
+        "payloadType": "str",
+        "topic": "Delete confirmation",
+        "topicType": "str",
+        "x": 390,
+        "y": 400,
+        "wires": [
+            [
+                "b5e569624a36edc1"
+            ]
+        ]
+    },
+    {
+        "id": "b5e569624a36edc1",
+        "type": "ui_toast",
+        "z": "f44abf5a8dec2d0a",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "YES",
+        "cancel": "NO",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 630,
+        "y": 400,
+        "wires": [
+            [
+                "756d880e6bc3481b"
+            ]
+        ]
+    },
+    {
+        "id": "756d880e6bc3481b",
+        "type": "switch",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "YES",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 850,
+        "y": 400,
+        "wires": [
+            [
+                "8576d860bba00ca7"
+            ]
+        ]
+    },
+    {
+        "id": "e2eef5cb9dfa9abc",
+        "type": "file",
+        "z": "f44abf5a8dec2d0a",
+        "name": "Delete",
+        "filename": "payload",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 1290,
+        "y": 400,
+        "wires": [
+            [
+                "337f335a549d5d16"
+            ]
+        ]
+    },
+    {
+        "id": "8576d860bba00ca7",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "Get the filename to delete",
+        "func": "msg.payload = flow.get(\"folder\") + flow.get(\"fileSelected\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 400,
+        "wires": [
+            [
+                "e2eef5cb9dfa9abc"
+            ]
+        ]
     }
 ]
