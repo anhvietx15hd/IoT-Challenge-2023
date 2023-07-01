@@ -746,8 +746,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1370,
-        "y": 160,
+        "x": 1390,
+        "y": 140,
         "wires": [
             []
         ]
@@ -1261,40 +1261,22 @@
         "wires": []
     },
     {
-        "id": "98513a7edea6c3c6",
-        "type": "debug",
-        "z": "476a12a01ee6b415",
-        "name": "debug 20",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1180,
-        "y": 260,
-        "wires": []
-    },
-    {
         "id": "a401ccdaab7de69e",
         "type": "function",
         "z": "476a12a01ee6b415",
-        "name": "get energy every hour",
-        "func": "if(flow.get(\"minutes\") > 58 && flow.get(\"seconds\") >56){\n    msg.payload = flow.get(\"energy\");\n    msg.topic = flow.get(\"hours\")+1;\n    return msg;\n}",
+        "name": "get energy",
+        "func": "\n    msg.payload = parseFloat(flow.get(\"energy\").toFixed(2));\n    var sum_energy = flow.get(\"sum_energy\");\n    msg.sum_energy = 'Total: ' + sum_energy.toFixed(2) + ' kWh ';\n    msg.topic = flow.get(\"hours\")+1;\n    return msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1000,
+        "x": 970,
         "y": 220,
         "wires": [
             [
-                "98513a7edea6c3c6",
-                "167b19b8327a39f7",
-                "51ac284bebe34a22"
+                "51ac284bebe34a22",
+                "b6b301850de1fae2"
             ]
         ]
     },
@@ -1394,7 +1376,7 @@
         "order": 1,
         "width": 0,
         "height": 0,
-        "label": "",
+        "label": "{{msg.sum_energy}}",
         "chartType": "bar",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -1423,7 +1405,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1350,
+        "x": 1290,
         "y": 220,
         "wires": [
             []
@@ -1532,7 +1514,7 @@
         "rules": [
             {
                 "t": "set",
-                "p": "energy",
+                "p": "sum_energy",
                 "pt": "flow",
                 "to": "payload",
                 "tot": "msg"
@@ -1543,7 +1525,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 240,
+        "x": 260,
         "y": 80,
         "wires": [
             []
@@ -1554,7 +1536,7 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "Calculate energy",
-        "func": "msg.payload = msg.payload + flow.get(\"energy\") * 3 / 3600 ;\nreturn msg;",
+        "func": "msg.payload = msg.payload * 3 / 3600;\nmsg.sum = msg.payload + flow.get(\"sum_energy\");\nmsg.payload = msg.payload + flow.get(\"energy\");\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1579,6 +1561,13 @@
                 "p": "energy",
                 "pt": "flow",
                 "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "sum_energy",
+                "pt": "flow",
+                "to": "sum",
                 "tot": "msg"
             }
         ],
@@ -1618,7 +1607,8 @@
         "y": 260,
         "wires": [
             [
-                "a401ccdaab7de69e"
+                "a401ccdaab7de69e",
+                "34525a03125290eb"
             ]
         ]
     },
@@ -1626,7 +1616,7 @@
         "id": "167b19b8327a39f7",
         "type": "change",
         "z": "476a12a01ee6b415",
-        "name": "reset energy",
+        "name": "reset energy per hour",
         "rules": [
             {
                 "t": "set",
@@ -1641,7 +1631,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1210,
+        "x": 1240,
         "y": 180,
         "wires": [
             []
@@ -1712,6 +1702,42 @@
                 "336f53f2d20d46db",
                 "3f3de6d2b3134f6c",
                 "d40fc52f438ce7d5"
+            ]
+        ]
+    },
+    {
+        "id": "b6b301850de1fae2",
+        "type": "debug",
+        "z": "476a12a01ee6b415",
+        "name": "debug 23",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "34525a03125290eb",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "resetb energy every hour",
+        "func": "if(flow.get(\"minutes\") > 58 && flow.get(\"seconds\") >56){\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 180,
+        "wires": [
+            [
+                "167b19b8327a39f7"
             ]
         ]
     },
@@ -2766,7 +2792,7 @@
         "type": "function",
         "z": "f44abf5a8dec2d0a",
         "name": "graph generate",
-        "func": "\nfunction toTimestamp(strDate) {\n  var datum = Date.parse(strDate);\n  return datum ;\n}\nvar payload=msg.payload;\nconst fileName = flow.get(\"fileSelected\");\nconst datePart = fileName.split(\".\")[0]; // Tách phần trước dấu chấm (phần ngày tháng năm)\nconst [day, month, year] = datePart.split(\"_\"); // Tách thành phần ngày, tháng, năm\n\nconst formattedDate = `${day}/${month}/${year}`;\nconst formattedDate2 = `${month}/${day}/${year}`;\nmsg.filename = formattedDate;\n\n\nvar temperature_out=[];\nvar humidity_out=[];\nvar power_out=[];\n\nvar temperature=[];\nvar humidity=[];\nvar power=[];\nvar energy = [];\nvar kWh = 0;\n\nfor (let i = 0; i < payload.length; i++) {\n  var ts = payload[i][\"timeStamp\"];\n  const timeParts = ts.split(\":\");\n  const hours = parseInt(timeParts[0]) +1 ;\n  const minutes = parseInt(timeParts[1]);\n  const seconds = parseInt(timeParts[2]);\n  if(minutes > 58 && seconds >= 57){\n    var temp4 = { \"time\": hours, \"energy\": kWh };\n    energy.push(temp4);\n    kWh = 0;\n  } else {\n    kWh = kWh + payload[i][\"power\"] * 3 / 3600 ;\n  }\n\n  if (i % 100 == 0) {\n\n    var t = formattedDate2;\n    var timestamp = toTimestamp(t + \" \" + payload[i][\"timeStamp\"]);\n\n    var temp1 = { \"x\": timestamp, \"y\": payload[i][\"temperature\"] };\n    temperature.push(temp1);\n\n    var temp2 = { \"x\": timestamp, \"y\": payload[i][\"humidity\"] };\n    humidity.push(temp2);\n\n    var temp3 = { \"x\": timestamp, \"y\": payload[i][\"power\"] };\n    power.push(temp3);\n  }\n\n}\n\nvar data = {}\n\ntemperature_out=[temperature];\nhumidity_out=[humidity];\npower_out=[power];\n\ndata.temperature=[{\n\"series\": [\"Temperature\"],\n\"data\":temperature_out,\n\"labels\": [\"Tem\"]\n}];\n\ndata.humidity=[{\n\"series\": [\"Humidity\"],\n\"data\":humidity_out,\n\"labels\": [\"hum\"]\n}];\n\ndata.power=[{\n\"series\": [\"Power\"],\n\"data\":power_out,\n\"labels\": [\"pow\"]\n}];\n\ndata.energy = energy;\n\nmsg.payload = data;\nreturn msg;",
+        "func": "\nfunction toTimestamp(strDate) {\n  var datum = Date.parse(strDate);\n  return datum ;\n}\nvar payload = msg.payload;\nconst fileName = flow.get(\"fileSelected\");\nconst datePart = fileName.split(\".\")[0]; // Tách phần trước dấu chấm (phần ngày tháng năm)\nconst [day, month, year] = datePart.split(\"_\"); // Tách thành phần ngày, tháng, năm\n\nconst formattedDate = `${day}/${month}/${year}`;\nconst formattedDate2 = `${month}/${day}/${year}`;\nmsg.filename = formattedDate;\n\n\nvar temperature_out=[];\nvar humidity_out=[];\nvar power_out=[];\n\nvar temperature=[];\nvar humidity=[];\nvar power=[];\nvar energy = [];\nvar kWh = 0;\nvar sum_energy = 0;\n\nfor (let i = 0; i < payload.length; i++) {\n  var ts = payload[i][\"timeStamp\"];\n  const timeParts = ts.split(\":\");\n  const hours = parseInt(timeParts[0]) +1 ;\n  const minutes = parseInt(timeParts[1]);\n  const seconds = parseInt(timeParts[2]);\n  if(minutes > 58 && seconds >= 57){\n    var temp4 = { \"time\": hours, \"energy\": parseFloat(kWh.toFixed(2)) };\n    energy.push(temp4);\n    sum_energy = sum_energy + kWh;\n    kWh = 0;\n  } else {\n    kWh = kWh + payload[i][\"power\"] * 3 / 3600 ;\n  }\n\n  if (i % 100 == 0) {\n\n    var t = formattedDate2;\n    var timestamp = toTimestamp(t + \" \" + payload[i][\"timeStamp\"]);\n\n    var temp1 = { \"x\": timestamp, \"y\": payload[i][\"temperature\"] };\n    temperature.push(temp1);\n\n    var temp2 = { \"x\": timestamp, \"y\": payload[i][\"humidity\"] };\n    humidity.push(temp2);\n\n    var temp3 = { \"x\": timestamp, \"y\": payload[i][\"power\"] };\n    power.push(temp3);\n  }\n\n}\n\nvar data = {}\n\ntemperature_out=[temperature];\nhumidity_out=[humidity];\npower_out=[power];\n\ndata.temperature=[{\n\"series\": [\"Temperature\"],\n\"data\":temperature_out,\n\"labels\": [\"Tem\"]\n}];\n\ndata.humidity=[{\n\"series\": [\"Humidity\"],\n\"data\":humidity_out,\n\"labels\": [\"hum\"]\n}];\n\ndata.power=[{\n\"series\": [\"Power\"],\n\"data\":power_out,\n\"labels\": [\"pow\"]\n}];\n\ndata.energy = energy;\ndata.sum_energy = sum_energy;\n\nmsg.payload = data;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2779,7 +2805,8 @@
                 "90e9249810cef4a3",
                 "a1be6d78badacf07",
                 "7747dfb48313cf06",
-                "fd7679b440fe665d"
+                "fd7679b440fe665d",
+                "9a36148acf043e5e"
             ]
         ]
     },
@@ -2980,7 +3007,7 @@
         "type": "function",
         "z": "f44abf5a8dec2d0a",
         "name": "energy",
-        "func": "msg.payload = msg.payload.energy;\nreturn msg;",
+        "func": "msg.sum = msg.payload.sum_energy;\nmsg.sum = 'Total: ' + msg.sum.toFixed(2) + ' kWh ';\nmsg.payload = msg.payload.energy;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3003,15 +3030,15 @@
         "order": 1,
         "width": 6,
         "height": 6,
-        "label": "{{msg.filename}}",
+        "label": "{{msg.sum}}",
         "chartType": "bar",
         "legend": "false",
         "xformat": "HH:mm:ss",
         "interpolate": "linear",
         "nodata": "",
         "dot": false,
-        "ymin": "0",
-        "ymax": "50",
+        "ymin": "",
+        "ymax": "",
         "removeOlder": "24",
         "removeOlderPoints": "3000",
         "removeOlderUnit": "3600",
@@ -3036,25 +3063,6 @@
         "y": 760,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "0f1823e59892a5ba",
-        "type": "split",
-        "z": "f44abf5a8dec2d0a",
-        "name": "",
-        "splt": "\\n",
-        "spltType": "str",
-        "arraySplt": 1,
-        "arraySpltType": "len",
-        "stream": false,
-        "addname": "",
-        "x": 1050,
-        "y": 760,
-        "wires": [
-            [
-                "cd2efad2b94d01c2"
-            ]
         ]
     },
     {
@@ -3112,6 +3120,42 @@
                 "d355033dd9f0b672"
             ]
         ]
+    },
+    {
+        "id": "0f1823e59892a5ba",
+        "type": "split",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 1050,
+        "y": 760,
+        "wires": [
+            [
+                "cd2efad2b94d01c2"
+            ]
+        ]
+    },
+    {
+        "id": "9a36148acf043e5e",
+        "type": "debug",
+        "z": "f44abf5a8dec2d0a",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 820,
+        "wires": []
     },
     {
         "id": "92c7f23125feb38e",
