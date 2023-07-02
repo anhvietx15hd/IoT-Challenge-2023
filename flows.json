@@ -32,6 +32,14 @@
         "env": []
     },
     {
+        "id": "59200bc147a8e4e4",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "26bb56a265ba606e",
         "type": "mqtt-broker",
         "name": "",
@@ -219,7 +227,7 @@
         "type": "ui_group",
         "name": "Temperature",
         "tab": "ebb1ed1c.5ebe2",
-        "order": 4,
+        "order": 1,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -230,7 +238,7 @@
         "type": "ui_group",
         "name": "Humidity",
         "tab": "ebb1ed1c.5ebe2",
-        "order": 5,
+        "order": 2,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -241,7 +249,7 @@
         "type": "ui_group",
         "name": "Power",
         "tab": "ebb1ed1c.5ebe2",
-        "order": 6,
+        "order": 3,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -252,7 +260,7 @@
         "type": "ui_group",
         "name": "Download",
         "tab": "ebb1ed1c.5ebe2",
-        "order": 2,
+        "order": 7,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -306,18 +314,18 @@
         "type": "ui_group",
         "name": "Settings",
         "tab": "ebb1ed1c.5ebe2",
-        "order": 3,
+        "order": 8,
         "disp": true,
-        "width": "12",
+        "width": "6",
         "collapse": false,
         "className": ""
     },
     {
         "id": "2223d35ff079f419",
         "type": "ui_group",
-        "name": "Status",
+        "name": "Control",
         "tab": "ebb1ed1c.5ebe2",
-        "order": 1,
+        "order": 5,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -328,31 +336,11 @@
         "type": "ui_group",
         "name": "Energy",
         "tab": "ebb1ed1c.5ebe2",
-        "order": 7,
+        "order": 4,
         "disp": true,
         "width": "6",
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "cfa446760113826e",
-        "type": "ui_spacer",
-        "z": "476a12a01ee6b415",
-        "name": "spacer",
-        "group": "2223d35ff079f419",
-        "order": 2,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "da3d7a84e0eb5d8d",
-        "type": "ui_spacer",
-        "z": "476a12a01ee6b415",
-        "name": "spacer",
-        "group": "2223d35ff079f419",
-        "order": 4,
-        "width": 1,
-        "height": 1
     },
     {
         "id": "d82388ac9e89fed0",
@@ -361,8 +349,8 @@
         "name": "spacer",
         "group": "4f2da75b4445f277",
         "order": 4,
-        "width": "12",
-        "height": "1"
+        "width": "0",
+        "height": "0"
     },
     {
         "id": "a8efce5e22380e30",
@@ -401,6 +389,28 @@
         "name": "Add user",
         "tab": "2705407d6eaae13c",
         "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "29d197dfa34e9696",
+        "type": "ui_group",
+        "name": "Test",
+        "tab": "48418b79.0f5834",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d433431f2eeffbef",
+        "type": "ui_group",
+        "name": "Status",
+        "tab": "ebb1ed1c.5ebe2",
+        "order": 6,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -639,7 +649,7 @@
         "seg2": "",
         "diff": false,
         "className": "gauge",
-        "x": 730,
+        "x": 1190,
         "y": 460,
         "wires": []
     },
@@ -658,8 +668,8 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 920,
-        "y": 460,
+        "x": 1360,
+        "y": 480,
         "wires": [
             []
         ]
@@ -760,7 +770,7 @@
         "statusCode": "",
         "headers": {},
         "x": 830,
-        "y": 1020,
+        "y": 1340,
         "wires": []
     },
     {
@@ -776,7 +786,7 @@
         "encoding": "none",
         "allProps": false,
         "x": 660,
-        "y": 1020,
+        "y": 1340,
         "wires": [
             [
                 "41efe3926dda4aed"
@@ -795,7 +805,7 @@
         "finalize": "",
         "libs": [],
         "x": 680,
-        "y": 1100,
+        "y": 1420,
         "wires": [
             [
                 "41efe3926dda4aed"
@@ -814,7 +824,7 @@
         "finalize": "",
         "libs": [],
         "x": 440,
-        "y": 1020,
+        "y": 1340,
         "wires": [
             [
                 "b80e6637e99c673f"
@@ -829,7 +839,7 @@
         "scope": null,
         "uncaught": false,
         "x": 300,
-        "y": 1100,
+        "y": 1420,
         "wires": [
             [
                 "b79e74c1de270ad6",
@@ -847,7 +857,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 190,
-        "y": 1020,
+        "y": 1340,
         "wires": [
             [
                 "11ae1195b6d1162d"
@@ -868,7 +878,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 440,
-        "y": 1080,
+        "y": 1400,
         "wires": []
     },
     {
@@ -886,8 +896,8 @@
         "resendOnRefresh": false,
         "templateScope": "local",
         "className": "",
-        "x": 940,
-        "y": 500,
+        "x": 1320,
+        "y": 520,
         "wires": [
             []
         ]
@@ -1090,8 +1100,8 @@
         "label": "",
         "group": "4f2da75b4445f277",
         "order": 1,
-        "width": 12,
-        "height": 3,
+        "width": "0",
+        "height": "0",
         "options": [
             {
                 "label": "Time to update",
@@ -1112,7 +1122,7 @@
         "splitLayout": "",
         "className": "",
         "x": 410,
-        "y": 940,
+        "y": 1260,
         "wires": [
             [
                 "f10c73831cf2b4ab"
@@ -1128,7 +1138,7 @@
         "action": "str",
         "pretty": false,
         "x": 550,
-        "y": 940,
+        "y": 1260,
         "wires": [
             [
                 "3d0359ba96a868fc"
@@ -1150,15 +1160,15 @@
         "expiry": "",
         "broker": "26bb56a265ba606e",
         "x": 730,
-        "y": 940,
+        "y": 1260,
         "wires": []
     },
     {
         "id": "aa1feae2bc9c6c94",
         "type": "ui_led",
         "z": "476a12a01ee6b415",
-        "order": 3,
-        "group": "2223d35ff079f419",
+        "order": 2,
+        "group": "d433431f2eeffbef",
         "width": 1,
         "height": 1,
         "label": "",
@@ -1233,10 +1243,10 @@
         "id": "a23d2e724fd30093",
         "type": "ui_text",
         "z": "476a12a01ee6b415",
-        "group": "2223d35ff079f419",
+        "group": "d433431f2eeffbef",
         "order": 1,
         "width": 5,
-        "height": 3,
+        "height": "1",
         "name": "",
         "label": "",
         "format": "{{msg.notification}}",
@@ -1257,7 +1267,7 @@
         "name": "Ý tưởng",
         "info": "Với vẽ biểu đồ đồ realtime thì dùng node power monitor\nVỚi vẽ biểu đồ theo ngày,tính tổng theo giờ,  (if phút trước > phút sau && giây trước < giây sau): push giá trị tổng vào mảng",
         "x": 920,
-        "y": 1200,
+        "y": 1520,
         "wires": []
     },
     {
@@ -1265,18 +1275,17 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "get energy",
-        "func": "\n    msg.payload = parseFloat(flow.get(\"energy\").toFixed(2));\n    var sum_energy = flow.get(\"sum_energy\");\n    msg.sum_energy = 'Total: ' + sum_energy.toFixed(2) + ' kWh ';\n    msg.topic = flow.get(\"hours\")+1;\n    return msg;\n",
+        "func": "\n    msg.payload = parseFloat(flow.get(\"energy\").toFixed(2));\n    var sum_energy = flow.get(\"sum_energy\");\n    msg.sum_energy = 'Total: ' + sum_energy.toFixed(2) + ' Wh ';\n    msg.topic = flow.get(\"hours\")+1;\n    return msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 970,
-        "y": 220,
+        "x": 1010,
+        "y": 260,
         "wires": [
             [
-                "51ac284bebe34a22",
-                "b6b301850de1fae2"
+                "51ac284bebe34a22"
             ]
         ]
     },
@@ -1406,7 +1415,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 1290,
-        "y": 220,
+        "y": 260,
         "wires": [
             []
         ]
@@ -1431,7 +1440,7 @@
         "payloadType": "str",
         "topic": "Delete confirmation",
         "topicType": "str",
-        "x": 710,
+        "x": 610,
         "y": 300,
         "wires": [
             [
@@ -1454,7 +1463,7 @@
         "className": "",
         "topic": "",
         "name": "",
-        "x": 870,
+        "x": 770,
         "y": 300,
         "wires": [
             [
@@ -1479,7 +1488,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 1030,
+        "x": 930,
         "y": 300,
         "wires": [
             [
@@ -1498,7 +1507,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1190,
+        "x": 1090,
         "y": 300,
         "wires": [
             [
@@ -1674,7 +1683,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1010,
+        "x": 910,
         "y": 340,
         "wires": [
             [
@@ -1706,23 +1715,6 @@
         ]
     },
     {
-        "id": "b6b301850de1fae2",
-        "type": "debug",
-        "z": "476a12a01ee6b415",
-        "name": "debug 23",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1180,
-        "y": 260,
-        "wires": []
-    },
-    {
         "id": "34525a03125290eb",
         "type": "function",
         "z": "476a12a01ee6b415",
@@ -1740,6 +1732,436 @@
                 "167b19b8327a39f7"
             ]
         ]
+    },
+    {
+        "id": "094b0c56701f89dc",
+        "type": "ui_switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "label": "Đèn trần",
+        "tooltip": "",
+        "group": "2223d35ff079f419",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "OnRelay1",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OffRelay1",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 700,
+        "y": 720,
+        "wires": [
+            [
+                "5c6a64e73ea8bf27",
+                "2d6d9ced9abab94b"
+            ]
+        ]
+    },
+    {
+        "id": "fd190fb2ad492f49",
+        "type": "ui_switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "label": "Đèn tường",
+        "tooltip": "",
+        "group": "2223d35ff079f419",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "OnRelay2",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OffRelay2",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 690,
+        "y": 780,
+        "wires": [
+            [
+                "5c6a64e73ea8bf27",
+                "d89705ea9e4eed52"
+            ]
+        ]
+    },
+    {
+        "id": "5c6a64e73ea8bf27",
+        "type": "mqtt out",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 980,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "fb0b5eb0869e90c8",
+        "type": "ui_form",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "label": "Đèn Sân",
+        "group": "2223d35ff079f419",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "On at",
+                "value": "Light3_OnTime",
+                "type": "time",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Off at",
+                "value": "Light3_OffTime",
+                "type": "time",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "Light3_OnTime": "",
+            "Light3_OffTime": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": true,
+        "className": "",
+        "x": 520,
+        "y": 920,
+        "wires": [
+            [
+                "e8dd8efc219fe077"
+            ]
+        ]
+    },
+    {
+        "id": "dca76f3e9f4ad75d",
+        "type": "ui_button",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "group": "98e7818a12554714",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Clear",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Do you want clear this graph?",
+        "payloadType": "str",
+        "topic": "Delete confirmation",
+        "topicType": "str",
+        "x": 470,
+        "y": 500,
+        "wires": [
+            [
+                "88d50e10655d330f"
+            ]
+        ]
+    },
+    {
+        "id": "88d50e10655d330f",
+        "type": "ui_toast",
+        "z": "476a12a01ee6b415",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "YES",
+        "cancel": "NO",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 630,
+        "y": 500,
+        "wires": [
+            [
+                "afa9c9e39c6a6ed6"
+            ]
+        ]
+    },
+    {
+        "id": "afa9c9e39c6a6ed6",
+        "type": "switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "YES",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 790,
+        "y": 500,
+        "wires": [
+            [
+                "fe74236c49db6bb3"
+            ]
+        ]
+    },
+    {
+        "id": "fe74236c49db6bb3",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "function 18",
+        "func": "msg.payload = [];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 500,
+        "wires": [
+            [
+                "4218a3b8d104ba70"
+            ]
+        ]
+    },
+    {
+        "id": "e8dd8efc219fe077",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "Change timezone",
+        "func": "const date1 = new Date(msg.payload.Light3_OnTime);\ndate1.setHours(date1.getHours() + 8);\nconst TimeOn = date1.toISOString().substr(11, 8);\nconst timeOnParts = TimeOn.split(':');\nvar time1 = {\n    hours: parseInt(timeOnParts[0]),\n    minutes: parseInt(timeOnParts[1]),\n    seconds: parseInt(timeOnParts[2])\n};\nmsg.payload.Light3_OnTime = time1;\n\nconst date2 = new Date(msg.payload.Light3_OffTime);\ndate2.setHours(date2.getHours() + 8);\nconst TimeOff = date2.toISOString().substr(11, 8);\nconst timeOffParts = TimeOff.split(':');\nvar time2 = {\n    hours: parseInt(timeOffParts[0]),\n    minutes: parseInt(timeOffParts[1]),\n    seconds: parseInt(timeOffParts[2])\n};\nmsg.payload.Light3_OffTime = time2;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 920,
+        "wires": [
+            [
+                "53ddfbb6671090d8",
+                "2d25fbdeac8e8b22"
+            ]
+        ]
+    },
+    {
+        "id": "53ddfbb6671090d8",
+        "type": "debug",
+        "z": "476a12a01ee6b415",
+        "name": "debug 24",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "e5f8de78c039f8a4",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "function 19",
+        "func": "const cur_hours = flow.get(\"hours\");\nconst cur_minutes = flow.get(\"minutes\");\nconst now = cur_hours * 60 + cur_minutes;\nconst OnTime = flow.get(\"OnTime\");\nconst OffTime = flow.get(\"OffTime\");\nif(now > OnTime || now < OffTime){\n    msg.payload = true;\n} else{\n    msg.payload = false;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 1040,
+        "wires": [
+            [
+                "5487d2544ad04b75"
+            ]
+        ]
+    },
+    {
+        "id": "5487d2544ad04b75",
+        "type": "ui_led",
+        "z": "476a12a01ee6b415",
+        "order": 5,
+        "group": "d433431f2eeffbef",
+        "width": 0,
+        "height": 0,
+        "label": "Đèn sân",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#4c4848",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Đèn sân",
+        "x": 1220,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "2d25fbdeac8e8b22",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "Time converter",
+        "func": "const OnTime = msg.payload.Light3_OnTime.hours * 60 + msg.payload.Light3_OnTime.minutes;\nconst OffTime = msg.payload.Light3_OffTime.hours * 60 + msg.payload.Light3_OffTime.minutes;\nmsg.OnTime = OnTime;\nmsg.OffTime = OffTime;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 920,
+        "wires": [
+            [
+                "b5c1bbde94705130"
+            ]
+        ]
+    },
+    {
+        "id": "b5c1bbde94705130",
+        "type": "change",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "OnTime",
+                "pt": "flow",
+                "to": "OnTime",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "OffTime",
+                "pt": "flow",
+                "to": "OffTime",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1180,
+        "y": 920,
+        "wires": [
+            [
+                "e5f8de78c039f8a4"
+            ]
+        ]
+    },
+    {
+        "id": "2d6d9ced9abab94b",
+        "type": "ui_led",
+        "z": "476a12a01ee6b415",
+        "order": 4,
+        "group": "d433431f2eeffbef",
+        "width": 0,
+        "height": 0,
+        "label": "Đèn trần",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#4c4848",
+                "value": "OffRelay1",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "OnRelay1",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Đèn trần",
+        "x": 940,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "d89705ea9e4eed52",
+        "type": "ui_led",
+        "z": "476a12a01ee6b415",
+        "order": 3,
+        "group": "d433431f2eeffbef",
+        "width": 0,
+        "height": 0,
+        "label": "Đèn tường",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#4c4848",
+                "value": "OffRelay2",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "OnRelay2",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Đèn tường",
+        "x": 950,
+        "y": 800,
+        "wires": []
     },
     {
         "id": "26545d1f33d95d30",
@@ -3007,7 +3429,7 @@
         "type": "function",
         "z": "f44abf5a8dec2d0a",
         "name": "energy",
-        "func": "msg.sum = msg.payload.sum_energy;\nmsg.sum = 'Total: ' + msg.sum.toFixed(2) + ' kWh ';\nmsg.payload = msg.payload.energy;\nreturn msg;",
+        "func": "msg.sum = msg.payload.sum_energy;\nmsg.sum = 'Total: ' + msg.sum.toFixed(2) + ' Wh ';\nmsg.payload = msg.payload.energy;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3358,6 +3780,255 @@
         "color": "#000000",
         "x": 430,
         "y": 200,
+        "wires": []
+    },
+    {
+        "id": "dd684e3bae4dfdb3",
+        "type": "mqtt out",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 620,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "36323be93c51791e",
+        "type": "inject",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "dc36572364536da6"
+            ]
+        ]
+    },
+    {
+        "id": "dc36572364536da6",
+        "type": "function",
+        "z": "59200bc147a8e4e4",
+        "name": "function 20",
+        "func": "msg.payload = \"OnRelay2\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 260,
+        "wires": [
+            [
+                "dd684e3bae4dfdb3",
+                "436a0c4ff601f479"
+            ]
+        ]
+    },
+    {
+        "id": "436a0c4ff601f479",
+        "type": "debug",
+        "z": "59200bc147a8e4e4",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "12038bfc4cd5bc52",
+        "type": "mqtt out",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 660,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "9ed71e65448cfff8",
+        "type": "inject",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 460,
+        "wires": [
+            [
+                "eab38ba300da93d8"
+            ]
+        ]
+    },
+    {
+        "id": "eab38ba300da93d8",
+        "type": "function",
+        "z": "59200bc147a8e4e4",
+        "name": "function 21",
+        "func": "msg.payload = \"OffRelay2\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "12038bfc4cd5bc52",
+                "b2731545b3d1db68"
+            ]
+        ]
+    },
+    {
+        "id": "b2731545b3d1db68",
+        "type": "debug",
+        "z": "59200bc147a8e4e4",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "ba79aa408849c2b7",
+        "type": "mqtt out",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 680,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "571541d887184eb5",
+        "type": "inject",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 660,
+        "wires": [
+            [
+                "ccd6e91401d4f97e"
+            ]
+        ]
+    },
+    {
+        "id": "ccd6e91401d4f97e",
+        "type": "function",
+        "z": "59200bc147a8e4e4",
+        "name": "function 22",
+        "func": "msg.payload = \"OffRelay1\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 680,
+        "wires": [
+            [
+                "ba79aa408849c2b7",
+                "b66d1f6c9d6074f8"
+            ]
+        ]
+    },
+    {
+        "id": "b66d1f6c9d6074f8",
+        "type": "debug",
+        "z": "59200bc147a8e4e4",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 540,
         "wires": []
     }
 ]
