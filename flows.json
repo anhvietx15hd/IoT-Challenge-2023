@@ -40,6 +40,14 @@
         "env": []
     },
     {
+        "id": "7a58303c52d57c05",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "26bb56a265ba606e",
         "type": "mqtt-broker",
         "name": "",
@@ -343,16 +351,6 @@
         "className": ""
     },
     {
-        "id": "d82388ac9e89fed0",
-        "type": "ui_spacer",
-        "z": "476a12a01ee6b415",
-        "name": "spacer",
-        "group": "4f2da75b4445f277",
-        "order": 4,
-        "width": "0",
-        "height": "0"
-    },
-    {
         "id": "a8efce5e22380e30",
         "type": "ui_group",
         "name": "Energy",
@@ -417,26 +415,51 @@
         "className": ""
     },
     {
-        "id": "46072705fd37be6e",
-        "type": "mqtt in",
-        "z": "476a12a01ee6b415",
+        "id": "eed4f51a8356e002",
+        "type": "mqtt-broker",
         "name": "",
-        "topic": "esp32/data",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26bb56a265ba606e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 70,
-        "y": 220,
-        "wires": [
-            [
-                "ead8130728d4c4a5",
-                "073711812a5044d8"
-            ]
-        ]
+        "broker": "hub.selex.vn",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "49cddb838fab4043",
+        "type": "ui_tab",
+        "name": "Thinh",
+        "icon": "dashboard",
+        "order": 5,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "31bd30d4face3e7e",
+        "type": "ui_group",
+        "name": "Test",
+        "tab": "49cddb838fab4043",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "3f3de6d2b3134f6c",
@@ -734,8 +757,8 @@
         "interpolate": "linear",
         "nodata": "",
         "dot": false,
-        "ymin": "0",
-        "ymax": "50",
+        "ymin": "",
+        "ymax": "",
         "removeOlder": 1,
         "removeOlderPoints": "",
         "removeOlderUnit": "3600",
@@ -766,6 +789,7 @@
         "id": "41efe3926dda4aed",
         "type": "http response",
         "z": "476a12a01ee6b415",
+        "d": true,
         "name": "",
         "statusCode": "",
         "headers": {},
@@ -1100,8 +1124,8 @@
         "label": "",
         "group": "4f2da75b4445f277",
         "order": 1,
-        "width": "0",
-        "height": "0",
+        "width": 0,
+        "height": 0,
         "options": [
             {
                 "label": "Time to update",
@@ -1246,7 +1270,7 @@
         "group": "d433431f2eeffbef",
         "order": 1,
         "width": 5,
-        "height": "1",
+        "height": 1,
         "name": "",
         "label": "",
         "format": "{{msg.notification}}",
@@ -1275,7 +1299,7 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "get energy",
-        "func": "\n    msg.payload = parseFloat(flow.get(\"energy\").toFixed(2));\n    var sum_energy = flow.get(\"sum_energy\");\n    msg.sum_energy = 'Total: ' + sum_energy.toFixed(2) + ' Wh ';\n    msg.topic = flow.get(\"hours\")+1;\n    return msg;\n",
+        "func": "    msg.payload = parseFloat(flow.get(\"energy\").toFixed(2));\n    var sum_energy = flow.get(\"sum_energy\");\n    msg.sum_energy = 'Total: ' + sum_energy.toFixed(2) + ' Wh ';\n    msg.topic = flow.get(\"hours\")+1;\n    return msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1314,7 +1338,8 @@
         "y": 340,
         "wires": [
             [
-                "d3fb0e6c5166c44e"
+                "d3fb0e6c5166c44e",
+                "e5f8de78c039f8a4"
             ]
         ]
     },
@@ -1616,8 +1641,8 @@
         "y": 260,
         "wires": [
             [
-                "a401ccdaab7de69e",
-                "34525a03125290eb"
+                "34525a03125290eb",
+                "a401ccdaab7de69e"
             ]
         ]
     },
@@ -1645,22 +1670,6 @@
         "wires": [
             []
         ]
-    },
-    {
-        "id": "ead8130728d4c4a5",
-        "type": "debug",
-        "z": "476a12a01ee6b415",
-        "name": "debug 21",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 200,
-        "y": 300,
-        "wires": []
     },
     {
         "id": "0cd221ba089e1c69",
@@ -1696,7 +1705,7 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "add timestamp",
-        "func": "var data = {};\nvar currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = currentTime.getHours();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\n\n// Chuyển đổi thành chuỗi dạng HH:mm:ss\nvar timeStamp = hours.toString().padStart(2, '0') + ':' +\n    minutes.toString().padStart(2, '0') + ':' +\n    seconds.toString().padStart(2, '0');\nvar day = currentTime.getDate();\nvar month = currentTime.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentTime.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nmsg.fileName = '/home/viet/IoT_data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n\n\ndata.timeStamp = timeStamp;\ndata.temperature = parseFloat(msg.payload.temperature);\ndata.power = msg.payload.power_mW;\ndata.gas = msg.payload.co2_value;\ndata.humidity = msg.payload.humidity;\n\nmsg.payload = data;\nreturn msg;",
+        "func": "var data = {};\nvar currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = currentTime.getHours();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\n\n// Chuyển đổi thành chuỗi dạng HH:mm:ss\nvar timeStamp = hours.toString().padStart(2, '0') + ':' +\n    minutes.toString().padStart(2, '0') + ':' +\n    seconds.toString().padStart(2, '0');\nvar day = currentTime.getDate();\nvar month = currentTime.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentTime.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nmsg.fileName = '/home/viet/IoT_data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n\n\ndata.timeStamp = timeStamp;\ndata.temperature = parseFloat(msg.payload.temperature.toFixed(2));\ndata.power = msg.payload.power;\ndata.gas = msg.payload.gas;\ndata.humidity = msg.payload.humidity;\n\nmsg.payload = data;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1706,11 +1715,11 @@
         "y": 160,
         "wires": [
             [
-                "d90021d3259de9c8",
                 "79da4b005c701d13",
                 "336f53f2d20d46db",
                 "3f3de6d2b3134f6c",
-                "d40fc52f438ce7d5"
+                "d40fc52f438ce7d5",
+                "d90021d3259de9c8"
             ]
         ]
     },
@@ -1749,11 +1758,11 @@
         "topic": "topic",
         "topicType": "msg",
         "style": "",
-        "onvalue": "OnRelay1",
+        "onvalue": "ON_ceilingLight",
         "onvalueType": "str",
         "onicon": "",
         "oncolor": "",
-        "offvalue": "OffRelay1",
+        "offvalue": "OFF_ceilingLight",
         "offvalueType": "str",
         "officon": "",
         "offcolor": "",
@@ -1776,7 +1785,7 @@
         "label": "Đèn tường",
         "tooltip": "",
         "group": "2223d35ff079f419",
-        "order": 1,
+        "order": 3,
         "width": 0,
         "height": 0,
         "passthru": true,
@@ -1784,11 +1793,11 @@
         "topic": "topic",
         "topicType": "msg",
         "style": "",
-        "onvalue": "OnRelay2",
+        "onvalue": "ON_wallLight",
         "onvalueType": "str",
         "onicon": "",
         "oncolor": "",
-        "offvalue": "OffRelay2",
+        "offvalue": "OFF_wallLight",
         "offvalueType": "str",
         "officon": "",
         "offcolor": "",
@@ -1828,7 +1837,7 @@
         "name": "",
         "label": "Đèn Sân",
         "group": "2223d35ff079f419",
-        "order": 3,
+        "order": 1,
         "width": 0,
         "height": 0,
         "options": [
@@ -1858,7 +1867,7 @@
         "topicType": "msg",
         "splitLayout": true,
         "className": "",
-        "x": 520,
+        "x": 440,
         "y": 920,
         "wires": [
             [
@@ -1872,7 +1881,7 @@
         "z": "476a12a01ee6b415",
         "name": "",
         "group": "98e7818a12554714",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
         "passthru": false,
@@ -1966,7 +1975,7 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "Change timezone",
-        "func": "const date1 = new Date(msg.payload.Light3_OnTime);\ndate1.setHours(date1.getHours() + 8);\nconst TimeOn = date1.toISOString().substr(11, 8);\nconst timeOnParts = TimeOn.split(':');\nvar time1 = {\n    hours: parseInt(timeOnParts[0]),\n    minutes: parseInt(timeOnParts[1]),\n    seconds: parseInt(timeOnParts[2])\n};\nmsg.payload.Light3_OnTime = time1;\n\nconst date2 = new Date(msg.payload.Light3_OffTime);\ndate2.setHours(date2.getHours() + 8);\nconst TimeOff = date2.toISOString().substr(11, 8);\nconst timeOffParts = TimeOff.split(':');\nvar time2 = {\n    hours: parseInt(timeOffParts[0]),\n    minutes: parseInt(timeOffParts[1]),\n    seconds: parseInt(timeOffParts[2])\n};\nmsg.payload.Light3_OffTime = time2;\n\nreturn msg;",
+        "func": "const date1 = new Date(msg.payload.Light3_OnTime);\ndate1.setHours(date1.getHours() + 8);\nvar date = date1.getDate();\nconst TimeOn = date1.toISOString().substr(11, 8);\nconst timeOnParts = TimeOn.split(':');\nvar time1 = {\n    hours: parseInt(timeOnParts[0]),\n    minutes: parseInt(timeOnParts[1]),\n    seconds: parseInt(timeOnParts[2])\n};\nmsg.payload.Light3_OnTime = time1;\n\nconst date2 = new Date(msg.payload.Light3_OffTime);\ndate2.setHours(date2.getHours() + 8);\nconst TimeOff = date2.toISOString().substr(11, 8);\nconst timeOffParts = TimeOff.split(':');\nvar time2 = {\n    hours: parseInt(timeOffParts[0]),\n    minutes: parseInt(timeOffParts[1]),\n    seconds: parseInt(timeOffParts[2])\n};\nmsg.payload.Light3_OffTime = time2;\nmsg.payload.date = date;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1976,41 +1985,23 @@
         "y": 920,
         "wires": [
             [
-                "53ddfbb6671090d8",
                 "2d25fbdeac8e8b22"
             ]
         ]
-    },
-    {
-        "id": "53ddfbb6671090d8",
-        "type": "debug",
-        "z": "476a12a01ee6b415",
-        "name": "debug 24",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 740,
-        "y": 1080,
-        "wires": []
     },
     {
         "id": "e5f8de78c039f8a4",
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "function 19",
-        "func": "const cur_hours = flow.get(\"hours\");\nconst cur_minutes = flow.get(\"minutes\");\nconst now = cur_hours * 60 + cur_minutes;\nconst OnTime = flow.get(\"OnTime\");\nconst OffTime = flow.get(\"OffTime\");\nif(now > OnTime || now < OffTime){\n    msg.payload = true;\n} else{\n    msg.payload = false;\n}\nreturn msg;",
+        "func": "const cur_hours = flow.get(\"hours\");\nconst cur_minutes = flow.get(\"minutes\");\nconst now = cur_hours * 60 + cur_minutes;\nconst OnTime = flow.get(\"OnTime\");\nconst OffTime = flow.get(\"OffTime\");\nif(OnTime < OffTime){\n    if (now >= OnTime && now <= OffTime) {\n        msg.payload = true;\n    } else {\n        msg.payload = false;\n    }\n}\nelse{\n    if (now >= OnTime || now <= OffTime) {\n        msg.payload = true;\n    } else {\n        msg.payload = false;\n    }\n}\n\nmsg.now = now;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 970,
-        "y": 1040,
+        "x": 190,
+        "y": 660,
         "wires": [
             [
                 "5487d2544ad04b75"
@@ -2044,8 +2035,8 @@
         "shape": "circle",
         "showGlow": true,
         "name": "Đèn sân",
-        "x": 1220,
-        "y": 1040,
+        "x": 440,
+        "y": 660,
         "wires": []
     },
     {
@@ -2097,7 +2088,7 @@
         "y": 920,
         "wires": [
             [
-                "e5f8de78c039f8a4"
+                "3a0524fad0457602"
             ]
         ]
     },
@@ -2115,12 +2106,12 @@
         "colorForValue": [
             {
                 "color": "#4c4848",
-                "value": "OffRelay1",
+                "value": "OFF_ceilingLight",
                 "valueType": "str"
             },
             {
                 "color": "#008000",
-                "value": "OnRelay1",
+                "value": "ON_ceilingLight",
                 "valueType": "str"
             }
         ],
@@ -2146,12 +2137,12 @@
         "colorForValue": [
             {
                 "color": "#4c4848",
-                "value": "OffRelay2",
+                "value": "OFF_wallLight",
                 "valueType": "str"
             },
             {
                 "color": "#008000",
-                "value": "OnRelay2",
+                "value": "ON_wallLight",
                 "valueType": "str"
             }
         ],
@@ -2161,6 +2152,62 @@
         "name": "Đèn tường",
         "x": 950,
         "y": 800,
+        "wires": []
+    },
+    {
+        "id": "5153951ffda1ab9a",
+        "type": "mqtt in",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "topic": "esp32",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 50,
+        "y": 200,
+        "wires": [
+            [
+                "073711812a5044d8",
+                "6018b9dfbb9c4969"
+            ]
+        ]
+    },
+    {
+        "id": "3a0524fad0457602",
+        "type": "debug",
+        "z": "476a12a01ee6b415",
+        "name": "debug 36",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "6018b9dfbb9c4969",
+        "type": "debug",
+        "z": "476a12a01ee6b415",
+        "name": "debug 37",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 240,
         "wires": []
     },
     {
@@ -2180,7 +2227,8 @@
         "y": 220,
         "wires": [
             [
-                "343b4b7827b627ce"
+                "343b4b7827b627ce",
+                "55fc0ceecb6a52ae"
             ]
         ]
     },
@@ -2672,8 +2720,7 @@
         "y": 520,
         "wires": [
             [
-                "6869dce844db60f7",
-                "b5ce93e105a0f3b1"
+                "6869dce844db60f7"
             ]
         ]
     },
@@ -2716,22 +2763,6 @@
         "wires": []
     },
     {
-        "id": "b5ce93e105a0f3b1",
-        "type": "debug",
-        "z": "fb7b6ef3825348ee",
-        "name": "debug 18",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1240,
-        "y": 600,
-        "wires": []
-    },
-    {
         "id": "954f89c8eb90604e",
         "type": "function",
         "z": "fb7b6ef3825348ee",
@@ -2747,6 +2778,23 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "55fc0ceecb6a52ae",
+        "type": "debug",
+        "z": "fb7b6ef3825348ee",
+        "name": "debug 28",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 280,
+        "wires": []
     },
     {
         "id": "c9d918bd737c7df1",
@@ -4029,6 +4077,307 @@
         "statusType": "auto",
         "x": 700,
         "y": 540,
+        "wires": []
+    },
+    {
+        "id": "43a62c5cd6382c8c",
+        "type": "mqtt in",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/data",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 540,
+        "wires": [
+            [
+                "424a64e725daa3d3"
+            ]
+        ]
+    },
+    {
+        "id": "424a64e725daa3d3",
+        "type": "debug",
+        "z": "7a58303c52d57c05",
+        "name": "debug 33",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "14b2404caa0176cb",
+        "type": "inject",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 300,
+        "wires": [
+            [
+                "1336b3f607618296"
+            ]
+        ]
+    },
+    {
+        "id": "1336b3f607618296",
+        "type": "function",
+        "z": "7a58303c52d57c05",
+        "name": "function 23",
+        "func": "msg.payload = \"testwarning\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "143da080ee05cc12"
+            ]
+        ]
+    },
+    {
+        "id": "143da080ee05cc12",
+        "type": "mqtt out",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 720,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "8144abe519238758",
+        "type": "inject",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 380,
+        "wires": [
+            [
+                "e9a501cfeee39990"
+            ]
+        ]
+    },
+    {
+        "id": "e9a501cfeee39990",
+        "type": "function",
+        "z": "7a58303c52d57c05",
+        "name": "function 24",
+        "func": "msg.payload = \"OffRelay1\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 380,
+        "wires": [
+            [
+                "8fb77f0bf27dd51e"
+            ]
+        ]
+    },
+    {
+        "id": "8fb77f0bf27dd51e",
+        "type": "mqtt out",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 720,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "16395b5aa4fdf019",
+        "type": "inject",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 660,
+        "wires": [
+            [
+                "51b3d98a0269f66c"
+            ]
+        ]
+    },
+    {
+        "id": "51b3d98a0269f66c",
+        "type": "function",
+        "z": "7a58303c52d57c05",
+        "name": "function 25",
+        "func": "msg.payload = \"OnRelay2\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 660,
+        "wires": [
+            [
+                "ac47b8115e831db1"
+            ]
+        ]
+    },
+    {
+        "id": "ac47b8115e831db1",
+        "type": "mqtt out",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 760,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "49ecf3d0bfc9a476",
+        "type": "inject",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 740,
+        "wires": [
+            [
+                "22fe5327bb5fc593"
+            ]
+        ]
+    },
+    {
+        "id": "22fe5327bb5fc593",
+        "type": "function",
+        "z": "7a58303c52d57c05",
+        "name": "function 26",
+        "func": "msg.payload = \"OffRelay2\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 740,
+        "wires": [
+            [
+                "80e75d1b0b108aa6"
+            ]
+        ]
+    },
+    {
+        "id": "80e75d1b0b108aa6",
+        "type": "mqtt out",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 760,
+        "y": 740,
         "wires": []
     }
 ]
