@@ -1,6 +1,6 @@
 [
     {
-        "id": "5573791f89190ff0",
+        "id": "476a12a01ee6b415",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
@@ -8,9 +8,41 @@
         "env": []
     },
     {
-        "id": "2a56bfc6aa5f9e50",
+        "id": "fb7b6ef3825348ee",
         "type": "tab",
         "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f44abf5a8dec2d0a",
+        "type": "tab",
+        "label": "File Explore",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "675b79776999a17a",
+        "type": "tab",
+        "label": "Detect",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "59200bc147a8e4e4",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7a58303c52d57c05",
+        "type": "tab",
+        "label": "Flow 4",
         "disabled": false,
         "info": "",
         "env": []
@@ -155,582 +187,441 @@
         "tab": "48418b79.0f5834",
         "order": 1,
         "disp": true,
-        "width": "24",
+        "width": "6",
         "collapse": false,
         "className": ""
     },
     {
         "id": "e8d3a60cfc58017f",
         "type": "ui_group",
-        "name": "Group 2",
+        "name": "Log",
         "tab": "48418b79.0f5834",
         "order": 2,
         "disp": true,
-        "width": 6
-    },
-    {
-        "id": "6682b3c208fa9673",
-        "type": "inject",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 260,
-        "y": 180,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f31a598d.9fd2c8",
-        "type": "function",
-        "z": "5573791f89190ff0",
-        "name": "Set base path",
-        "func": "//restrict to c:\\temp\\\nvar basePath = \"c:\\\\temp\\\\\";\nvar filename = msg.req.params.fn;\n\n\nif(filename.includes(\"..\\\\\")){\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} else if(filename.includes(\"../\")){\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} \n//TODO: add more checks\n\nmsg.filename = basePath + filename;\nreturn [msg, null];//fire output 1\n\n\n",
-        "outputs": 2,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 420,
-        "y": 340,
-        "wires": [
-            [
-                "34dc99e5.495466"
-            ],
-            [
-                "98261154.3006"
-            ]
-        ]
-    },
-    {
-        "id": "98261154.3006",
-        "type": "http response",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 770,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "34dc99e5.495466",
-        "type": "file in",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "filename": "filename",
-        "filenameType": "msg",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 610,
-        "y": 320,
-        "wires": [
-            [
-                "98261154.3006"
-            ]
-        ]
-    },
-    {
-        "id": "38d65d59.1d8aa2",
-        "type": "catch",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "scope": null,
-        "uncaught": false,
-        "x": 240,
-        "y": 420,
-        "wires": [
-            [
-                "3b8014a.86ad8ec",
-                "5b18a8e7.fb8da8"
-            ]
-        ]
-    },
-    {
-        "id": "3b8014a.86ad8ec",
-        "type": "function",
-        "z": "5573791f89190ff0",
-        "name": "Set 404",
-        "func": "msg.payload = msg.error;\nmsg.statusCode = 404;//resource not found\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 620,
-        "y": 420,
-        "wires": [
-            [
-                "98261154.3006"
-            ]
-        ]
-    },
-    {
-        "id": "5b18a8e7.fb8da8",
-        "type": "debug",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "x": 270,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "5de7cbb4.fa21a4",
-        "type": "comment",
-        "z": "5573791f89190ff0",
-        "name": "Create http endpoint <nodered>/files/xxx  where xxx is the file name to download",
-        "info": "",
-        "x": 460,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "67ecfa7f.3f0e24",
-        "type": "http in",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "url": "/files/:fn",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 250,
-        "y": 340,
-        "wires": [
-            [
-                "f31a598d.9fd2c8"
-            ]
-        ]
-    },
-    {
-        "id": "48aa585c2f889b57",
-        "type": "mqtt in",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "topic": "esp32/data",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26bb56a265ba606e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 280,
-        "y": 100,
-        "wires": [
-            [
-                "6fcc2612cebb3368"
-            ]
-        ]
-    },
-    {
-        "id": "6fcc2612cebb3368",
-        "type": "debug",
-        "z": "5573791f89190ff0",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 520,
-        "y": 120,
-        "wires": []
-    },
-    {
-        "id": "a8c2985e.d23ad8",
-        "type": "ui_template",
-        "z": "5573791f89190ff0",
-        "d": true,
-        "group": "dfb4a60f.d788f8",
-        "name": "ui_temlplate - present download links on dashboard",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "format": "<div >\n    <a href=\"/files/log.log\">download log.log</a>\n    <a href=\"/files/log2.log\">download log2.log</a>\n</div>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": false,
-        "templateScope": "local",
-        "className": "",
-        "x": 610,
-        "y": 500,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "42e2877419fd3e2b",
-        "type": "ui_template",
-        "z": "5573791f89190ff0",
-        "d": true,
-        "group": "e8d3a60cfc58017f",
-        "name": "",
-        "order": 1,
-        "width": "12",
-        "height": "13",
-        "format": "<!DOCTYPE HTML>\n<html>\n\n<head>\n    <style>\n        .list-box {\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            background-color: #f2f2f2;\n            padding: 10px;\n            width: 300px;\n        }\n\n        .list-box li {\n            border-bottom: 1px solid #752525;\n            padding: 3px 0px 3px 10px;\n            font-size: 18px;\n            list-style: none;\n        }\n\n        .list-box li.highlight {\n            background-color: #5ad1f294;\n        }\n\n        .submit-box {\n            margin-top: 10px;\n            text-align: center;\n            width: 300px;\n        }\n\n        .submit-box input[type=\"submit\"] {\n            height: 40px;\n            width: 100px;\n            background-color: #3c9b41;\n            color: #fff;\n            border: none;\n            border-radius: 4px;\n            cursor: pointer;\n            font-size: 20px;\n        }\n\n        .submit-box input[type=\"submit\"]:hover {\n            background-color: #86d188;\n        }\n\n        .config-box {\n            margin-top: 10px;\n            border: 1px solid #ccc;\n            border-radius: 5px;\n            background-color: #f2f2f2;\n            padding: 10px;\n            width: 300px;\n        }\n\n        .data {\n            height: 30px;\n            box-sizing: border-box;\n            margin: 7px;\n        }\n\n        form label {\n            display: inline-block;\n            width: 90px;\n            height: 100%;\n        }\n\n        form input {\n            border: 1px solid #ccc;\n            border-radius: 4px;\n            width: 190px;\n            height: 100%;\n            box-sizing: border-box;\n            padding-left: 10px;\n            font-size: 15px;\n        }\n\n        p {\n            text-align: center;\n            font-size: 20px;\n            margin: 0;\n            font-weight: bold;\n            width: 300px;\n        }\n\n        ol {\n            box-sizing: border-box;\n            padding: 0px 10px 0px 0px;\n        }\n\n        body {\n            display: grid;\n            place-items: center;\n        }\n    </style>\n    <script>\n        function copyToSSID(li) {\n            var ssidInput = document.getElementById('ssid');\n            ssidInput.value = li.innerHTML;\n            var listItems = document.querySelectorAll('.list-box li');\n            listItems.forEach(function(item) {\n                item.classList.remove('highlight');\n            });\n            li.classList.add('highlight');\n        }\n    </script>\n</head>\n\n<body>\n    <p style=\"margin: 10px;\">Welcome to Home Automation System Configuration</p>\n    <div class=\"list-box\">\n        <p>Sellect network for ESP32</p>\n        <ol>\n            <li onclick=\"copyToSSID(this)\">1602</li>\n            <li onclick=\"copyToSSID(this)\">P1602</li>\n            <li onclick=\"copyToSSID(this)\">1602_5GHz</li>\n            <li onclick=\"copyToSSID(this)\">Le Huong</li>\n            <li onclick=\"copyToSSID(this)\">Le Thi Huong</li>\n        </ol>\n    </div>\n    <form action=\"setting\" method=\"get\">\n        <div class=\"config-box\">\n            <p>WIFI</p>\n            <div class=\"data\">\n                <label>SSID </label>\n                <input id=\"ssid\" name=\"ssid\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PASSWORD </label>\n                <input id=\"password\" name=\"password\" length=\"32\">\n            </div>\n        </div>\n        <div class=\"config-box\">\n            <p>MQTT</p>\n            <div class=\"data\">\n                <label>ADDRESS</label>\n                <input name=\"mqtt_address\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PASSWORD </label>\n                <input name=\"mqtt_password\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PORT </label>\n                <input name=\"mqtt_port\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label>PUB TOPIC </label>\n                <input name=\"pub_topic\" length=\"32\">\n            </div>\n            <div class=\"data\">\n                <label> SUB TOPIC</label>\n                <input name=\"sub_topic\" length=\"32\">\n            </div>\n        </div>\n\n        <div class=\"submit-box\">\n            <input type=\"submit\" value=\"SUBMIT\">\n        </div>\n    </form>\n</body>\n\n</html>\n\n<!-- alo  -->",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 380,
-        "y": 600,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "e6f8edcd03e4f92a",
-        "type": "mqtt in",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "topic": "thinh2",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26bb56a265ba606e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 470,
-        "y": 180,
-        "wires": [
-            [
-                "271fbe0828f6dbc9"
-            ]
-        ]
-    },
-    {
-        "id": "271fbe0828f6dbc9",
-        "type": "debug",
-        "z": "5573791f89190ff0",
-        "name": "debug 7",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 720,
-        "y": 200,
-        "wires": []
-    },
-    {
-        "id": "e3c42cfc65aa79f3",
-        "type": "inject",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 260,
-        "y": 40,
-        "wires": [
-            [
-                "aa8e22914c37b7a5"
-            ]
-        ]
-    },
-    {
-        "id": "aa8e22914c37b7a5",
-        "type": "mqtt out",
-        "z": "5573791f89190ff0",
-        "name": "",
-        "topic": "thinh1",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "26bb56a265ba606e",
-        "x": 450,
-        "y": 40,
-        "wires": []
-    },
-    {
-        "id": "6e13d1e1013932a4",
-        "type": "mqtt in",
-        "z": "2a56bfc6aa5f9e50",
-        "name": "",
-        "topic": "Pub",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26bb56a265ba606e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 270,
-        "y": 220,
-        "wires": [
-            [
-                "9d35af316183f91e"
-            ]
-        ]
-    },
-    {
-        "id": "9d35af316183f91e",
-        "type": "function",
-        "z": "2a56bfc6aa5f9e50",
-        "name": "add timestamp",
-        "func": "var data = {};\nvar currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = currentTime.getHours();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\n\n// Chuyển đổi thành chuỗi dạng HH:mm:ss\nvar timeStamp = hours.toString().padStart(2, '0') + ':' +\n    minutes.toString().padStart(2, '0') + ':' +\n    seconds.toString().padStart(2, '0');\nvar day = currentTime.getDate();\nvar month = currentTime.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentTime.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nmsg.fileName = '/home/viet/data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n\n\ndata.timeStamp = timeStamp;\ndata.temperature = parseFloat(msg.payload.temperature.toFixed(2));\nmsg.payload = data;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 480,
-        "y": 220,
-        "wires": [
-            [
-                "a4143fd6da0a72a4",
-                "4005fee39c8a367b"
-            ]
-        ]
-    },
-    {
-        "id": "dfb4b53b26457858",
-        "type": "ui_gauge",
-        "z": "2a56bfc6aa5f9e50",
-        "name": "",
-        "group": "dfb4a60f.d788f8",
-        "order": 1,
         "width": "6",
-        "height": "8",
-        "gtype": "gage",
-        "title": "gauge",
-        "label": "units",
-        "format": "{{value}}",
-        "min": 0,
-        "max": "50",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "diff": false,
-        "className": "gauge",
-        "x": 1070,
-        "y": 220,
-        "wires": []
+        "collapse": false,
+        "className": ""
     },
     {
-        "id": "a4143fd6da0a72a4",
+        "id": "b63d1f91.68095",
+        "type": "ui_tab",
+        "name": "File Manager",
+        "icon": "dashboard",
+        "order": 15,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "387c58da45e62fbf",
+        "type": "ui_group",
+        "name": "File Manager",
+        "tab": "b63d1f91.68095",
+        "order": 1,
+        "disp": false,
+        "width": "24",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ebb1ed1c.5ebe2",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "98e7818a12554714",
+        "type": "ui_group",
+        "name": "Temperature",
+        "tab": "ebb1ed1c.5ebe2",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1dd773a15ff4d497",
+        "type": "ui_group",
+        "name": "Humidity",
+        "tab": "ebb1ed1c.5ebe2",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6e0394e77fa6ddc6",
+        "type": "ui_group",
+        "name": "Power",
+        "tab": "ebb1ed1c.5ebe2",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "95bf4b7585a836fb",
+        "type": "ui_group",
+        "name": "Download",
+        "tab": "ebb1ed1c.5ebe2",
+        "order": 7,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "80d4c61b8d7e332f",
+        "type": "ui_group",
+        "name": "temperature",
+        "tab": "b63d1f91.68095",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "330c74fd56fb8a42",
+        "type": "ui_group",
+        "name": "humidity",
+        "tab": "b63d1f91.68095",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "81a1a0f86dbd7ea7",
+        "type": "ui_group",
+        "name": "power",
+        "tab": "b63d1f91.68095",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "75e33f4ea0c21c61",
+        "type": "ui_spacer",
+        "z": "f44abf5a8dec2d0a",
+        "name": "spacer",
+        "group": "387c58da45e62fbf",
+        "order": 5,
+        "width": 2,
+        "height": 1
+    },
+    {
+        "id": "4f2da75b4445f277",
+        "type": "ui_group",
+        "name": "Settings",
+        "tab": "ebb1ed1c.5ebe2",
+        "order": 8,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2223d35ff079f419",
+        "type": "ui_group",
+        "name": "Control",
+        "tab": "ebb1ed1c.5ebe2",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4cee268e181d4dbd",
+        "type": "ui_group",
+        "name": "Energy",
+        "tab": "ebb1ed1c.5ebe2",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a8efce5e22380e30",
+        "type": "ui_group",
+        "name": "Energy",
+        "tab": "b63d1f91.68095",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2705407d6eaae13c",
+        "type": "ui_tab",
+        "name": "Detect",
+        "icon": "dashboard",
+        "order": 5,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "75cd05531acc8dd7",
+        "type": "ui_group",
+        "name": "Clock",
+        "tab": "2705407d6eaae13c",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f5695f99a4099ee6",
+        "type": "ui_group",
+        "name": "Add user",
+        "tab": "2705407d6eaae13c",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "29d197dfa34e9696",
+        "type": "ui_group",
+        "name": "Test",
+        "tab": "48418b79.0f5834",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d433431f2eeffbef",
+        "type": "ui_group",
+        "name": "Status",
+        "tab": "ebb1ed1c.5ebe2",
+        "order": 6,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "eed4f51a8356e002",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "hub.selex.vn",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "49cddb838fab4043",
+        "type": "ui_tab",
+        "name": "Thinh",
+        "icon": "dashboard",
+        "order": 5,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "31bd30d4face3e7e",
+        "type": "ui_group",
+        "name": "Test",
+        "tab": "49cddb838fab4043",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3f3de6d2b3134f6c",
         "type": "function",
-        "z": "2a56bfc6aa5f9e50",
-        "name": "split sensor data",
-        "func": "msg.payload = msg.payload.temperature;\nreturn msg;",
+        "z": "476a12a01ee6b415",
+        "name": "split temperature",
+        "func": "msg.payload = msg.payload.temperature;\nmsg.topic = \"temperature\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 760,
-        "y": 220,
+        "x": 510,
+        "y": 460,
         "wires": [
             [
-                "dfb4b53b26457858"
+                "4218a3b8d104ba70"
             ]
         ]
     },
     {
-        "id": "19c3a6cc7db05684",
-        "type": "ui_template",
-        "z": "2a56bfc6aa5f9e50",
-        "group": "e8d3a60cfc58017f",
-        "name": "",
-        "order": 1,
-        "width": "0",
-        "height": "0",
-        "format": "<style>\n    .gauge{\n    color: red !important;\n    }\n    .gauge tspan{\n    font-size: 15px;\n    color:green !important;}\n\n</style>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 540,
-        "y": 520,
+        "id": "336f53f2d20d46db",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "split humidity",
+        "func": "msg.payload = msg.payload.humidity;\nmsg.topic = \"humidity\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 420,
         "wires": [
-            []
+            [
+                "b147accc1b658902"
+            ]
         ]
     },
     {
-        "id": "4005fee39c8a367b",
+        "id": "79da4b005c701d13",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "split power",
+        "func": "msg.payload = msg.payload.power;\nmsg.topic = \"power\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 160,
+        "wires": [
+            [
+                "c38daf0fbf617d4c",
+                "2e551fe839020d30"
+            ]
+        ]
+    },
+    {
+        "id": "d90021d3259de9c8",
         "type": "csv",
-        "z": "2a56bfc6aa5f9e50",
+        "z": "476a12a01ee6b415",
         "name": "Create csv row",
         "sep": ",",
         "hdrin": "",
         "hdrout": "none",
         "multi": "one",
         "ret": "\\n",
-        "temp": "timeStamp, temperature",
+        "temp": "timeStamp, temperature, humidity, power",
         "skip": "0",
         "strings": true,
         "include_empty_strings": "",
         "include_null_values": "",
-        "x": 800,
-        "y": 140,
+        "x": 500,
+        "y": 80,
         "wires": [
             [
-                "b1219fa7bc69a96c"
+                "7815533e56dc96ec"
             ]
         ]
     },
     {
-        "id": "b1219fa7bc69a96c",
+        "id": "7815533e56dc96ec",
         "type": "file",
-        "z": "2a56bfc6aa5f9e50",
+        "z": "476a12a01ee6b415",
         "name": "",
         "filename": "fileName",
         "filenameType": "msg",
-        "appendNewline": true,
+        "appendNewline": false,
         "createDir": true,
         "overwriteFile": "false",
         "encoding": "none",
-        "x": 1100,
-        "y": 140,
+        "x": 680,
+        "y": 80,
         "wires": [
             []
         ]
     },
     {
-        "id": "41f5a5374045a90f",
+        "id": "a206376c99f2c89f",
+        "type": "file",
+        "z": "476a12a01ee6b415",
+        "name": "new file at the start of new day",
+        "filename": "fileName",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 930,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "53138d25bc81fc11",
+        "type": "csv",
+        "z": "476a12a01ee6b415",
+        "name": "Create csv header",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "once",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "timeStamp, temperature, humidity, power",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 630,
+        "y": 20,
+        "wires": [
+            [
+                "a206376c99f2c89f"
+            ]
+        ]
+    },
+    {
+        "id": "b4fa03ef2e102560",
         "type": "function",
-        "z": "2a56bfc6aa5f9e50",
-        "name": "Set base path",
-        "func": "var basePath = \"/home/viet/data/\";\nvar filename = msg.req.params.fn;\n\n\nif (filename.includes(\"..\\\\\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} else if (filename.includes(\"../\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n}\n//TODO: add more checks\n\nmsg.filename = basePath + filename;\nreturn msg\n\n\n",
+        "z": "476a12a01ee6b415",
+        "name": "Create new file",
+        "func": "var currentDate = new Date();\nvar data = {};\n\nvar day = currentDate.getDate() ;\nvar month = currentDate.getMonth() +1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentDate.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nvar fileName = '/home/viet/IoT_data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\nmsg.fileName = fileName;\nmsg.payload = {};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 880,
-        "y": 500,
+        "x": 320,
+        "y": 20,
         "wires": [
             [
-                "88c45d185ab7c3d7"
+                "53138d25bc81fc11"
             ]
         ]
     },
     {
-        "id": "14569bf52f58e301",
-        "type": "http response",
-        "z": "2a56bfc6aa5f9e50",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 1230,
-        "y": 540,
-        "wires": []
-    },
-    {
-        "id": "88c45d185ab7c3d7",
-        "type": "file in",
-        "z": "2a56bfc6aa5f9e50",
-        "name": "",
-        "filename": "filename",
-        "filenameType": "msg",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 1060,
-        "y": 500,
-        "wires": [
-            [
-                "14569bf52f58e301"
-            ]
-        ]
-    },
-    {
-        "id": "b94ebd88bc7c1d13",
-        "type": "http in",
-        "z": "2a56bfc6aa5f9e50",
-        "name": "",
-        "url": "/download/:fn",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 550,
-        "y": 460,
-        "wires": [
-            [
-                "41f5a5374045a90f"
-            ]
-        ]
-    },
-    {
-        "id": "fa55bcfbfee081aa",
-        "type": "ui_template",
-        "z": "2a56bfc6aa5f9e50",
-        "group": "e8d3a60cfc58017f",
-        "name": "ui_temlplate - present download links on dashboard",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "format": "<!DOCTYPE html>\n<html>\n\n<head>\n  <style>\n    .my-button {\n      padding: 10px 20px;\n      background-color: #4CAF50;\n      color: white;\n      border: none;\n      cursor: pointer;\n      border-radius: 4px;\n    }\n  </style>\n</head>\n\n<body>\n  <button class=\"my-button\" id=\"myButton\">Click here</button>\n  <input type=\"text\" id=\"datepicker\" />\n\n  <script>\n    \n    var button = document.getElementById(\"myButton\");\n    button.addEventListener(\"click\", function() {\n      var link = document.getElementById(\"datepicker\").value;\n      console.log(link);\n      window.location.href =link;\n    });\n\n    \n  </script>\n</body>\n\n</html>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": false,
-        "templateScope": "local",
-        "className": "",
-        "x": 1070,
-        "y": 660,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "376a08751dc25f6d",
+        "id": "193ffd7417c4216d",
         "type": "inject",
-        "z": "2a56bfc6aa5f9e50",
+        "z": "476a12a01ee6b415",
         "name": "",
         "props": [
             {
@@ -746,22 +637,1854 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 70,
+        "y": 20,
+        "wires": [
+            [
+                "b4fa03ef2e102560",
+                "1c899ea554bc3d24"
+            ]
+        ]
+    },
+    {
+        "id": "4218a3b8d104ba70",
+        "type": "ui_gauge",
+        "z": "476a12a01ee6b415",
+        "name": "temperature",
+        "group": "98e7818a12554714",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "",
+        "label": "℃",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "gauge",
+        "x": 1190,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "ecfb8f866152ec91",
+        "type": "ui_template",
+        "z": "476a12a01ee6b415",
+        "group": "98e7818a12554714",
+        "name": "",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<style>\n    body{\n    background-color:#eef5f9 !important;}\n    .gauge tspan{\n    font-size: 15px;\n    color:green !important;}\n\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1360,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b147accc1b658902",
+        "type": "ui_chart",
+        "z": "476a12a01ee6b415",
+        "name": "Humidity",
+        "group": "1dd773a15ff4d497",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1200,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c38daf0fbf617d4c",
+        "type": "ui_chart",
+        "z": "476a12a01ee6b415",
+        "name": "power",
+        "group": "6e0394e77fa6ddc6",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1390,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "41efe3926dda4aed",
+        "type": "http response",
+        "z": "476a12a01ee6b415",
+        "d": true,
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 830,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "b80e6637e99c673f",
+        "type": "file in",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 660,
+        "y": 1340,
+        "wires": [
+            [
+                "41efe3926dda4aed"
+            ]
+        ]
+    },
+    {
+        "id": "b79e74c1de270ad6",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "Set 404",
+        "func": "msg.payload = msg.error;\nmsg.statusCode = 404;//resource not found\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 1420,
+        "wires": [
+            [
+                "41efe3926dda4aed"
+            ]
+        ]
+    },
+    {
+        "id": "11ae1195b6d1162d",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "Set base path",
+        "func": "var basePath = \"/home/viet/IoT_data/\";\nvar filename = msg.req.params.fn;\n\n\nif (filename.includes(\"..\\\\\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} else if (filename.includes(\"../\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n}\n//TODO: add more checks\n\nmsg.filename = basePath + filename;\nreturn msg\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 1340,
+        "wires": [
+            [
+                "b80e6637e99c673f"
+            ]
+        ]
+    },
+    {
+        "id": "549f0884ad355a05",
+        "type": "catch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 300,
+        "y": 1420,
+        "wires": [
+            [
+                "b79e74c1de270ad6",
+                "a2866d2be934b73b"
+            ]
+        ]
+    },
+    {
+        "id": "4945b4c3e6cab07e",
+        "type": "http in",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "url": "/downloads/:fn",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 1340,
+        "wires": [
+            [
+                "11ae1195b6d1162d"
+            ]
+        ]
+    },
+    {
+        "id": "a2866d2be934b73b",
+        "type": "debug",
+        "z": "476a12a01ee6b415",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "557ba6736e6afcb2",
+        "type": "ui_template",
+        "z": "476a12a01ee6b415",
+        "group": "95bf4b7585a836fb",
+        "name": "Download",
+        "order": 1,
+        "width": 6,
+        "height": 3,
+        "format": "<!DOCTYPE html>\n<html>\n\n<head>\n  <style>\n    .download {\n      font-family: BlinkMacSystemFont, sans-serif;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: center;\n      margin: 0 30px;\n      max-width: 350px;\n      background-color: #ffffff;\n      border-radius: 8px;\n      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n      padding: 20px;\n    }\n\n    .Picker {\n      display: flex;\n      background-color: #eeeeee;\n      border-radius: 8px;\n      overflow: hidden;\n      margin-bottom: 5px;\n    }\n\n    .datePicker {\n      flex: 1;\n      height: 30px;\n      padding: 0 10px;\n      border: none;\n      font-size: 16px;\n      color: blueviolet;\n    }\n\n    .my-button {\n      margin-top: 5px;\n      padding: 10px 20px;\n      width: 80%;\n      background-color: #0094ce;\n      color: white;\n      border: none;\n      display:flex;\n      align-items: center;\n      justify-content: center;\n      border-radius: 4px;\n      transition: background-color 0.3s ease;\n    }\n\n    .my-button:hover {\n      background-color: #00aaed;\n    }\n  </style>\n</head>\n\n<body>\n  <div class=\"download\">\n    <div class=\"Picker\">\n      <input type=\"date\" class=\"datePicker\">\n    </div>\n    <button class=\"my-button\" id=\"myButton\">DOWNLOAD</button>\n  </div>\n\n  <script>\n    const Day = document.querySelector('.datePicker');\n        var selectedDate;\n        var fileName;\n        var link;\n\n        Day.addEventListener('change', function() {\n            var dateObject = new Date(Day.value);\n            var day = dateObject.getDate();\n            var month = dateObject.getMonth() + 1;\n            var year = dateObject.getFullYear();\n            selectedDate = day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year;\n            fileName = selectedDate + '.csv';\n            link = '/downloads/' + fileName;\n        });\n\n        var button = document.getElementById(\"myButton\");\n        button.addEventListener(\"click\", function() {\n            console.log(link);\n            window.location.href =link;\n        });\n  </script>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1320,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6f0805747b18e0bd",
+        "type": "ui_button",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "group": "6e0394e77fa6ddc6",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Clear",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Do you want clear this graph?",
+        "payloadType": "str",
+        "topic": "Delete confirmation",
+        "topicType": "str",
+        "x": 590,
+        "y": 120,
+        "wires": [
+            [
+                "44af62410a1e0d46"
+            ]
+        ]
+    },
+    {
+        "id": "44af62410a1e0d46",
+        "type": "ui_toast",
+        "z": "476a12a01ee6b415",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "YES",
+        "cancel": "NO",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 750,
+        "y": 120,
+        "wires": [
+            [
+                "0447b02cc4aade46"
+            ]
+        ]
+    },
+    {
+        "id": "0447b02cc4aade46",
+        "type": "switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "YES",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 120,
+        "wires": [
+            [
+                "cd3629f45e09c19b"
+            ]
+        ]
+    },
+    {
+        "id": "cd3629f45e09c19b",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "function 7",
+        "func": "msg.payload = [];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 120,
+        "wires": [
+            [
+                "c38daf0fbf617d4c"
+            ]
+        ]
+    },
+    {
+        "id": "0702877858f17398",
+        "type": "ui_button",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "group": "1dd773a15ff4d497",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Clear",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Do you want clear this graph?",
+        "payloadType": "str",
+        "topic": "Delete confirmation",
+        "topicType": "str",
+        "x": 590,
+        "y": 380,
+        "wires": [
+            [
+                "5c12f661fe522b13"
+            ]
+        ]
+    },
+    {
+        "id": "5c12f661fe522b13",
+        "type": "ui_toast",
+        "z": "476a12a01ee6b415",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "YES",
+        "cancel": "NO",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 750,
+        "y": 380,
+        "wires": [
+            [
+                "27a0696018aa68a3"
+            ]
+        ]
+    },
+    {
+        "id": "27a0696018aa68a3",
+        "type": "switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "YES",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 910,
+        "y": 380,
+        "wires": [
+            [
+                "b19f2792ef04a426"
+            ]
+        ]
+    },
+    {
+        "id": "b19f2792ef04a426",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "function 8",
+        "func": "msg.payload = [];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 380,
+        "wires": [
+            [
+                "b147accc1b658902"
+            ]
+        ]
+    },
+    {
+        "id": "d8dbd061ca4924fb",
+        "type": "ui_form",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "label": "",
+        "group": "4f2da75b4445f277",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Time to update",
+                "value": "timeToUpdate",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "timeToUpdate": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 410,
+        "y": 1260,
+        "wires": [
+            [
+                "f10c73831cf2b4ab"
+            ]
+        ]
+    },
+    {
+        "id": "f10c73831cf2b4ab",
+        "type": "json",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 550,
+        "y": 1260,
+        "wires": [
+            [
+                "3d0359ba96a868fc"
+            ]
+        ]
+    },
+    {
+        "id": "3d0359ba96a868fc",
+        "type": "mqtt out",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "topic": "Sub",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 730,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "aa1feae2bc9c6c94",
+        "type": "ui_led",
+        "z": "476a12a01ee6b415",
+        "order": 2,
+        "group": "d433431f2eeffbef",
+        "width": 1,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "true",
+                "valueType": "bool"
+            },
+            {
+                "color": "#504e4e",
+                "value": "false",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 1110,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "d40fc52f438ce7d5",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "function 9",
+        "func": "if (msg.payload.gas != 0){\n    msg.payload = true;\n    msg.notification = \"ĐANG CÓ RÒ RỈ KHÍ GAS\";\n} else {\n    msg.payload = false;\n    msg.topic = [];\n    msg.notification = \"Không phát hiện khí gas\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 560,
+        "wires": [
+            [
+                "a23d2e724fd30093",
+                "50c80cdac1091ce9"
+            ]
+        ]
+    },
+    {
+        "id": "50c80cdac1091ce9",
+        "type": "trigger",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "op1": "true",
+        "op2": "false",
+        "op1type": "bool",
+        "op2type": "bool",
+        "duration": "1000",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "false",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 880,
+        "y": 560,
+        "wires": [
+            [
+                "aa1feae2bc9c6c94"
+            ]
+        ]
+    },
+    {
+        "id": "a23d2e724fd30093",
+        "type": "ui_text",
+        "z": "476a12a01ee6b415",
+        "group": "d433431f2eeffbef",
+        "order": 1,
+        "width": 5,
+        "height": 1,
+        "name": "",
+        "label": "",
+        "format": "{{msg.notification}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 710,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "95f6d6cec94401ec",
+        "type": "comment",
+        "z": "476a12a01ee6b415",
+        "name": "Ý tưởng",
+        "info": "Với vẽ biểu đồ đồ realtime thì dùng node power monitor\nVỚi vẽ biểu đồ theo ngày,tính tổng theo giờ,  (if phút trước > phút sau && giây trước < giây sau): push giá trị tổng vào mảng",
+        "x": 920,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "a401ccdaab7de69e",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "get energy",
+        "func": "    msg.payload = parseFloat(flow.get(\"energy\").toFixed(2));\n    var sum_energy = flow.get(\"sum_energy\");\n    msg.sum_energy = 'Total: ' + sum_energy.toFixed(2) + ' Wh ';\n    msg.topic = flow.get(\"hours\")+1;\n    return msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 260,
+        "wires": [
+            [
+                "51ac284bebe34a22"
+            ]
+        ]
+    },
+    {
+        "id": "097fda4083838b2f",
+        "type": "inject",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 90,
+        "y": 340,
+        "wires": [
+            [
+                "d3fb0e6c5166c44e",
+                "e5f8de78c039f8a4"
+            ]
+        ]
+    },
+    {
+        "id": "d3fb0e6c5166c44e",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "function 15",
+        "func": "var currentTime = new Date();\n\n// Lấy giờ, phút, giây\nmsg.hours = currentTime.getHours();\nmsg.minutes = currentTime.getMinutes();\nmsg.seconds = currentTime.getSeconds();\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 340,
+        "wires": [
+            [
+                "ec09c4429c033963"
+            ]
+        ]
+    },
+    {
+        "id": "ec09c4429c033963",
+        "type": "change",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "hours",
+                "pt": "flow",
+                "to": "hours",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "minutes",
+                "pt": "flow",
+                "to": "minutes",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "seconds",
+                "pt": "flow",
+                "to": "seconds",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "51ac284bebe34a22",
+        "type": "ui_chart",
+        "z": "476a12a01ee6b415",
+        "name": "energy",
+        "group": "4cee268e181d4dbd",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "{{msg.sum_energy}}",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1290,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9c42b0273ef044a2",
+        "type": "ui_button",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "group": "4cee268e181d4dbd",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Clear",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Do you want clear this graph?",
+        "payloadType": "str",
+        "topic": "Delete confirmation",
+        "topicType": "str",
+        "x": 610,
+        "y": 300,
+        "wires": [
+            [
+                "a9f8a9097118e830"
+            ]
+        ]
+    },
+    {
+        "id": "a9f8a9097118e830",
+        "type": "ui_toast",
+        "z": "476a12a01ee6b415",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "YES",
+        "cancel": "NO",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 770,
+        "y": 300,
+        "wires": [
+            [
+                "31fdae4e5826256d"
+            ]
+        ]
+    },
+    {
+        "id": "31fdae4e5826256d",
+        "type": "switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "YES",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 930,
+        "y": 300,
+        "wires": [
+            [
+                "dd319118ec38bed7"
+            ]
+        ]
+    },
+    {
+        "id": "dd319118ec38bed7",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "reset energy chart",
+        "func": "msg.payload = [];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 300,
+        "wires": [
+            [
+                "51ac284bebe34a22"
+            ]
+        ]
+    },
+    {
+        "id": "1c899ea554bc3d24",
+        "type": "change",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "sum_energy",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2e551fe839020d30",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "Calculate energy",
+        "func": "msg.payload = msg.payload * 3 / 3600;\nmsg.sum = msg.payload + flow.get(\"sum_energy\");\nmsg.payload = msg.payload + flow.get(\"energy\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 220,
+        "wires": [
+            [
+                "37277a90685732cc"
+            ]
+        ]
+    },
+    {
+        "id": "37277a90685732cc",
+        "type": "change",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "energy",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "sum_energy",
+                "pt": "flow",
+                "to": "sum",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 780,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cf2d4538bf8d9acb",
+        "type": "inject",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 810,
+        "y": 260,
+        "wires": [
+            [
+                "34525a03125290eb",
+                "a401ccdaab7de69e"
+            ]
+        ]
+    },
+    {
+        "id": "167b19b8327a39f7",
+        "type": "change",
+        "z": "476a12a01ee6b415",
+        "name": "reset energy per hour",
+        "rules": [
+            {
+                "t": "set",
+                "p": "energy",
+                "pt": "flow",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1240,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0cd221ba089e1c69",
+        "type": "inject",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "01 00 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 910,
+        "y": 340,
+        "wires": [
+            [
+                "dd319118ec38bed7"
+            ]
+        ]
+    },
+    {
+        "id": "073711812a5044d8",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "add timestamp",
+        "func": "var data = {};\nvar currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = currentTime.getHours();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\n\n// Chuyển đổi thành chuỗi dạng HH:mm:ss\nvar timeStamp = hours.toString().padStart(2, '0') + ':' +\n    minutes.toString().padStart(2, '0') + ':' +\n    seconds.toString().padStart(2, '0');\nvar day = currentTime.getDate();\nvar month = currentTime.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentTime.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nmsg.fileName = '/home/viet/IoT_data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n\n\ndata.timeStamp = timeStamp;\ndata.temperature = parseFloat(msg.payload.temperature.toFixed(2));\ndata.power = msg.payload.power;\ndata.gas = msg.payload.gas;\ndata.humidity = msg.payload.humidity;\n\nmsg.payload = data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 160,
+        "wires": [
+            [
+                "79da4b005c701d13",
+                "336f53f2d20d46db",
+                "3f3de6d2b3134f6c",
+                "d40fc52f438ce7d5",
+                "d90021d3259de9c8"
+            ]
+        ]
+    },
+    {
+        "id": "34525a03125290eb",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "resetb energy every hour",
+        "func": "if(flow.get(\"minutes\") > 58 && flow.get(\"seconds\") >56){\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 180,
+        "wires": [
+            [
+                "167b19b8327a39f7"
+            ]
+        ]
+    },
+    {
+        "id": "094b0c56701f89dc",
+        "type": "ui_switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "label": "Đèn trần",
+        "tooltip": "",
+        "group": "2223d35ff079f419",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "ON_ceilingLight",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF_ceilingLight",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 700,
+        "y": 720,
+        "wires": [
+            [
+                "5c6a64e73ea8bf27",
+                "2d6d9ced9abab94b"
+            ]
+        ]
+    },
+    {
+        "id": "fd190fb2ad492f49",
+        "type": "ui_switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "label": "Đèn tường",
+        "tooltip": "",
+        "group": "2223d35ff079f419",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "ON_wallLight",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "OFF_wallLight",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 690,
+        "y": 780,
+        "wires": [
+            [
+                "5c6a64e73ea8bf27",
+                "d89705ea9e4eed52"
+            ]
+        ]
+    },
+    {
+        "id": "5c6a64e73ea8bf27",
+        "type": "mqtt out",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 980,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "fb0b5eb0869e90c8",
+        "type": "ui_form",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "label": "Đèn Sân",
+        "group": "2223d35ff079f419",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "On at",
+                "value": "Light3_OnTime",
+                "type": "time",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Off at",
+                "value": "Light3_OffTime",
+                "type": "time",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "Light3_OnTime": "",
+            "Light3_OffTime": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": true,
+        "className": "",
+        "x": 440,
+        "y": 920,
+        "wires": [
+            [
+                "e8dd8efc219fe077"
+            ]
+        ]
+    },
+    {
+        "id": "dca76f3e9f4ad75d",
+        "type": "ui_button",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "group": "98e7818a12554714",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Clear",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Do you want clear this graph?",
+        "payloadType": "str",
+        "topic": "Delete confirmation",
+        "topicType": "str",
+        "x": 470,
+        "y": 500,
+        "wires": [
+            [
+                "88d50e10655d330f"
+            ]
+        ]
+    },
+    {
+        "id": "88d50e10655d330f",
+        "type": "ui_toast",
+        "z": "476a12a01ee6b415",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "YES",
+        "cancel": "NO",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 630,
+        "y": 500,
+        "wires": [
+            [
+                "afa9c9e39c6a6ed6"
+            ]
+        ]
+    },
+    {
+        "id": "afa9c9e39c6a6ed6",
+        "type": "switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "YES",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 790,
+        "y": 500,
+        "wires": [
+            [
+                "fe74236c49db6bb3"
+            ]
+        ]
+    },
+    {
+        "id": "fe74236c49db6bb3",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "function 18",
+        "func": "msg.payload = [];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 500,
+        "wires": [
+            [
+                "4218a3b8d104ba70"
+            ]
+        ]
+    },
+    {
+        "id": "e8dd8efc219fe077",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "Change timezone",
+        "func": "const date1 = new Date(msg.payload.Light3_OnTime);\ndate1.setHours(date1.getHours() + 8);\nvar date = date1.getDate();\nconst TimeOn = date1.toISOString().substr(11, 8);\nconst timeOnParts = TimeOn.split(':');\nvar time1 = {\n    hours: parseInt(timeOnParts[0]),\n    minutes: parseInt(timeOnParts[1]),\n    seconds: parseInt(timeOnParts[2])\n};\nmsg.payload.Light3_OnTime = time1;\n\nconst date2 = new Date(msg.payload.Light3_OffTime);\ndate2.setHours(date2.getHours() + 8);\nconst TimeOff = date2.toISOString().substr(11, 8);\nconst timeOffParts = TimeOff.split(':');\nvar time2 = {\n    hours: parseInt(timeOffParts[0]),\n    minutes: parseInt(timeOffParts[1]),\n    seconds: parseInt(timeOffParts[2])\n};\nmsg.payload.Light3_OffTime = time2;\nmsg.payload.date = date;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 920,
+        "wires": [
+            [
+                "2d25fbdeac8e8b22"
+            ]
+        ]
+    },
+    {
+        "id": "e5f8de78c039f8a4",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "function 19",
+        "func": "const cur_hours = flow.get(\"hours\");\nconst cur_minutes = flow.get(\"minutes\");\nconst now = cur_hours * 60 + cur_minutes;\nconst OnTime = flow.get(\"OnTime\");\nconst OffTime = flow.get(\"OffTime\");\nif(OnTime < OffTime){\n    if (now >= OnTime && now <= OffTime) {\n        msg.payload = true;\n    } else {\n        msg.payload = false;\n    }\n}\nelse{\n    if (now >= OnTime || now <= OffTime) {\n        msg.payload = true;\n    } else {\n        msg.payload = false;\n    }\n}\n\nmsg.now = now;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 660,
+        "wires": [
+            [
+                "5487d2544ad04b75"
+            ]
+        ]
+    },
+    {
+        "id": "5487d2544ad04b75",
+        "type": "ui_led",
+        "z": "476a12a01ee6b415",
+        "order": 5,
+        "group": "d433431f2eeffbef",
+        "width": 0,
+        "height": 0,
+        "label": "Đèn sân",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#4c4848",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Đèn sân",
+        "x": 440,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "2d25fbdeac8e8b22",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "Time converter",
+        "func": "const OnTime = msg.payload.Light3_OnTime.hours * 60 + msg.payload.Light3_OnTime.minutes;\nconst OffTime = msg.payload.Light3_OffTime.hours * 60 + msg.payload.Light3_OffTime.minutes;\nmsg.OnTime = OnTime;\nmsg.OffTime = OffTime;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 920,
+        "wires": [
+            [
+                "b5c1bbde94705130"
+            ]
+        ]
+    },
+    {
+        "id": "b5c1bbde94705130",
+        "type": "change",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "OnTime",
+                "pt": "flow",
+                "to": "OnTime",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "OffTime",
+                "pt": "flow",
+                "to": "OffTime",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1180,
+        "y": 920,
+        "wires": [
+            [
+                "3a0524fad0457602"
+            ]
+        ]
+    },
+    {
+        "id": "2d6d9ced9abab94b",
+        "type": "ui_led",
+        "z": "476a12a01ee6b415",
+        "order": 4,
+        "group": "d433431f2eeffbef",
+        "width": 0,
+        "height": 0,
+        "label": "Đèn trần",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#4c4848",
+                "value": "OFF_ceilingLight",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "ON_ceilingLight",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Đèn trần",
+        "x": 940,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "d89705ea9e4eed52",
+        "type": "ui_led",
+        "z": "476a12a01ee6b415",
+        "order": 3,
+        "group": "d433431f2eeffbef",
+        "width": 0,
+        "height": 0,
+        "label": "Đèn tường",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#4c4848",
+                "value": "OFF_wallLight",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "ON_wallLight",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Đèn tường",
+        "x": 950,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "5153951ffda1ab9a",
+        "type": "mqtt in",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "topic": "esp32",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 50,
+        "y": 200,
+        "wires": [
+            [
+                "073711812a5044d8",
+                "6018b9dfbb9c4969"
+            ]
+        ]
+    },
+    {
+        "id": "3a0524fad0457602",
+        "type": "debug",
+        "z": "476a12a01ee6b415",
+        "name": "debug 36",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "6018b9dfbb9c4969",
+        "type": "debug",
+        "z": "476a12a01ee6b415",
+        "name": "debug 37",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "26545d1f33d95d30",
+        "type": "mqtt in",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "topic": "Pub",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "343b4b7827b627ce",
+                "55fc0ceecb6a52ae"
+            ]
+        ]
+    },
+    {
+        "id": "343b4b7827b627ce",
+        "type": "function",
+        "z": "fb7b6ef3825348ee",
+        "name": "add timestamp",
+        "func": "var data = {};\nvar currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = currentTime.getHours();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\n\n// Chuyển đổi thành chuỗi dạng HH:mm:ss\nvar timeStamp = hours.toString().padStart(2, '0') + ':' +\n    minutes.toString().padStart(2, '0') + ':' +\n    seconds.toString().padStart(2, '0');\nvar day = currentTime.getDate();\nvar month = currentTime.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentTime.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nmsg.fileName = '/home/viet/data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n\n\ndata.timeStamp = timeStamp;\ndata.temperature = parseFloat(msg.payload.temperature.toFixed(2));\nmsg.payload = data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 220,
+        "wires": [
+            [
+                "0992b06598018f6d",
+                "b13b7d22e0e1e2a1"
+            ]
+        ]
+    },
+    {
+        "id": "2fccc20909298aa6",
+        "type": "ui_gauge",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "group": "dfb4a60f.d788f8",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "℃",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "gauge",
+        "x": 1090,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "0992b06598018f6d",
+        "type": "function",
+        "z": "fb7b6ef3825348ee",
+        "name": "split sensor data",
+        "func": "msg.payload = msg.payload.temperature;\nmsg.topic = \"temperature\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 220,
+        "wires": [
+            [
+                "2fccc20909298aa6",
+                "c4d35706b7d26fbf",
+                "46fde3ee4a3f1d85"
+            ]
+        ]
+    },
+    {
+        "id": "835d95d24e1fd5ec",
+        "type": "ui_template",
+        "z": "fb7b6ef3825348ee",
+        "group": "e8d3a60cfc58017f",
+        "name": "",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "format": "<style>\n    body{\n    background-color:#eef5f9 !important;}\n    .gauge tspan{\n    font-size: 15px;\n    color:green !important;}\n\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1060,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b13b7d22e0e1e2a1",
+        "type": "csv",
+        "z": "fb7b6ef3825348ee",
+        "name": "Create csv row",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "timeStamp, temperature",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 800,
+        "y": 140,
+        "wires": [
+            [
+                "cdad48ea5641629e"
+            ]
+        ]
+    },
+    {
+        "id": "cdad48ea5641629e",
+        "type": "file",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "filename": "fileName",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1100,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f3accdb5d3bc7345",
+        "type": "function",
+        "z": "fb7b6ef3825348ee",
+        "name": "Set base path",
+        "func": "var basePath = \"/home/viet/data/\";\nvar filename = msg.req.params.fn;\n\n\nif (filename.includes(\"..\\\\\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} else if (filename.includes(\"../\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n}\n//TODO: add more checks\n\nmsg.filename = basePath + filename;\nreturn msg\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 340,
+        "wires": [
+            [
+                "7c640db501d9413f"
+            ]
+        ]
+    },
+    {
+        "id": "a650f7533aafbca3",
+        "type": "http response",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 930,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "7c640db501d9413f",
+        "type": "file in",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 760,
+        "y": 340,
+        "wires": [
+            [
+                "a650f7533aafbca3"
+            ]
+        ]
+    },
+    {
+        "id": "33320dc6a340d263",
+        "type": "http in",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "url": "/download/:fn",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 290,
+        "y": 340,
+        "wires": [
+            [
+                "f3accdb5d3bc7345"
+            ]
+        ]
+    },
+    {
+        "id": "8d9d6b2b60a0f241",
+        "type": "ui_template",
+        "z": "fb7b6ef3825348ee",
+        "group": "e8d3a60cfc58017f",
+        "name": "Download",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<!DOCTYPE html>\n<html>\n\n<head>\n  <style>\n    .download {\n      font-family: BlinkMacSystemFont, sans-serif;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: center;\n      margin: 0 30px;\n      max-width: 350px;\n      background-color: #ffffff;\n      border-radius: 8px;\n      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n      padding: 20px;\n    }\n\n    .Picker {\n      display: flex;\n      background-color: #eeeeee;\n      border-radius: 8px;\n      overflow: hidden;\n      margin-bottom: 5px;\n    }\n\n    .datePicker {\n      flex: 1;\n      height: 30px;\n      padding: 0 10px;\n      border: none;\n      font-size: 16px;\n      color: blueviolet;\n    }\n\n    .my-button {\n      margin-top: 5px;\n      padding: 10px 20px;\n      width: 80%;\n      background-color: #0094ce;\n      color: white;\n      border: none;\n      display:flex;\n      align-items: center;\n      justify-content: center;\n      border-radius: 4px;\n      transition: background-color 0.3s ease;\n    }\n\n    .my-button:hover {\n      background-color: #00aaed;\n    }\n  </style>\n</head>\n\n<body>\n  <div class=\"download\">\n    <div class=\"Picker\">\n      <input type=\"date\" class=\"datePicker\">\n    </div>\n    <button class=\"my-button\" id=\"myButton\">DOWNLOAD</button>\n  </div>\n\n  <script>\n    const Day = document.querySelector('.datePicker');\n        var selectedDate;\n        var fileName;\n        var link;\n\n        Day.addEventListener('change', function() {\n            var dateObject = new Date(Day.value);\n            var day = dateObject.getDate();\n            var month = dateObject.getMonth() + 1;\n            var year = dateObject.getFullYear();\n            selectedDate = day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year;\n            fileName = selectedDate + '.csv';\n            link = '/download/' + fileName;\n        });\n\n        var button = document.getElementById(\"myButton\");\n        button.addEventListener(\"click\", function() {\n            console.log(link);\n            window.location.href =link;\n        });\n  </script>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1080,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "96bf7a4a0ab50e36",
+        "type": "inject",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "59 23 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
         "payload": "",
         "payloadType": "date",
         "x": 350,
         "y": 40,
         "wires": [
             [
-                "935b5e25e1830256"
+                "29bc2b3201bd7d8c"
             ]
         ]
     },
     {
-        "id": "935b5e25e1830256",
+        "id": "29bc2b3201bd7d8c",
         "type": "function",
-        "z": "2a56bfc6aa5f9e50",
+        "z": "fb7b6ef3825348ee",
         "name": "Create new file",
-        "func": "var currentDate = new Date();\nvar data = {};\n\nvar day = currentDate.getDate();\nvar month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentDate.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nvar fileName = '/home/viet/data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\nmsg.fileName = fileName;\nmsg.payload = {};\nreturn msg;",
+        "func": "var currentDate = new Date();\nvar data = {};\n\nvar day = currentDate.getDate() +1 ;\nvar month = currentDate.getMonth() +1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentDate.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nvar fileName = '/home/viet/data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\nmsg.fileName = fileName;\nmsg.payload = {};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -771,15 +2494,14 @@
         "y": 40,
         "wires": [
             [
-                "8770a9368728794f",
-                "b5ddea54e71fd852"
+                "f8da16a662a9cbbe"
             ]
         ]
     },
     {
-        "id": "8770a9368728794f",
+        "id": "f8da16a662a9cbbe",
         "type": "csv",
-        "z": "2a56bfc6aa5f9e50",
+        "z": "fb7b6ef3825348ee",
         "name": "Create csv header",
         "sep": ",",
         "hdrin": true,
@@ -795,18 +2517,18 @@
         "y": 40,
         "wires": [
             [
-                "cbc8181cec40cb88"
+                "e5600123bb815e1d"
             ]
         ]
     },
     {
-        "id": "cbc8181cec40cb88",
+        "id": "e5600123bb815e1d",
         "type": "file",
-        "z": "2a56bfc6aa5f9e50",
+        "z": "fb7b6ef3825348ee",
         "name": "new file at the start of new day",
         "filename": "fileName",
         "filenameType": "msg",
-        "appendNewline": true,
+        "appendNewline": false,
         "createDir": true,
         "overwriteFile": "false",
         "encoding": "none",
@@ -817,20 +2539,1845 @@
         ]
     },
     {
-        "id": "b5ddea54e71fd852",
+        "id": "a11269f998162254",
+        "type": "ui_form",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "label": "",
+        "group": "dfb4a60f.d788f8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Time to update",
+                "value": "timeToUpdate",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "timeToUpdate": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 250,
+        "y": 560,
+        "wires": [
+            [
+                "95ef3d77bf239562"
+            ]
+        ]
+    },
+    {
+        "id": "95ef3d77bf239562",
+        "type": "json",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 390,
+        "y": 560,
+        "wires": [
+            [
+                "25c5fb2df4d3288e"
+            ]
+        ]
+    },
+    {
+        "id": "25c5fb2df4d3288e",
+        "type": "mqtt out",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "topic": "Sub",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 570,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "cd7b94397e87e625",
+        "type": "catch",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 400,
+        "y": 420,
+        "wires": [
+            [
+                "84a3ade8101421cb",
+                "e814553f4e33c384"
+            ]
+        ]
+    },
+    {
+        "id": "84a3ade8101421cb",
+        "type": "function",
+        "z": "fb7b6ef3825348ee",
+        "name": "Set 404",
+        "func": "msg.payload = msg.error;\nmsg.statusCode = 404;//resource not found\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 420,
+        "wires": [
+            [
+                "a650f7533aafbca3"
+            ]
+        ]
+    },
+    {
+        "id": "e814553f4e33c384",
         "type": "debug",
-        "z": "2a56bfc6aa5f9e50",
-        "name": "debug 6",
+        "z": "fb7b6ef3825348ee",
+        "name": "debug 8",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "fileName",
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "c4d35706b7d26fbf",
+        "type": "ui_chart",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "group": "dfb4a60f.d788f8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "50",
+        "removeOlder": "30",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1110,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "46fde3ee4a3f1d85",
+        "type": "power-monitor",
+        "z": "fb7b6ef3825348ee",
+        "name": "",
+        "startthreshold": "0",
+        "stopthreshold": 0,
+        "startafter": 1,
+        "stopafter": 1,
+        "energydecimals": 4,
+        "emitidle": false,
+        "x": 1080,
+        "y": 520,
+        "wires": [
+            [
+                "6869dce844db60f7"
+            ]
+        ]
+    },
+    {
+        "id": "6869dce844db60f7",
+        "type": "function",
+        "z": "fb7b6ef3825348ee",
+        "name": "function 10",
+        "func": "var currentTime = new Date();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\nvar data = {};\n\nif(seconds > 56){\n    data.energy = msg.payload.energy;\n    data.topic = minutes;\n    msg.data = data;\n    msg.payload = \"stop\";\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1350,
+        "y": 460,
+        "wires": [
+            [
+                "1c914b076c925d28",
+                "46fde3ee4a3f1d85",
+                "954f89c8eb90604e"
+            ]
+        ]
+    },
+    {
+        "id": "1c914b076c925d28",
+        "type": "debug",
+        "z": "fb7b6ef3825348ee",
+        "name": "debug 17",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "data",
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
+        "x": 1500,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "954f89c8eb90604e",
+        "type": "function",
+        "z": "fb7b6ef3825348ee",
+        "name": "function 11",
+        "func": "msg.payload = msg.data.energy;\nmsg.topic = msg.data.topic;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1590,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "55fc0ceecb6a52ae",
+        "type": "debug",
+        "z": "fb7b6ef3825348ee",
+        "name": "debug 28",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "c9d918bd737c7df1",
+        "type": "inject",
+        "z": "f44abf5a8dec2d0a",
+        "name": "Init folder",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "01 00 * * *",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "homeDataFoler",
+        "payload": "/home/viet/IoT_data/",
+        "payloadType": "str",
+        "x": 230,
+        "y": 120,
+        "wires": [
+            [
+                "e139221492892edb",
+                "337f335a549d5d16"
+            ]
+        ]
+    },
+    {
+        "id": "e139221492892edb",
+        "type": "change",
+        "z": "f44abf5a8dec2d0a",
+        "name": "set to global value",
+        "rules": [
+            {
+                "t": "set",
+                "p": "folder",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "337f335a549d5d16",
+        "type": "fs-file-lister",
+        "z": "f44abf5a8dec2d0a",
+        "name": "File explore",
+        "start": "/home/viet/IoT_data/",
+        "pattern": "*.*",
+        "folders": "*",
+        "hidden": true,
+        "lstype": "files",
+        "path": false,
+        "single": true,
+        "depth": 0,
+        "stat": true,
+        "showWarnings": true,
+        "x": 450,
+        "y": 120,
+        "wires": [
+            [
+                "14f055ad78d2e445"
+            ]
+        ]
+    },
+    {
+        "id": "14f055ad78d2e445",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "function 1",
+        "func": "// format the data for the dropdown\nmsg.options = [];\nfor (var i = 0; i < msg.payload.length; i++) {\n   msg.options.push(msg.payload[i].name);\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 120,
+        "wires": [
+            [
+                "8d034c5e461283fa",
+                "3252d806f5f84b2f"
+            ]
+        ]
+    },
+    {
+        "id": "8d034c5e461283fa",
+        "type": "ui_dropdown",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "label": "File selector",
+        "tooltip": "",
+        "place": "Select file",
+        "group": "387c58da45e62fbf",
+        "order": 1,
+        "width": 16,
+        "height": 1,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 910,
+        "y": 120,
+        "wires": [
+            [
+                "69e96dc3beb4697b"
+            ]
+        ]
+    },
+    {
+        "id": "69e96dc3beb4697b",
+        "type": "change",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "fileSelected",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1130,
+        "y": 120,
+        "wires": [
+            [
+                "bc13e71d73e9b3f4"
+            ]
+        ]
+    },
+    {
+        "id": "e388f6f614da18e9",
+        "type": "ui_button",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "group": "387c58da45e62fbf",
+        "order": 3,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "Delete",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "delete",
+        "payload": "Do you want to delete this file?",
+        "payloadType": "str",
+        "topic": "Delete confirmation",
+        "topicType": "str",
+        "x": 390,
+        "y": 400,
+        "wires": [
+            [
+                "b5e569624a36edc1"
+            ]
+        ]
+    },
+    {
+        "id": "b5e569624a36edc1",
+        "type": "ui_toast",
+        "z": "f44abf5a8dec2d0a",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "YES",
+        "cancel": "NO",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 630,
+        "y": 400,
+        "wires": [
+            [
+                "756d880e6bc3481b"
+            ]
+        ]
+    },
+    {
+        "id": "756d880e6bc3481b",
+        "type": "switch",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "YES",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 850,
+        "y": 400,
+        "wires": [
+            [
+                "8576d860bba00ca7"
+            ]
+        ]
+    },
+    {
+        "id": "e2eef5cb9dfa9abc",
+        "type": "file",
+        "z": "f44abf5a8dec2d0a",
+        "name": "Delete",
+        "filename": "payload",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 1290,
+        "y": 400,
+        "wires": [
+            [
+                "337f335a549d5d16"
+            ]
+        ]
+    },
+    {
+        "id": "8576d860bba00ca7",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "Get the filename to delete",
+        "func": "msg.payload = flow.get(\"folder\") + flow.get(\"fileSelected\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 400,
+        "wires": [
+            [
+                "e2eef5cb9dfa9abc"
+            ]
+        ]
+    },
+    {
+        "id": "3252d806f5f84b2f",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "function 3",
+        "func": "var len = msg.options.length;\nif (len > 15){\n    msg.payload = \"YES\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 180,
+        "wires": [
+            [
+                "346eecdece9cb31d"
+            ]
+        ]
+    },
+    {
+        "id": "346eecdece9cb31d",
+        "type": "switch",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "YES",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 990,
+        "y": 180,
+        "wires": [
+            [
+                "6f1e9a4af5aac80e"
+            ]
+        ]
+    },
+    {
+        "id": "6f1e9a4af5aac80e",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "function 4",
+        "func": "msg.payload = flow.get(\"folder\") + msg.options[0];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1160,
+        "y": 180,
+        "wires": [
+            [
+                "e2eef5cb9dfa9abc"
+            ]
+        ]
+    },
+    {
+        "id": "70ceb8613239da8b",
+        "type": "comment",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "info": "Tạo 1 select box bằng html để lấy file thay vì\ndùng có sẵn của node-red\nDùng 1 node template để tạo nút bấm, \nbấm nút sẽ gửi lệnh vẽ biểu đồ",
+        "x": 1580,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "f3f1743b8c655d4f",
+        "type": "ui_button",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "group": "387c58da45e62fbf",
+        "order": 4,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "graph",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "fa-line-chart",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 90,
+        "y": 620,
+        "wires": [
+            [
+                "5f01bb10575659de"
+            ]
+        ]
+    },
+    {
+        "id": "8c7a532c236922e1",
+        "type": "ui_chart",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "group": "80d4c61b8d7e332f",
+        "order": 1,
+        "width": 6,
+        "height": 6,
+        "label": "{{msg.filename}}",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "50",
+        "removeOlder": "24",
+        "removeOlderPoints": "3000",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1150,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "832b5d25f1b9f472",
+        "type": "file in",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "filename": "filename",
+        "filenameType": "msg",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 400,
+        "y": 620,
+        "wires": [
+            [
+                "62f71d188d421468"
+            ]
+        ]
+    },
+    {
+        "id": "62f71d188d421468",
+        "type": "csv",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "sep": ",",
+        "hdrin": false,
+        "hdrout": "",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "timeStamp, temperature, humidity, power",
+        "skip": "1",
+        "strings": true,
+        "include_empty_strings": false,
+        "include_null_values": false,
+        "x": 570,
+        "y": 620,
+        "wires": [
+            [
+                "ccefb89aa46f8fdf"
+            ]
+        ]
+    },
+    {
+        "id": "ccefb89aa46f8fdf",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "graph generate",
+        "func": "\nfunction toTimestamp(strDate) {\n  var datum = Date.parse(strDate);\n  return datum ;\n}\nvar payload = msg.payload;\nconst fileName = flow.get(\"fileSelected\");\nconst datePart = fileName.split(\".\")[0]; // Tách phần trước dấu chấm (phần ngày tháng năm)\nconst [day, month, year] = datePart.split(\"_\"); // Tách thành phần ngày, tháng, năm\n\nconst formattedDate = `${day}/${month}/${year}`;\nconst formattedDate2 = `${month}/${day}/${year}`;\nmsg.filename = formattedDate;\n\n\nvar temperature_out=[];\nvar humidity_out=[];\nvar power_out=[];\n\nvar temperature=[];\nvar humidity=[];\nvar power=[];\nvar energy = [];\nvar kWh = 0;\nvar sum_energy = 0;\n\nfor (let i = 0; i < payload.length; i++) {\n  var ts = payload[i][\"timeStamp\"];\n  const timeParts = ts.split(\":\");\n  const hours = parseInt(timeParts[0]) +1 ;\n  const minutes = parseInt(timeParts[1]);\n  const seconds = parseInt(timeParts[2]);\n  if(minutes > 58 && seconds >= 57){\n    var temp4 = { \"time\": hours, \"energy\": parseFloat(kWh.toFixed(2)) };\n    energy.push(temp4);\n    sum_energy = sum_energy + kWh;\n    kWh = 0;\n  } else {\n    kWh = kWh + payload[i][\"power\"] * 3 / 3600 ;\n  }\n\n  if (i % 100 == 0) {\n\n    var t = formattedDate2;\n    var timestamp = toTimestamp(t + \" \" + payload[i][\"timeStamp\"]);\n\n    var temp1 = { \"x\": timestamp, \"y\": payload[i][\"temperature\"] };\n    temperature.push(temp1);\n\n    var temp2 = { \"x\": timestamp, \"y\": payload[i][\"humidity\"] };\n    humidity.push(temp2);\n\n    var temp3 = { \"x\": timestamp, \"y\": payload[i][\"power\"] };\n    power.push(temp3);\n  }\n\n}\n\nvar data = {}\n\ntemperature_out=[temperature];\nhumidity_out=[humidity];\npower_out=[power];\n\ndata.temperature=[{\n\"series\": [\"Temperature\"],\n\"data\":temperature_out,\n\"labels\": [\"Tem\"]\n}];\n\ndata.humidity=[{\n\"series\": [\"Humidity\"],\n\"data\":humidity_out,\n\"labels\": [\"hum\"]\n}];\n\ndata.power=[{\n\"series\": [\"Power\"],\n\"data\":power_out,\n\"labels\": [\"pow\"]\n}];\n\ndata.energy = energy;\ndata.sum_energy = sum_energy;\n\nmsg.payload = data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 740,
-        "y": 20,
+        "y": 620,
+        "wires": [
+            [
+                "90e9249810cef4a3",
+                "a1be6d78badacf07",
+                "7747dfb48313cf06",
+                "fd7679b440fe665d",
+                "9a36148acf043e5e"
+            ]
+        ]
+    },
+    {
+        "id": "5f01bb10575659de",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "function 5",
+        "func": "msg.filename = flow.get(\"folder\") + flow.get(\"fileSelected\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 620,
+        "wires": [
+            [
+                "832b5d25f1b9f472"
+            ]
+        ]
+    },
+    {
+        "id": "9adbbb97f790f6fe",
+        "type": "ui_button",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "group": "387c58da45e62fbf",
+        "order": 2,
+        "width": 2,
+        "height": 1,
+        "passthru": false,
+        "label": "REFRESH",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "refresh",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [
+                "337f335a549d5d16"
+            ]
+        ]
+    },
+    {
+        "id": "90e9249810cef4a3",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "temperature",
+        "func": "msg.payload = msg.payload.temperature;\nmsg.topic = \"Temperature\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 560,
+        "wires": [
+            [
+                "8c7a532c236922e1"
+            ]
+        ]
+    },
+    {
+        "id": "a1be6d78badacf07",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "humidity",
+        "func": "msg.payload = msg.payload.humidity;\nmsg.topic = \"Humidity\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 620,
+        "wires": [
+            [
+                "69d342508a35c184"
+            ]
+        ]
+    },
+    {
+        "id": "7747dfb48313cf06",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "power",
+        "func": "msg.payload = msg.payload.power;\nmsg.topic = \"Power\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 680,
+        "wires": [
+            [
+                "e68b81c0d0cb45d6"
+            ]
+        ]
+    },
+    {
+        "id": "69d342508a35c184",
+        "type": "ui_chart",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "group": "330c74fd56fb8a42",
+        "order": 1,
+        "width": 6,
+        "height": 6,
+        "label": "{{msg.filename}}",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "24",
+        "removeOlderPoints": "3000",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1150,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e68b81c0d0cb45d6",
+        "type": "ui_chart",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "group": "81a1a0f86dbd7ea7",
+        "order": 1,
+        "width": 6,
+        "height": 6,
+        "label": "{{msg.filename}}",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "50",
+        "removeOlder": "24",
+        "removeOlderPoints": "3000",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1150,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fd7679b440fe665d",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "energy",
+        "func": "msg.sum = msg.payload.sum_energy;\nmsg.sum = 'Total: ' + msg.sum.toFixed(2) + ' Wh ';\nmsg.payload = msg.payload.energy;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 760,
+        "wires": [
+            [
+                "0f1823e59892a5ba"
+            ]
+        ]
+    },
+    {
+        "id": "d355033dd9f0b672",
+        "type": "ui_chart",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "group": "a8efce5e22380e30",
+        "order": 1,
+        "width": 6,
+        "height": 6,
+        "label": "{{msg.sum}}",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "24",
+        "removeOlderPoints": "3000",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1410,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cd2efad2b94d01c2",
+        "type": "change",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "payload.time",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.energy",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1200,
+        "y": 760,
+        "wires": [
+            [
+                "d355033dd9f0b672"
+            ]
+        ]
+    },
+    {
+        "id": "bc13e71d73e9b3f4",
+        "type": "function",
+        "z": "f44abf5a8dec2d0a",
+        "name": "function 17",
+        "func": "msg.payload = [];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1490,
+        "y": 340,
+        "wires": [
+            [
+                "8c7a532c236922e1",
+                "69d342508a35c184",
+                "e68b81c0d0cb45d6",
+                "d355033dd9f0b672"
+            ]
+        ]
+    },
+    {
+        "id": "0f1823e59892a5ba",
+        "type": "split",
+        "z": "f44abf5a8dec2d0a",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 1050,
+        "y": 760,
+        "wires": [
+            [
+                "cd2efad2b94d01c2"
+            ]
+        ]
+    },
+    {
+        "id": "9a36148acf043e5e",
+        "type": "debug",
+        "z": "f44abf5a8dec2d0a",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "92c7f23125feb38e",
+        "type": "inject",
+        "z": "675b79776999a17a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "219b90cf165ab245"
+            ]
+        ]
+    },
+    {
+        "id": "219b90cf165ab245",
+        "type": "function",
+        "z": "675b79776999a17a",
+        "name": "function 16",
+        "func": "var currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = currentTime.getHours();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\nmsg.payload = hours.toString().padStart(2, '0') + ' : ' + minutes.toString().padStart(2, '0') + ' : ' + seconds.toString().padStart(2, '0')\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 140,
+        "wires": [
+            [
+                "7028c8b54ef5ea3d"
+            ]
+        ]
+    },
+    {
+        "id": "7028c8b54ef5ea3d",
+        "type": "ui_text",
+        "z": "675b79776999a17a",
+        "group": "75cd05531acc8dd7",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "text",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 470,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "e58e76a4bc241bd5",
+        "type": "ui_template",
+        "z": "675b79776999a17a",
+        "group": "75cd05531acc8dd7",
+        "name": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<style>\n    .value{\n    font-size: 20px;}\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 660,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "942659ace3b62545",
+        "type": "mqtt in",
+        "z": "675b79776999a17a",
+        "name": "",
+        "topic": "kookdump",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 240,
+        "wires": [
+            [
+                "2564391c73838363"
+            ]
+        ]
+    },
+    {
+        "id": "e9cc43d704bf60a2",
+        "type": "ui_form",
+        "z": "675b79776999a17a",
+        "name": "",
+        "label": "",
+        "group": "f5695f99a4099ee6",
+        "order": 1,
+        "width": "6",
+        "height": 3,
+        "options": [
+            {
+                "label": "User Name",
+                "value": "name",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "name": ""
+        },
+        "payload": "",
+        "submit": "Oke! Thêm",
+        "cancel": "Đéo cho",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 210,
+        "y": 400,
+        "wires": [
+            [
+                "aba2b5616cd38468"
+            ]
+        ]
+    },
+    {
+        "id": "aba2b5616cd38468",
+        "type": "json",
+        "z": "675b79776999a17a",
+        "name": "",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 350,
+        "y": 400,
+        "wires": [
+            [
+                "08b1650a0b38f4c9"
+            ]
+        ]
+    },
+    {
+        "id": "08b1650a0b38f4c9",
+        "type": "mqtt out",
+        "z": "675b79776999a17a",
+        "name": "",
+        "topic": "kook",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 530,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "2564391c73838363",
+        "type": "ui_text",
+        "z": "675b79776999a17a",
+        "group": "f5695f99a4099ee6",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Cúc vừa thêm tên:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 430,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "dd684e3bae4dfdb3",
+        "type": "mqtt out",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 620,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "36323be93c51791e",
+        "type": "inject",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "dc36572364536da6"
+            ]
+        ]
+    },
+    {
+        "id": "dc36572364536da6",
+        "type": "function",
+        "z": "59200bc147a8e4e4",
+        "name": "function 20",
+        "func": "msg.payload = \"OnRelay2\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 260,
+        "wires": [
+            [
+                "dd684e3bae4dfdb3",
+                "436a0c4ff601f479"
+            ]
+        ]
+    },
+    {
+        "id": "436a0c4ff601f479",
+        "type": "debug",
+        "z": "59200bc147a8e4e4",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "12038bfc4cd5bc52",
+        "type": "mqtt out",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 660,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "9ed71e65448cfff8",
+        "type": "inject",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 460,
+        "wires": [
+            [
+                "eab38ba300da93d8"
+            ]
+        ]
+    },
+    {
+        "id": "eab38ba300da93d8",
+        "type": "function",
+        "z": "59200bc147a8e4e4",
+        "name": "function 21",
+        "func": "msg.payload = \"OffRelay2\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "12038bfc4cd5bc52",
+                "b2731545b3d1db68"
+            ]
+        ]
+    },
+    {
+        "id": "b2731545b3d1db68",
+        "type": "debug",
+        "z": "59200bc147a8e4e4",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "ba79aa408849c2b7",
+        "type": "mqtt out",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 680,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "571541d887184eb5",
+        "type": "inject",
+        "z": "59200bc147a8e4e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 660,
+        "wires": [
+            [
+                "ccd6e91401d4f97e"
+            ]
+        ]
+    },
+    {
+        "id": "ccd6e91401d4f97e",
+        "type": "function",
+        "z": "59200bc147a8e4e4",
+        "name": "function 22",
+        "func": "msg.payload = \"OffRelay1\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 680,
+        "wires": [
+            [
+                "ba79aa408849c2b7",
+                "b66d1f6c9d6074f8"
+            ]
+        ]
+    },
+    {
+        "id": "b66d1f6c9d6074f8",
+        "type": "debug",
+        "z": "59200bc147a8e4e4",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "43a62c5cd6382c8c",
+        "type": "mqtt in",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/data",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 540,
+        "wires": [
+            [
+                "424a64e725daa3d3"
+            ]
+        ]
+    },
+    {
+        "id": "424a64e725daa3d3",
+        "type": "debug",
+        "z": "7a58303c52d57c05",
+        "name": "debug 33",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "14b2404caa0176cb",
+        "type": "inject",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 300,
+        "wires": [
+            [
+                "1336b3f607618296"
+            ]
+        ]
+    },
+    {
+        "id": "1336b3f607618296",
+        "type": "function",
+        "z": "7a58303c52d57c05",
+        "name": "function 23",
+        "func": "msg.payload = \"testwarning\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 300,
+        "wires": [
+            [
+                "143da080ee05cc12"
+            ]
+        ]
+    },
+    {
+        "id": "143da080ee05cc12",
+        "type": "mqtt out",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 720,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "8144abe519238758",
+        "type": "inject",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 380,
+        "wires": [
+            [
+                "e9a501cfeee39990"
+            ]
+        ]
+    },
+    {
+        "id": "e9a501cfeee39990",
+        "type": "function",
+        "z": "7a58303c52d57c05",
+        "name": "function 24",
+        "func": "msg.payload = \"OffRelay1\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 380,
+        "wires": [
+            [
+                "8fb77f0bf27dd51e"
+            ]
+        ]
+    },
+    {
+        "id": "8fb77f0bf27dd51e",
+        "type": "mqtt out",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 720,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "16395b5aa4fdf019",
+        "type": "inject",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 660,
+        "wires": [
+            [
+                "51b3d98a0269f66c"
+            ]
+        ]
+    },
+    {
+        "id": "51b3d98a0269f66c",
+        "type": "function",
+        "z": "7a58303c52d57c05",
+        "name": "function 25",
+        "func": "msg.payload = \"OnRelay2\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 660,
+        "wires": [
+            [
+                "ac47b8115e831db1"
+            ]
+        ]
+    },
+    {
+        "id": "ac47b8115e831db1",
+        "type": "mqtt out",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 760,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "49ecf3d0bfc9a476",
+        "type": "inject",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 740,
+        "wires": [
+            [
+                "22fe5327bb5fc593"
+            ]
+        ]
+    },
+    {
+        "id": "22fe5327bb5fc593",
+        "type": "function",
+        "z": "7a58303c52d57c05",
+        "name": "function 26",
+        "func": "msg.payload = \"OffRelay2\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 740,
+        "wires": [
+            [
+                "80e75d1b0b108aa6"
+            ]
+        ]
+    },
+    {
+        "id": "80e75d1b0b108aa6",
+        "type": "mqtt out",
+        "z": "7a58303c52d57c05",
+        "name": "",
+        "topic": "esp32/doAn1/control",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 760,
+        "y": 740,
         "wires": []
     }
 ]
