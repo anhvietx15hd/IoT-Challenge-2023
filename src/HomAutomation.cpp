@@ -96,26 +96,19 @@ void ReadSensors(void *pvParameters)
 {
     (void) pvParameters;
     while(true){
+        if (!client.connected()) {
+            setupMQTTConnection();
+        }
+        client.loop();
+        client.subscribe(subscribe_topic.c_str());
+
         power = ina219.getPower_mW();
         humidity = dht.readHumidity();
         temperature = dht.readTemperature();
         lightSensor = !digitalRead(LIGHT_SENSOR);  // LightSensor
         gas = !digitalRead(GAS_SENSOR);    // co2_value: 1 -> có CO2 ; 0 -> ko có Co2
         humanDetected = digitalRead(HUMAN_DETECT);
-        vTaskDelay(500);
-    }
-}
 
-void DataProcessing(void *pvParameters){
-    (void) pvParameters;
-
-    while(true){
-        if (!client.connected()) {
-            setupMQTTConnection();
-        }
-        client.loop();
-        client.subscribe(subscribe_topic.c_str());
-        
         long now = millis();
         if(now - lastSentMsg > timeToUpdate){
             sendSensorsData();
@@ -151,7 +144,18 @@ void buzzer(void){
 }
 
 void controlDevice(void){
-    
+    /*Update the light state with local switch*/
+    if(digitalRead(CEILING_LIGHT_SWITCH) != ceilingLightSwitchStatus){
+        ceilingLightStatus = (! ceilingLightStatus);
+        ceilingLightSwitchStatus = digitalRead(CEILING_LIGHT_SWITCH);
+    }
+    if(digitalRead(WALL_LIGHT_SWITCH) != wallLightSwitchStatus){
+        wallLightStatus = (! wallLightStatus);
+        wallLightSwitchStatus = digitalRead(WALL_LIGHT_SWITCH);
+    }
+    /*Update to the relay*/
+    digitalWrite(CEILING_LIGHT, ceilingLightStatus);
+    digitalWrite(WALL_LIGHT, wallLightStatus);
 }
 /**********************************************************
  * End of file

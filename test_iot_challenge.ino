@@ -3,7 +3,6 @@
 #include <WiFi.h>
 #include <Wire.h>
 #include <PubSubClient.h>
-#include <SimpleKalmanFilter.h>
 #include <LiquidCrystal_I2C.h>
 #include "Adafruit_INA219.h"
 #include <math.h>
@@ -22,6 +21,8 @@
 #define ledGreen 33
 #define ledBlue 26
 #define btnConfig 35
+#define btnRelay1 13
+#define btnRelay2 34
 
 #define DHTTYPE DHT22
 
@@ -40,7 +41,6 @@ StaticJsonDocument<256> JSONbuffer;
 JsonObject JSONencoder = JSONbuffer.to<JsonObject>();
 WiFiClient espClient;
 PubSubClient client(espClient);
-SimpleKalmanFilter bo_loc(2, 2, 0.005);
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -72,6 +72,8 @@ bool stateRelay1 = 1;   // 1 is off
 bool stateRelay2 = 1;
 bool security = 0;
 bool enable_relay2 = 0;
+bool statePreRelay1 = 0;
+bool statePreRelay2 = 0;
 
 
 
@@ -84,10 +86,7 @@ String state_str;   // STATE STRING OF
 
 // END define varible
 
-//void IRAM_ATTR isr1() {
-//  pos = 1;
-//
-//}
+
 
 // update Menu function
 void updateMenu() {
@@ -145,12 +144,19 @@ void setup() {
   pinMode(Relay2, OUTPUT);
   digitalWrite(Relay1, 1); // turn off relay2
   digitalWrite(Relay2, 1); // turn off relay2
+  pinMode(btnRelay1, INPUT);
+  pinMode(btnRelay2, INPUT);
+
   pinMode(ledRed, OUTPUT);
   pinMode(ledGreen, OUTPUT);
   pinMode(ledBlue, OUTPUT);
   digitalWrite(ledRed, 1);
   digitalWrite(ledGreen, 1);
   digitalWrite(ledBlue, 1);
+  statePreRelay1 = digitalRead(btnRelay1);
+  statePreRelay2 = digitalRead(btnRelay2);
+
+
   if (! ina219.begin()) {
     Serial.println("Failed to find INA219 chip");
     while (1) {
@@ -175,7 +181,7 @@ void setup() {
   lcd.print("Connecting...");
   delay(1000);
   setup_wifi();
-//  attachInterrupt(button_down, isr1, FALLING);  // ATTACH INTERRUPT FUNCTION
+
 
   client.setServer(mqtt_server, port_id);
   client.setCallback(callback);
@@ -371,6 +377,19 @@ unsigned long timer_warning = 0;
 
 
 void loop() {
+
+  if (digitalRead(btnRelay1) != statePreRelay1)
+  {
+    stateRelay1 = !stateRelay1;
+    statePreRelay1 = digitalRead(btnRelay1);
+  }
+  if (digitalRead(btnRelay2) != statePreRelay2)
+  {
+    stateRelay2 = !stateRelay2;
+    statePreRelay2 = digitalRead(btnRelay2);
+  }
+  Serial.print("Data Relay 1 BTN:"); Serial.println(digitalRead(btnRelay1));
+  Serial.print("Data Relay 2 BTN:"); Serial.println(digitalRead(btnRelay2));
   lcd.setCursor(8, 0);
   lcd.print("Tem:");
   lcd.setCursor(8, 1);

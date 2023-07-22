@@ -31,6 +31,8 @@ extern float temperature;
 extern bool ceilingLightStatus; //Normal Close
 extern bool wallLightStatus; //Normal Close
 extern bool security;
+extern bool ceilingLightSwitchStatus;
+extern bool wallLightSwitchStatus;
 
 /**
  * @brief This function to read sensors data
@@ -44,15 +46,7 @@ void ReadSensors(void *pvParameters);
  * 
  * @param pvParameters 
  */
-void DataProcessing(void *pvParameters);
 
-/**
- * @brief This function to process data which received from server
- * 
- * @param topic 
- * @param payload 
- * @param length 
- */
 void callback(char* topic, byte* payload, uint16_t length);
 
 /**

@@ -49,6 +49,8 @@ float temperature = 0;
 bool ceilingLightStatus = true; //Normal Close
 bool wallLightStatus = true; //Normal Close
 bool security = 0;
+bool ceilingLightSwitchStatus;
+bool wallLightSwitchStatus;
 
 float waterTemperature = 0.0;
 
@@ -72,10 +74,14 @@ void setup(){
 
     pinMode(GAS_SENSOR, INPUT);
     pinMode(LIGHT_SENSOR, INPUT);
+    pinMode(CEILING_LIGHT_SWITCH, INPUT);
+    pinMode(WALL_LIGHT_SWITCH, INPUT);
     /*Turn off the lights at the start*/
     digitalWrite(CEILING_LIGHT, HIGH); 
     digitalWrite(WALL_LIGHT, HIGH);
-
+    /*Update the switch status*/
+    ceilingLightSwitchStatus = digitalRead(CEILING_LIGHT_SWITCH);
+    wallLightSwitchStatus = digitalRead(WALL_LIGHT_SWITCH); 
     /*Set up device*/
     while(! ina219.begin()){
         Serial.println("Failed to find INA219 chip");
@@ -109,15 +115,6 @@ void setup(){
     ,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
     ,  NULL
     ,  1);
-  xTaskCreatePinnedToCore(
-    DataProcessing
-    ,  "Data_Processing"
-    ,  4000  // Stack size
-    ,  NULL
-    ,  1  // Priority
-    ,  NULL
-    ,  1);
-    delay(500);
 }
 
 void loop(){
