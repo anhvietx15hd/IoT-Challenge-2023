@@ -33,6 +33,11 @@
 #define CONFIG_BUTTON                   35u
 #define CEILING_LIGHT_SWITCH            13u
 #define WALL_LIGHT_SWITCH               34u
+/*Light state*/
+#define LIGHT_ON                        LOW
+#define LIGHT_OFF                       HIGH
+/*Time to update display*/
+#define TIME_TO_UPDATE_DISPLAY          5000u
 
 #endif /* Config*/
 /***********************************************
