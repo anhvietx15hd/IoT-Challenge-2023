@@ -30,7 +30,7 @@ extern float temperature;
 /*Device status*/
 extern bool ceilingLightStatus; //Normal Close
 extern bool wallLightStatus; //Normal Close
-extern bool security;
+extern bool yardLightStatus;
 extern bool ceilingLightSwitchStatus;
 extern bool wallLightSwitchStatus;
 

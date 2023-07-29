@@ -47,9 +47,9 @@ bool humanDetected = false;
 float humidity = 0;
 float temperature = 0;
 /*Device status*/
-bool ceilingLightStatus = true; //Normal Close
-bool wallLightStatus = true; //Normal Close
-bool security = 0;
+bool ceilingLightStatus = LIGHT_OFF; //Normal Close
+bool wallLightStatus = LIGHT_OFF; //Normal Close
+bool yardLightStatus = LIGHT_OFF;
 bool ceilingLightSwitchStatus;
 bool wallLightSwitchStatus;
 
@@ -78,8 +78,8 @@ void setup(){
     pinMode(CEILING_LIGHT_SWITCH, INPUT);
     pinMode(WALL_LIGHT_SWITCH, INPUT);
     /*Turn off the lights at the start*/
-    digitalWrite(CEILING_LIGHT, HIGH); 
-    digitalWrite(WALL_LIGHT, HIGH);
+    digitalWrite(CEILING_LIGHT, LIGHT_OFF); 
+    digitalWrite(WALL_LIGHT, LIGHT_OFF);
     /*Update the switch status*/
     ceilingLightSwitchStatus = digitalRead(CEILING_LIGHT_SWITCH);
     wallLightSwitchStatus = digitalRead(WALL_LIGHT_SWITCH); 
@@ -163,11 +163,16 @@ void loop(){
     //delay(100);
     digitalWrite(CEILING_LIGHT, ceilingLightStatus);
     digitalWrite(WALL_LIGHT, wallLightStatus);
+
+
     if(isConfigButtonPressed == true){
         getConfig();
     }
+    if (!client.connected()) {
+        setupMQTTConnection();
+    }
     controlDevice();
-    
+    parametersDisplay();
     client.loop();
 }
 /**********************************************************

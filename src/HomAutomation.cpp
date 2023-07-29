@@ -1,8 +1,11 @@
 /************************************************
- * Definition
+ * Includes
 ************************************************/
-#include <Arduino.h>
 #include "HomeAutomation.h"
+/************************************************
+ * Variable
+************************************************/
+static DynamicJsonDocument lightStatus(256);
 /***********************************************
  * Prototype
 ************************************************/
@@ -32,6 +35,12 @@ static void sendSensorsData(void);
  * 
  */
 void buzzer(void);
+
+/**
+ * @brief Collect and send light status to server as a JSON document
+ * Relays are nomal close, so have to send inverse value of light status
+ */
+static void sendLightStatus(void);
 /************************************************
  * Codes
 ************************************************/
@@ -54,39 +63,25 @@ static void getActiveStatus(String &message){
     Serial.println(str);
 
     if (strcmp(str, "ON_ceilingLight") == 0){
-        ceilingLightStatus = false;
-    //    display(0, 0, "ON", "CeilingLight");
-        LCD.setCursor(3, 0);
-        LCD.print("     ");
+
+        ceilingLightStatus = LIGHT_ON;
     }
     else if (strcmp(str, "OFF_ceilingLight") == 0){
-        ceilingLightStatus = true;
-    //    display(0, 0, "OFF", "CeilingLight");
-        LCD.setCursor(3, 0);
-        LCD.print("     ");
+        ceilingLightStatus = LIGHT_OFF;
     }
     else if (strcmp(str, "ON_wallLight") == 0){
-        wallLightStatus = false;
-    //    display(0, 0, "ON", "WallLight");
-        LCD.setCursor(3, 1);
-        LCD.print("     ");
+        wallLightStatus = LIGHT_ON;
     }
     else if(strcmp(str, "OFF_wallLight") == 0){
-        wallLightStatus = true;
-    //    display(0, 0, "OFF", "OFFLight");
-        LCD.setCursor(3, 1);
-        LCD.print("     ");
+        wallLightStatus = LIGHT_OFF;    }
+    else if (strcmp(str, "ON_yardLight") == 0){
+        yardLightStatus = LIGHT_ON;
     }
-    // else if (str == "ON_security"){
-    //     security = true;
-    // //    display(0, 0, "ON", "ON_security");
-    // }
-    // else if (str == "OFF_security"){
-    //     security = false;
-    // //    display(0, 0, "OFF", "ON_security");
-    // }
+    else if (strcmp (str, "OFF_yardLight") == 0){
+        yardLightStatus = LIGHT_OFF;
+    }
     else{
-         getTimeToUpdate(message);
+        getTimeToUpdate(message);
     }
     Serial.println("______________________________________________");
 }
@@ -104,9 +99,8 @@ void ReadSensors(void *pvParameters)
 {
     (void) pvParameters;
     while(true){
-        if (!client.connected()) {
-            setupMQTTConnection();
-        }
+        long now = millis();
+
         client.loop();
         client.subscribe(subscribe_topic.c_str());
 
@@ -117,9 +111,9 @@ void ReadSensors(void *pvParameters)
         gas = !digitalRead(GAS_SENSOR);    // co2_value: 1 -> có CO2 ; 0 -> ko có Co2
         humanDetected = digitalRead(HUMAN_DETECT);
 
-        long now = millis();
-        if(now - lastSentMsg > timeToUpdate){
+        if((now - lastSentMsg > timeToUpdate) && (client.connected())){
             sendSensorsData();
+            lastSentMsg = now;
         }
         if (now - lastSentMsg >=1000){
         digitalWrite(STATUS_LED_GREEN, LOW);
@@ -129,7 +123,6 @@ void ReadSensors(void *pvParameters)
 }
 
 static void sendSensorsData(void){
-    lastSentMsg = millis();
     doc["temperature"]  = temperature;
     doc["lightSensor"] = lightSensor;
     doc["gas"] = gas;
@@ -157,30 +150,30 @@ void controlDevice(void){
     if(digitalRead(CEILING_LIGHT_SWITCH) != ceilingLightSwitchStatus){
         ceilingLightStatus = (! ceilingLightStatus);
         ceilingLightSwitchStatus = digitalRead(CEILING_LIGHT_SWITCH);
-        
-        state_light_Json["ceilingLightStatus"] = !ceilingLightStatus;
-        state_light_Json["wallLightStatus"] = !wallLightStatus;
-        String Jdata;
-        serializeJson(state_light_Json, Jdata);
-        client.publish("LightStatus", Jdata.c_str());
-        LCD.setCursor(3, 0);
-        LCD.print("     ");
+        sendLightStatus();
+
     }
     if(digitalRead(WALL_LIGHT_SWITCH) != wallLightSwitchStatus){
         wallLightStatus = (! wallLightStatus);
         wallLightSwitchStatus = digitalRead(WALL_LIGHT_SWITCH);
-        
-        state_light_Json["ceilingLightStatus"] = !ceilingLightStatus;
-        state_light_Json["wallLightStatus"] = !wallLightStatus;
-        String Jdata;
-        serializeJson(state_light_Json, Jdata);
-        client.publish("LightStatus", Jdata.c_str());
-        LCD.setCursor(3, 1);
-        LCD.print("     ");
+        sendLightStatus();
     }
     /*Update to the relay*/
     digitalWrite(CEILING_LIGHT, ceilingLightStatus);
     digitalWrite(WALL_LIGHT, wallLightStatus);
+}
+
+static void sendLightStatus(void){
+    lightStatus["ceilingLightStatus"] = (! ceilingLightStatus);
+    lightStatus["wallLightStatus"]    = (! wallLightStatus);
+    
+    String message;
+    serializeJson(lightStatus, message);
+    /*Send data to server*/
+    client.publish("LightStatus", message.c_str());
+    /*Set the new curSor*/
+    LCD.setCursor(3, 1);
+    LCD.print("     ");
 }
 /**********************************************************
  * End of file
