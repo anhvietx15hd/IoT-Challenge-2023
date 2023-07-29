@@ -1,6 +1,7 @@
 /************************************************
  * Includes
 ************************************************/
+#include <Arduino.h>
 #include "HomeAutomation.h"
 /************************************************
  * Variable
@@ -100,7 +101,7 @@ void ReadSensors(void *pvParameters)
     (void) pvParameters;
     while(true){
         long now = millis();
-
+        
         client.loop();
         client.subscribe(subscribe_topic.c_str());
 

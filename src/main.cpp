@@ -49,7 +49,7 @@ float temperature = 0;
 /*Device status*/
 bool ceilingLightStatus = LIGHT_OFF; //Normal Close
 bool wallLightStatus = LIGHT_OFF; //Normal Close
-bool yardLightStatus = LIGHT_OFF;
+bool yardLightStatuc = LIGHT_OFF;
 bool ceilingLightSwitchStatus;
 bool wallLightSwitchStatus;
 
