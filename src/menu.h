@@ -23,14 +23,12 @@ extern bool wallLightStatus ;
  * @param textLine1 
  */
 void display(int cursorLine0, int cursorLine1, String textLine0, String textLine1);
-void display_update();
 
 /**
  * @brief Display environment parameters
  * 
  */
 void parametersDisplay(void);
-
 #endif /*Menu*/
 /**********************************************************
  * End of file

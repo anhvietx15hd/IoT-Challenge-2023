@@ -26,9 +26,6 @@ void display(int cursorLine0, int cursorLine1, String textLine0, String textLine
   LCD.print(textLine1);
 }
 
-
-
-
 void parametersDisplay(void){
   LCD.setCursor(8, 0);
   LCD.print("Tem:");
@@ -74,7 +71,6 @@ static void updateDisplay(void){
   }
   delay(100);
 }
->>>>>>> main
 
 /**********************************************************
  * End of file

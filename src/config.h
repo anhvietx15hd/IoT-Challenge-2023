@@ -28,7 +28,7 @@
 #define DHT_SENSOR                      27u
 #define DHT_TYPE                        DHT22
 #define STATUS_LED_RED                  33u
-#define STATUS_LED_GREEN                32u
+#define STATUS_LED_GREEN                26u
 #define STATUS_LED_BLUE                 25u
 #define CONFIG_BUTTON                   35u
 #define CEILING_LIGHT_SWITCH            13u

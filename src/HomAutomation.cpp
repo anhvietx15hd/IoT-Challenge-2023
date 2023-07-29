@@ -63,7 +63,6 @@ static void getActiveStatus(String &message){
     Serial.println(str);
 
     if (strcmp(str, "ON_ceilingLight") == 0){
-
         ceilingLightStatus = LIGHT_ON;
     }
     else if (strcmp(str, "OFF_ceilingLight") == 0){
@@ -146,12 +145,10 @@ void buzzer(void){
 
 void controlDevice(void){
     /*Update the light state with local switch*/
-    StaticJsonDocument<256> state_light_Json;
     if(digitalRead(CEILING_LIGHT_SWITCH) != ceilingLightSwitchStatus){
         ceilingLightStatus = (! ceilingLightStatus);
         ceilingLightSwitchStatus = digitalRead(CEILING_LIGHT_SWITCH);
         sendLightStatus();
-
     }
     if(digitalRead(WALL_LIGHT_SWITCH) != wallLightSwitchStatus){
         wallLightStatus = (! wallLightStatus);
