@@ -34,6 +34,7 @@ LiquidCrystal_I2C LCD(0X27,16,2);
 DHT dht(DHT_SENSOR, DHT_TYPE);
 // Create a JSON document to write sensor data
 DynamicJsonDocument doc(256); 
+void updateMenu();
 
 bool isConfigButtonPressed = false;
 /*The last time a message was published the server*/
@@ -115,13 +116,58 @@ void setup(){
     ,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
     ,  NULL
     ,  1);
+    LCD.clear();
+}
+void updateMenu() {
+  LCD.setCursor(12, 0);
+  LCD.print("    ");
+  LCD.setCursor(12, 1);
+  LCD.print("    ");
+
+  LCD.setCursor(12, 0);
+  LCD.print(temperature);
+  LCD.setCursor(12, 1);
+  LCD.print(humidity);
+  if (ceilingLightStatus == 0) {   // state On
+    LCD.setCursor(4, 0);
+    LCD.print("ON");
+  }
+  else  {
+    LCD.setCursor(4, 0);
+
+    LCD.print("OFF");
+  }
+  if (wallLightStatus == 0) {   // state On
+    LCD.setCursor(4, 1);
+    LCD.print("ON");
+  }
+  else  {
+    LCD.setCursor(4, 1);
+
+    LCD.print("OFF");
+  }
+  delay(100);
 }
 
 void loop(){
+    LCD.setCursor(8, 0);
+    LCD.print("Tem:");
+    LCD.setCursor(8, 1);
+    LCD.print("Hum:");
+    LCD.setCursor(0, 0);
+    LCD.print("L1:");
+    LCD.setCursor(0, 1);
+    LCD.print("L2:");
+    //delay(500);
+    updateMenu();
+    //delay(100);
+    digitalWrite(CEILING_LIGHT, ceilingLightStatus);
+    digitalWrite(WALL_LIGHT, wallLightStatus);
     if(isConfigButtonPressed == true){
         getConfig();
     }
     controlDevice();
+    
     client.loop();
 }
 /**********************************************************

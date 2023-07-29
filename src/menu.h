@@ -12,6 +12,7 @@ extern LiquidCrystal_I2C LCD;
  * @param textLine1 
  */
 void display(int cursorLine0, int cursorLine1, String textLine0, String textLine1);
+void display_update();
 #endif /*Menu*/
 /**********************************************************
  * End of file
