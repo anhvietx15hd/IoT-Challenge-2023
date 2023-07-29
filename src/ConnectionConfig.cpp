@@ -21,25 +21,15 @@ void setupWifi(void){
     digitalWrite(STATUS_LED_GREEN, HIGH);
     Serial.println("\nConnecting to: " + wifi_ssid);
     display(2, 5, "Connecting to ", "WIFI");
-    uint16_t m = 9, n = 1;
     /*EStablish wifi connection*/
     WiFi.begin(wifi_ssid.c_str(), wifi_password.c_str());
     while((WiFi.status() != WL_CONNECTED) && (count < 20)){
         delay(500);
         Serial.print(".");
-        LCD.setCursor(m, n);
-        LCD.print(".");
-        m++;
-        if (m == 16) {
-            m = 0;
-            if (n == 1) n= 0;
-            else n = 1;
-        }
         count ++;
         if (count>20){
             Serial.println("False to set up WiFi connection");
             display(0, 4, "Failed to connect", "to WIFI");
-            ESP.restart();
         }
     }
     if(WiFi.status() == WL_CONNECTED){
@@ -50,7 +40,6 @@ void setupWifi(void){
         display(3, 2, "IP Address", WiFi.localIP().toString());
         digitalWrite(STATUS_LED_BLUE, LOW);
     }
-    LCD.clear();
 }
 
 void setupMQTTConnection(void){
@@ -77,7 +66,6 @@ void setupMQTTConnection(void){
         digitalWrite(STATUS_LED_BLUE, LOW);
         }
     }
-    LCD.clear();
 }
 
 void getConfig(void){
