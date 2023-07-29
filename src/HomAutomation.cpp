@@ -6,6 +6,7 @@
 /************************************************
  * Variable
 ************************************************/
+long lastTimeBuzzer;
 static DynamicJsonDocument lightStatus(256);
 /***********************************************
  * Prototype
@@ -36,6 +37,12 @@ static void sendSensorsData(void);
  * 
  */
 void buzzer(void);
+
+/**
+ * @brief Security
+ * 
+ */
+void Security(void);
 
 /**
  * @brief Collect and send light status to server as a JSON document
@@ -80,6 +87,12 @@ static void getActiveStatus(String &message){
     else if (strcmp (str, "OFF_yardLight") == 0){
         yardLightStatus = LIGHT_OFF;
     }
+    else if (strcmp (str, "ON_warning") == 0){
+         warning_Security = WARNING_ON;
+    }
+    else if (strcmp (str, "OFF_warning") == 0){
+         warning_Security = WARNING_OFF;
+    }
     else{
         getTimeToUpdate(message);
     }
@@ -93,6 +106,12 @@ static void getTimeToUpdate(String &message){
     timeToUpdate = sub_doc["timeToUpdate"];
     Serial.println("Successfully set time to update the new data to server to " + String(timeToUpdate) + " miliSeconds");
     display(0, 4, "Time to update:", String(timeToUpdate) + " ms");
+}
+void Security(void) {
+    if (warning_Security == WARNING_ON) {
+    for (int i= 0; i<10; i++)
+    buzzer();
+    }
 }
 
 void ReadSensors(void *pvParameters)
@@ -134,14 +153,17 @@ static void sendSensorsData(void){
     // Serial.println(message);
     //Send data to publish topic
     client.publish(publish_topic.c_str(), message.c_str());
+    if (digitalRead(STATUS_LED_RED == 0))
     digitalWrite(STATUS_LED_GREEN, HIGH);
 }
 
 void buzzer(void){
-    digitalWrite(BUZZER, 1);
-    delay(100);
-    digitalWrite(BUZZER, 0);
-    delay(100);
+    long now = millis();
+    if(now - lastTimeBuzzer > TIME_TO_DELAY_BUZZER){
+    digitalWrite(BUZZER, !digitalRead(BUZZER));
+
+    lastTimeBuzzer = now;
+  }
 }
 
 void controlDevice(void){
@@ -159,6 +181,7 @@ void controlDevice(void){
     /*Update to the relay*/
     digitalWrite(CEILING_LIGHT, ceilingLightStatus);
     digitalWrite(WALL_LIGHT, wallLightStatus);
+    Security();
 }
 
 static void sendLightStatus(void){
@@ -171,6 +194,8 @@ static void sendLightStatus(void){
     client.publish("LightStatus", message.c_str());
     /*Set the new curSor*/
     LCD.setCursor(3, 1);
+    LCD.print("     ");
+    LCD.setCursor(3, 0);
     LCD.print("     ");
 }
 /**********************************************************

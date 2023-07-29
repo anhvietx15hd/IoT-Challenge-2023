@@ -28,7 +28,7 @@
 #define DHT_SENSOR                      27u
 #define DHT_TYPE                        DHT22
 #define STATUS_LED_RED                  33u
-#define STATUS_LED_GREEN                26u
+#define STATUS_LED_GREEN                32u
 #define STATUS_LED_BLUE                 25u
 #define CONFIG_BUTTON                   35u
 #define CEILING_LIGHT_SWITCH            13u
@@ -36,8 +36,12 @@
 /*Light state*/
 #define LIGHT_ON                        LOW
 #define LIGHT_OFF                       HIGH
+#define WARNING_ON                      HIGH
+#define WARNING_OFF                     LOW
 /*Time to update display*/
 #define TIME_TO_UPDATE_DISPLAY          5000u
+#define TIME_TO_RESTART_DISPLAY         62500u    
+#define TIME_TO_DELAY_BUZZER            100U
 
 #endif /* Config*/
 /***********************************************

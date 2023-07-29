@@ -6,6 +6,7 @@
  * Variables
 **********************************************************/
 static long lastUpdateDisplay = 0;
+static long lastRestartDisplay = 0;
 /**********************************************************
  * Prototypes
 **********************************************************/
@@ -41,19 +42,33 @@ void parametersDisplay(void){
 static void updateDisplay(void){
   long now = millis();
   if(now - lastUpdateDisplay > TIME_TO_UPDATE_DISPLAY){
+
     LCD.setCursor(12, 0);
     LCD.print("    ");
     LCD.setCursor(12, 1);
     LCD.print("    ");
-
     LCD.setCursor(12, 0);
     LCD.print(temperature);
     LCD.setCursor(12, 1);
     LCD.print(humidity);
     lastUpdateDisplay = now;
   }
+    if(now - lastRestartDisplay > TIME_TO_RESTART_DISPLAY){
+
+    LCD.clear();
+    LCD.setCursor(12, 0);
+    LCD.print("    ");
+    LCD.setCursor(12, 1);
+    LCD.print("    ");
+    LCD.setCursor(12, 0);
+    LCD.print(temperature);
+    LCD.setCursor(12, 1);
+    LCD.print(humidity);
+    lastRestartDisplay = now;
+  }
 
   if (ceilingLightStatus == LIGHT_ON) {   // state On
+
     LCD.setCursor(4, 0);
     LCD.print("ON");
   }

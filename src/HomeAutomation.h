@@ -19,6 +19,7 @@ extern PubSubClient client;
 
 /*The last time a message was published the server*/
 extern long lastSentMsg;
+extern long lastTimeBuzzer;
 extern int16_t timeToUpdate;
 
 extern float power;
@@ -33,6 +34,7 @@ extern bool wallLightStatus; //Normal Close
 extern bool yardLightStatus;
 extern bool ceilingLightSwitchStatus;
 extern bool wallLightSwitchStatus;
+extern bool warning_Security;
 
 /**
  * @brief This function to read sensors data
@@ -42,10 +44,11 @@ extern bool wallLightSwitchStatus;
 void ReadSensors(void *pvParameters);
 
 /**
- * @brief This function to send and receive data to/from server
+ * @brief This function to Security 
  * 
- * @param pvParameters 
+ * @param pvParameters To pass the warning when no parameter
  */
+
 
 void callback(char* topic, byte* payload, uint16_t length);
 

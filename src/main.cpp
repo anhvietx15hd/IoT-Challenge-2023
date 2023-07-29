@@ -51,6 +51,7 @@ bool wallLightStatus = LIGHT_OFF; //Normal Close
 bool yardLightStatus = LIGHT_OFF;
 bool ceilingLightSwitchStatus;
 bool wallLightSwitchStatus;
+bool warning_Security = WARNING_OFF;
 
 float waterTemperature = 0.0;
 
@@ -79,6 +80,8 @@ void setup(){
     /*Turn off the lights at the start*/
     digitalWrite(CEILING_LIGHT, LIGHT_OFF); 
     digitalWrite(WALL_LIGHT, LIGHT_OFF);
+    digitalWrite(STATUS_LED_RED, HIGH);
+    digitalWrite(STATUS_LED_GREEN, LOW);
     /*Update the switch status*/
     ceilingLightSwitchStatus = digitalRead(CEILING_LIGHT_SWITCH);
     wallLightSwitchStatus = digitalRead(WALL_LIGHT_SWITCH); 

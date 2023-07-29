@@ -18,20 +18,31 @@ static String content;
 void setupWifi(void){
     delay(10);
     uint8_t count;
-    digitalWrite(STATUS_LED_GREEN, HIGH);
     Serial.println("\nConnecting to: " + wifi_ssid);
     display(2, 5, "Connecting to ", "WIFI");
     /*EStablish wifi connection*/
+    uint16_t m = 9, n = 1;
     WiFi.begin(wifi_ssid.c_str(), wifi_password.c_str());
     while((WiFi.status() != WL_CONNECTED) && (count < 20)){
+        digitalWrite(STATUS_LED_RED, HIGH);
         delay(500);
         Serial.print(".");
+        LCD.setCursor(m, n);
+        LCD.print(".");
+        m++;
+        if (m == 16) {
+            m = 0;
+            if (n == 1) n= 0;
+            else n = 1;
+        }
         count ++;
         if (count>20){
             Serial.println("False to set up WiFi connection");
             display(0, 4, "Failed to connect", "to WIFI");
+            ESP.restart();
         }
     }
+    digitalWrite(STATUS_LED_RED, LOW);
     if(WiFi.status() == WL_CONNECTED){
         Serial.println("");
         Serial.println("WiFi connected");
@@ -40,12 +51,14 @@ void setupWifi(void){
         display(3, 2, "IP Address", WiFi.localIP().toString());
         digitalWrite(STATUS_LED_BLUE, LOW);
     }
+        LCD.clear();
 }
 
 void setupMQTTConnection(void){
     digitalWrite(STATUS_LED_BLUE, HIGH);
     uint8_t count = 0;
     while (!client.connected()) {
+        digitalWrite(STATUS_LED_RED, HIGH);
         Serial.println("Attempting MQTT connection...");
         if (!client.connect("ESP32Client", mqtt_username.c_str(), mqtt_password.c_str())) {
             Serial.print("failed, rc=");
@@ -63,9 +76,12 @@ void setupMQTTConnection(void){
         else{
         Serial.println("Successfully connect to mqtt server");
         display(2,2 , "Connected to", "MQTT server");
+        digitalWrite(STATUS_LED_RED, LOW);
         digitalWrite(STATUS_LED_BLUE, LOW);
         }
     }
+    digitalWrite(STATUS_LED_RED, LOW);
+    LCD.clear();
 }
 
 void getConfig(void){
