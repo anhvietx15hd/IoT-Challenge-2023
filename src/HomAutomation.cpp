@@ -72,15 +72,23 @@ static void getActiveStatus(String &message){
 
     if (strcmp(str, "ON_ceilingLight") == 0){
         ceilingLightStatus = LIGHT_ON;
+        LCD.setCursor(3, 0);
+        LCD.print("     ");
     }
     else if (strcmp(str, "OFF_ceilingLight") == 0){
         ceilingLightStatus = LIGHT_OFF;
+        LCD.setCursor(3, 0);
+        LCD.print("     ");
     }
     else if (strcmp(str, "ON_wallLight") == 0){
         wallLightStatus = LIGHT_ON;
+        LCD.setCursor(3, 1);
+        LCD.print("     ");
     }
     else if(strcmp(str, "OFF_wallLight") == 0){
-        wallLightStatus = LIGHT_OFF;    }
+        wallLightStatus = LIGHT_OFF;
+        LCD.setCursor(3, 1);
+        LCD.print("     ");    }
     else if (strcmp(str, "ON_yardLight") == 0){
         yardLightStatus = LIGHT_ON;
     }
