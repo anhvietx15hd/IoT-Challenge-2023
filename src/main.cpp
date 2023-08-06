@@ -94,7 +94,6 @@ void setup(){
     dht.begin();
 
     LCD.init();      
-    LCD.setDisplayOrientation(2);              
     LCD.backlight(); 
     // WiFi.disconnect();
 
