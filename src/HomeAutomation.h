@@ -35,6 +35,8 @@ extern bool yardLightStatus;
 extern bool ceilingLightSwitchStatus;
 extern bool wallLightSwitchStatus;
 extern bool warning_Security;
+extern bool Flag_warning;
+extern long time_warning;
 
 /**
  * @brief This function to read sensors data

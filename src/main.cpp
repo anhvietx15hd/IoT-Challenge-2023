@@ -52,6 +52,8 @@ bool yardLightStatus = LIGHT_OFF;
 bool ceilingLightSwitchStatus;
 bool wallLightSwitchStatus;
 bool warning_Security = WARNING_OFF;
+bool Flag_warning;
+long time_warning;
 
 float waterTemperature = 0.0;
 

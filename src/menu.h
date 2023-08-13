@@ -14,6 +14,8 @@ extern float humidity;
 extern float temperature;
 extern bool ceilingLightStatus ; //Normal Close
 extern bool wallLightStatus ;
+extern bool Flag_warning;
+extern long time_warning;
 /**
  * @brief This function to display data to LCD 16x2
  * 

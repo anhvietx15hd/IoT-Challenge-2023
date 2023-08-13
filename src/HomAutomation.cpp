@@ -116,10 +116,8 @@ static void getTimeToUpdate(String &message){
     display(0, 4, "Time to update:", String(timeToUpdate) + " ms");
 }
 void Security(void) {
-    if (warning_Security == WARNING_ON) {
     for (int i= 0; i<10; i++)
     buzzer();
-    }
 }
 
 void ReadSensors(void *pvParameters)
@@ -133,7 +131,7 @@ void ReadSensors(void *pvParameters)
 
         power = ina219.getPower_mW();
         humidity = dht.readHumidity();
-        temperature = dht.readTemperature();
+        temperature = dht.readTemperature()-3;
         lightSensor = !digitalRead(LIGHT_SENSOR);  // LightSensor
         gas = !digitalRead(GAS_SENSOR);    // co2_value: 1 -> có CO2 ; 0 -> ko có Co2
         humanDetected = digitalRead(HUMAN_DETECT);
@@ -189,7 +187,23 @@ void controlDevice(void){
     /*Update to the relay*/
     digitalWrite(CEILING_LIGHT, ceilingLightStatus);
     digitalWrite(WALL_LIGHT, wallLightStatus);
-    Security();
+    
+
+
+    if (!digitalRead(GAS_SENSOR) == WARNING_ON)  {
+        Flag_warning = 1;
+        time_warning = millis();
+    }
+    if (Flag_warning == 1) {
+        long now = millis();
+        Security();
+        if((now - time_warning > 15000) ){
+        digitalWrite(BUZZER, 0);
+        Flag_warning = 0;
+        time_warning = now;
+        }
+
+    }
 }
 
 static void sendLightStatus(void){

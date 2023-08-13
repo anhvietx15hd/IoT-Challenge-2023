@@ -29,6 +29,7 @@ extern WiFiClient espClient;
 extern PubSubClient client;
 
 extern bool isConfigButtonPressed;
+extern long time_warning;
 
 
 /**
