@@ -10,6 +10,7 @@
 #include "ConnectionConfig.h"
 #include "menu.h"
 #include "HomeAutomation.h"
+#include <ESP32_Servo.h> 
 
 /*Wifi*/
 String wifi_ssid = "";
@@ -27,11 +28,10 @@ uint16_t statusCode;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
-
+Servo myservo;
 Adafruit_INA219 ina219;
 
 LiquidCrystal_I2C LCD(0X27,16,2);
-DHT dht(DHT_SENSOR, DHT_TYPE);
 // Create a JSON document to write sensor data
 DynamicJsonDocument doc(256); 
 
@@ -41,21 +41,20 @@ long lastSentMsg = 0;
 
 float power = 0;
 bool lightSensor;
-uint8_t gas = 0;
 bool humanDetected = false;
-float humidity = 0;
-float temperature = 0;
 /*Device status*/
 bool ceilingLightStatus = LIGHT_OFF; //Normal Close
 bool wallLightStatus = LIGHT_OFF; //Normal Close
 bool yardLightStatus = LIGHT_OFF;
-bool ceilingLightSwitchStatus;
-bool wallLightSwitchStatus;
+bool yardLightSwitchStatus;
+bool hallwayLightSwitchStatus;
+bool hallwayLightStatus;
+bool Flag_wait;
+bool state_Door;
+
+
 bool warning_Security = WARNING_OFF;
-
-float waterTemperature = 0.0;
-
-bool temperatureSensor_Active = true;
+long time_hallWall;
 
 int16_t timeToUpdate = 3000; //Time to update the data by default (MiliSeconds)
 
@@ -67,32 +66,30 @@ void setup(){
     Serial.begin(115200);
     pinMode(STATUS_LED_RED, OUTPUT);
     pinMode(STATUS_LED_GREEN, OUTPUT);
-    pinMode(STATUS_LED_BLUE, OUTPUT);
-
-    pinMode(CEILING_LIGHT, OUTPUT);
-    pinMode(WALL_LIGHT, OUTPUT);
+    pinMode(HALLWAY_LIGHT, OUTPUT);
+    pinMode(YARD_LIGHT, OUTPUT);
     pinMode(BUZZER, OUTPUT);
 
-    pinMode(GAS_SENSOR, INPUT);
     pinMode(LIGHT_SENSOR, INPUT);
-    pinMode(CEILING_LIGHT_SWITCH, INPUT);
-    pinMode(WALL_LIGHT_SWITCH, INPUT);
+    pinMode(HUMAN_DETECT, INPUT);
+
+
     /*Turn off the lights at the start*/
-    digitalWrite(CEILING_LIGHT, LIGHT_OFF); 
-    digitalWrite(WALL_LIGHT, LIGHT_OFF);
+    digitalWrite(HALLWAY_LIGHT, LIGHT_OFF); 
+    digitalWrite(YARD_LIGHT, LIGHT_OFF);
     digitalWrite(STATUS_LED_RED, HIGH);
     digitalWrite(STATUS_LED_GREEN, LOW);
     /*Update the switch status*/
-    ceilingLightSwitchStatus = digitalRead(CEILING_LIGHT_SWITCH);
-    wallLightSwitchStatus = digitalRead(WALL_LIGHT_SWITCH); 
+    yardLightSwitchStatus = digitalRead(LIGHT_SENSOR);
+    hallwayLightSwitchStatus = digitalRead(HUMAN_DETECT); 
+    Flag_wait = 0;
+    myservo.attach(DOOR, 500, 2400);
     /*Set up device*/
     while(! ina219.begin()){
         Serial.println("Failed to find INA219 chip");
         delay(10);
     }
-
-    dht.begin();
-
+    myservo.write(180);  
     LCD.init();      
     LCD.backlight(); 
     // WiFi.disconnect();

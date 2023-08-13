@@ -29,9 +29,9 @@ void display(int cursorLine0, int cursorLine1, String textLine0, String textLine
 
 void parametersDisplay(void){
   LCD.setCursor(8, 0);
-  LCD.print("Tem:");
+  LCD.print("Lock:");
   LCD.setCursor(8, 1);
-  LCD.print("Hum:");
+  LCD.print("Ser:");
   LCD.setCursor(0, 0);
   LCD.print("L1:");
   LCD.setCursor(0, 1);
@@ -43,46 +43,74 @@ static void updateDisplay(void){
   long now = millis();
   if(now - lastUpdateDisplay > TIME_TO_UPDATE_DISPLAY){
 
-    LCD.setCursor(12, 0);
+    LCD.setCursor(13, 0);
     LCD.print("    ");
     LCD.setCursor(12, 1);
     LCD.print("    ");
-    LCD.setCursor(12, 0);
-    LCD.print(temperature);
-    LCD.setCursor(12, 1);
-    LCD.print(humidity);
+    if (state_Door == 1) {
+      LCD.setCursor(13, 0);
+      LCD.print("ON");
+    }
+    else {
+      LCD.setCursor(13, 0);
+      LCD.print("OFF");
+    }
+    
+
     lastUpdateDisplay = now;
   }
     if(now - lastRestartDisplay > TIME_TO_RESTART_DISPLAY){
 
     LCD.clear();
-    LCD.setCursor(12, 0);
+    LCD.setCursor(13, 0);
     LCD.print("    ");
     LCD.setCursor(12, 1);
     LCD.print("    ");
-    LCD.setCursor(12, 0);
-    LCD.print(temperature);
-    LCD.setCursor(12, 1);
-    LCD.print(humidity);
+    if (state_Door == 1) {
+      LCD.setCursor(13, 0);
+      LCD.print("ON");
+    }
+    else {
+      LCD.setCursor(13, 0);
+      LCD.print("OFF");
+    }
+
+
     lastRestartDisplay = now;
   }
 
-  if (ceilingLightStatus == LIGHT_ON) {   // state On
+  if (yardLightStatus == LIGHT_ON) {   // state On
 
     LCD.setCursor(4, 0);
     LCD.print("ON");
+    LCD.setCursor(3, 0);
+    LCD.print(" ");
+    LCD.setCursor(6, 0);
+    LCD.print(" ");
   }
   else  {
     LCD.setCursor(4, 0);
     LCD.print("OFF");
+    LCD.setCursor(3, 0);
+    LCD.print(" ");
+    LCD.setCursor(7, 0);
+    LCD.print(" ");
   }
-  if (wallLightStatus == LIGHT_ON) {   // state On
+  if (digitalRead(HALLWAY_LIGHT) == LIGHT_ON) {   // state On
     LCD.setCursor(4, 1);
     LCD.print("ON");
+    LCD.setCursor(3, 1);
+    LCD.print(" ");
+    LCD.setCursor(6, 1);
+    LCD.print(" ");
   }
   else  {
     LCD.setCursor(4, 1);
     LCD.print("OFF");
+    LCD.setCursor(3, 1);
+    LCD.print(" ");
+    LCD.setCursor(7, 1);
+    LCD.print(" ");
   }
   delay(100);
 }

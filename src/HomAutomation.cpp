@@ -39,6 +39,18 @@ static void sendSensorsData(void);
 void buzzer(void);
 
 /**
+ * @brief doorOpen
+ * 
+ */
+void doorOpen(void);
+
+/**
+ * @brief doorClose
+ * 
+ */
+void doorClose(void);
+
+/**
  * @brief Security
  * 
  */
@@ -70,37 +82,15 @@ static void getActiveStatus(String &message){
     const char* str = message.c_str();
     Serial.println(str);
 
-    if (strcmp(str, "ON_ceilingLight") == 0){
-        ceilingLightStatus = LIGHT_ON;
-        LCD.setCursor(3, 0);
-        LCD.print("     ");
+    if (strcmp(str, "OpenDoor") == 0){
+        doorOpen();
+        state_Door = 1;
     }
-    else if (strcmp(str, "OFF_ceilingLight") == 0){
-        ceilingLightStatus = LIGHT_OFF;
-        LCD.setCursor(3, 0);
-        LCD.print("     ");
+    else if (strcmp(str, "OpenClose") == 0) {
+        doorClose();
+        state_Door = 0;
     }
-    else if (strcmp(str, "ON_wallLight") == 0){
-        wallLightStatus = LIGHT_ON;
-        LCD.setCursor(3, 1);
-        LCD.print("     ");
-    }
-    else if(strcmp(str, "OFF_wallLight") == 0){
-        wallLightStatus = LIGHT_OFF;
-        LCD.setCursor(3, 1);
-        LCD.print("     ");    }
-    else if (strcmp(str, "ON_yardLight") == 0){
-        yardLightStatus = LIGHT_ON;
-    }
-    else if (strcmp (str, "OFF_yardLight") == 0){
-        yardLightStatus = LIGHT_OFF;
-    }
-    else if (strcmp (str, "ON_warning") == 0){
-         warning_Security = WARNING_ON;
-    }
-    else if (strcmp (str, "OFF_warning") == 0){
-         warning_Security = WARNING_OFF;
-    }
+
     else{
         getTimeToUpdate(message);
     }
@@ -130,12 +120,10 @@ void ReadSensors(void *pvParameters)
         
         client.loop();
         client.subscribe(subscribe_topic.c_str());
-
+        hallwayLightSwitchStatus = digitalRead(HUMAN_DETECT);
+        yardLightSwitchStatus = digitalRead(LIGHT_SENSOR);
         power = ina219.getPower_mW();
-        humidity = dht.readHumidity();
-        temperature = dht.readTemperature();
-        lightSensor = !digitalRead(LIGHT_SENSOR);  // LightSensor
-        gas = !digitalRead(GAS_SENSOR);    // co2_value: 1 -> có CO2 ; 0 -> ko có Co2
+        lightSensor = digitalRead(LIGHT_SENSOR);  // LightSensor
         humanDetected = digitalRead(HUMAN_DETECT);
 
         if((now - lastSentMsg > timeToUpdate) && (client.connected())){
@@ -150,17 +138,16 @@ void ReadSensors(void *pvParameters)
 }
 
 static void sendSensorsData(void){
-    doc["temperature"]  = temperature;
     doc["lightSensor"] = lightSensor;
-    doc["gas"] = gas;
     doc["humanDetected"] = humanDetected;
-    doc["humidity"] = humidity;
     doc["power"] = power;
+    doc["yardlight"] = yardLightSwitchStatus;
+    doc["hallwaylight"] = hallwayLightSwitchStatus;
     String message;
     serializeJson(doc, message);
     // Serial.println(message);
     //Send data to publish topic
-    client.publish(publish_topic.c_str(), message.c_str());
+    client.publish("outdoor", message.c_str());
     if (digitalRead(STATUS_LED_RED == 0))
     digitalWrite(STATUS_LED_GREEN, HIGH);
 }
@@ -176,36 +163,49 @@ void buzzer(void){
 
 void controlDevice(void){
     /*Update the light state with local switch*/
-    if(digitalRead(CEILING_LIGHT_SWITCH) != ceilingLightSwitchStatus){
-        ceilingLightStatus = (! ceilingLightStatus);
-        ceilingLightSwitchStatus = digitalRead(CEILING_LIGHT_SWITCH);
-        sendLightStatus();
+    if(digitalRead(YARD_LIGHT) != yardLightSwitchStatus){
+        yardLightSwitchStatus = digitalRead(LIGHT_SENSOR);
+        yardLightStatus = !yardLightSwitchStatus;
     }
-    if(digitalRead(WALL_LIGHT_SWITCH) != wallLightSwitchStatus){
-        wallLightStatus = (! wallLightStatus);
-        wallLightSwitchStatus = digitalRead(WALL_LIGHT_SWITCH);
-        sendLightStatus();
+    if(digitalRead(HALLWAY_LIGHT) != hallwayLightSwitchStatus){
+        hallwayLightSwitchStatus = digitalRead(HUMAN_DETECT);
+        hallwayLightStatus = !hallwayLightSwitchStatus;
+        //if (digitalRead(HUMAN_DETECT) == 1) Flag_wait = 1;
+
     }
     /*Update to the relay*/
-    digitalWrite(CEILING_LIGHT, ceilingLightStatus);
-    digitalWrite(WALL_LIGHT, wallLightStatus);
+    if (digitalRead(HUMAN_DETECT) == 1)  {
+        Flag_wait = 1;
+        time_hallWall = millis();
+    }
+    if (Flag_wait == 1) {
+        long now = millis();
+        digitalWrite(HALLWAY_LIGHT, LIGHT_ON);
+        if((now - time_hallWall > 15000) ){
+        digitalWrite(HALLWAY_LIGHT, LIGHT_OFF);
+        Flag_wait = 0;
+        time_hallWall = now;
+        }
+
+    }
+    digitalWrite(YARD_LIGHT, yardLightStatus);
     Security();
 }
-
-static void sendLightStatus(void){
-    lightStatus["ceilingLightStatus"] = (! ceilingLightStatus);
-    lightStatus["wallLightStatus"]    = (! wallLightStatus);
-    
-    String message;
-    serializeJson(lightStatus, message);
-    /*Send data to server*/
-    client.publish("LightStatus", message.c_str());
-    /*Set the new curSor*/
-    LCD.setCursor(3, 1);
-    LCD.print("     ");
-    LCD.setCursor(3, 0);
-    LCD.print("     ");
+void doorOpen(void) {
+    for (int pos =180; pos >= 90; pos -= 1) { // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15ms for the servo to reach the position
+  }
 }
+
+void doorClose(void) {
+    for (int pos = 90; pos <= 179; pos += 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15ms for the servo to reach the position
+  }
+}
+
 /**********************************************************
  * End of file
 **********************************************************/

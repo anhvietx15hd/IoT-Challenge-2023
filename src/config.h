@@ -18,21 +18,17 @@
 #define MQTT_SUBSCRIBE_TOPIC_ADDRESS    224u
 
 /*Device pin*/
-#define temperaturePin                  5u
 #define BUZZER                          17u
 #define LIGHT_SENSOR                    19u
-#define GAS_SENSOR                      18u
 #define HUMAN_DETECT                    4u
-#define CEILING_LIGHT                   15u
-#define WALL_LIGHT                      16u
-#define DHT_SENSOR                      27u
-#define DHT_TYPE                        DHT22
-#define STATUS_LED_RED                  33u
-#define STATUS_LED_GREEN                32u
-#define STATUS_LED_BLUE                 25u
-#define CONFIG_BUTTON                   35u
+#define HALLWAY_LIGHT                   15u
+#define YARD_LIGHT                      16u
+#define STATUS_LED_RED                  26u
+#define STATUS_LED_GREEN                25u
+#define STATUS_LED_BLUE                 32u
+#define CONFIG_BUTTON                   27u
 #define CEILING_LIGHT_SWITCH            13u
-#define WALL_LIGHT_SWITCH               34u
+#define DOOR                            33u
 /*Light state*/
 #define LIGHT_ON                        LOW
 #define LIGHT_OFF                       HIGH

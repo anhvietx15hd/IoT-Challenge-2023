@@ -14,6 +14,7 @@
                 "C:/Users/thinh/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                 "C:/Users/thinh/.platformio/packages/framework-arduinoespressif32/libraries/FS/src",
                 "C:/Users/thinh/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                "c:/Users/thinh/Documents/IOT_challenge_project/IoT_Challenge-2023 Outdoor/.pio/libdeps/esp32doit-devkit-v1/ESP32Servo-master/src",
                 "c:/Users/thinh/Documents/IOT_challenge_project/IoT_Challenge-2023 Outdoor/.pio/libdeps/esp32doit-devkit-v1/DHT sensor library",
                 "c:/Users/thinh/Documents/IOT_challenge_project/IoT_Challenge-2023 Outdoor/.pio/libdeps/esp32doit-devkit-v1/Adafruit Unified Sensor",
                 "c:/Users/thinh/Documents/IOT_challenge_project/IoT_Challenge-2023 Outdoor/.pio/libdeps/esp32doit-devkit-v1/Adafruit INA219",
@@ -259,6 +260,7 @@
                     "C:/Users/thinh/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                     "C:/Users/thinh/.platformio/packages/framework-arduinoespressif32/libraries/FS/src",
                     "C:/Users/thinh/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                    "c:/Users/thinh/Documents/IOT_challenge_project/IoT_Challenge-2023 Outdoor/.pio/libdeps/esp32doit-devkit-v1/ESP32Servo-master/src",
                     "c:/Users/thinh/Documents/IOT_challenge_project/IoT_Challenge-2023 Outdoor/.pio/libdeps/esp32doit-devkit-v1/DHT sensor library",
                     "c:/Users/thinh/Documents/IOT_challenge_project/IoT_Challenge-2023 Outdoor/.pio/libdeps/esp32doit-devkit-v1/Adafruit Unified Sensor",
                     "c:/Users/thinh/Documents/IOT_challenge_project/IoT_Challenge-2023 Outdoor/.pio/libdeps/esp32doit-devkit-v1/Adafruit INA219",
@@ -497,7 +499,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=60109",
+                "PLATFORMIO=60110",
                 "ARDUINO_ESP32_DEV",
                 "HAVE_CONFIG_H",
                 "MBEDTLS_CONFIG_FILE=\"mbedtls/esp_config.h\"",

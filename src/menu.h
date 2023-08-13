@@ -12,8 +12,13 @@
 extern LiquidCrystal_I2C LCD;
 extern float humidity;
 extern float temperature;
-extern bool ceilingLightStatus ; //Normal Close
-extern bool wallLightStatus ;
+extern bool yardLightSwitchStatus ; //Normal Close
+extern bool hallwayLightSwitchStatus ;
+extern bool hallwayLightStatus;
+extern bool yardLightStatus;
+extern long time_hallWall;
+extern long time_hallWall;
+extern bool state_Door;
 /**
  * @brief This function to display data to LCD 16x2
  * 
