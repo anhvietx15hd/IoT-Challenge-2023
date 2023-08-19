@@ -51,6 +51,12 @@ bool hallwayLightSwitchStatus;
 bool hallwayLightStatus;
 bool Flag_wait;
 bool state_Door;
+String Human;
+bool state_Lw;
+bool FlagRecognize;
+bool FlagOnDoor;
+bool WarningState;
+bool FlagWarning;
 
 
 bool warning_Security = WARNING_OFF;
@@ -69,10 +75,14 @@ void setup(){
     pinMode(HALLWAY_LIGHT, OUTPUT);
     pinMode(YARD_LIGHT, OUTPUT);
     pinMode(BUZZER, OUTPUT);
-
     pinMode(LIGHT_SENSOR, INPUT);
     pinMode(HUMAN_DETECT, INPUT);
+    pinMode(RECOGNIZE_BUTTON, INPUT);
+    pinMode(LIMITSWITCH_STATE, INPUT);
+    pinMode(BTN_ON_LOCK, INPUT);
 
+    attachInterrupt(RECOGNIZE_BUTTON, recognize_mode, RISING);
+    attachInterrupt(BTN_ON_LOCK, lock_mode, RISING);
 
     /*Turn off the lights at the start*/
     digitalWrite(HALLWAY_LIGHT, LIGHT_OFF); 
@@ -83,6 +93,9 @@ void setup(){
     yardLightSwitchStatus = digitalRead(LIGHT_SENSOR);
     hallwayLightSwitchStatus = digitalRead(HUMAN_DETECT); 
     Flag_wait = 0;
+    FlagRecognize = 0;
+    WarningState = WARNING_OFF;
+    FlagWarning = HIGH;
     myservo.attach(DOOR, 500, 2400);
     /*Set up device*/
     while(! ina219.begin()){
@@ -125,9 +138,16 @@ void loop(){
     if (!client.connected()) {
         setupMQTTConnection();
     }
+
     controlDevice();
     parametersDisplay();
+    auto_on_lock_door();
     client.loop();
+    Serial.print("State of WarningState:"); Serial.println(WarningState);
+    Serial.print("State of state_Door:"); Serial.println(state_Door);
+    Serial.print("State of state_Lw:"); Serial.println(state_Lw);
+    
+    delay(1000);
 }
 /**********************************************************
  * End of file

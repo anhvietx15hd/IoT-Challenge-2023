@@ -29,11 +29,17 @@
 #define CONFIG_BUTTON                   27u
 #define CEILING_LIGHT_SWITCH            13u
 #define DOOR                            33u
+#define BTN_ON_LOCK                     35u
+
+#define RECOGNIZE_BUTTON                14u
+#define LIMITSWITCH_STATE               18u
 /*Light state*/
 #define LIGHT_ON                        LOW
 #define LIGHT_OFF                       HIGH
 #define WARNING_ON                      HIGH
 #define WARNING_OFF                     LOW
+#define LOCK_OFF                        HIGH
+#define LOCK_ON                         LOW
 /*Time to update display*/
 #define TIME_TO_UPDATE_DISPLAY          5000u
 #define TIME_TO_RESTART_DISPLAY         62500u    

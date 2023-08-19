@@ -23,6 +23,7 @@ extern PubSubClient client;
 extern long lastSentMsg;
 extern long lastTimeBuzzer;
 extern int16_t timeToUpdate;
+extern int16_t timeTurnOnLock;
 
 extern float power;
 extern bool lightSensor;
@@ -37,6 +38,14 @@ extern bool hallwayLightStatus;
 extern bool yardLightStatus;
 extern bool Flag_wait;
 extern bool state_Door;
+extern String Human;
+extern bool state_Lw;
+extern bool FlagRecognize;
+extern bool FlagOnDoor;
+extern bool WarningState;
+extern bool FlagWarning;
+
+
 
 /**
  * @brief This function to read sensors data
@@ -61,6 +70,10 @@ void callback(char* topic, byte* payload, uint16_t length);
 void controlDevice(void);
 void doorOpen(void);
 void doorClose(void);
+void recognize_mode(void);
+void lock_mode(void);
+void auto_on_lock_door(void);
+void Security(void);
 #endif /* Home Automation*/
 /**********************************************************
  * End of file

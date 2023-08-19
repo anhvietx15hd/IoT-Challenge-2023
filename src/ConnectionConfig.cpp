@@ -60,7 +60,7 @@ void setupMQTTConnection(void){
     while (!client.connected()) {
         digitalWrite(STATUS_LED_RED, HIGH);
         Serial.println("Attempting MQTT connection...");
-        if (!client.connect("ESP32Client", mqtt_username.c_str(), mqtt_password.c_str())) {
+        if (!client.connect("ESP32Client_OutDoor", mqtt_username.c_str(), mqtt_password.c_str())) {
             Serial.print("failed, rc=");
             Serial.print(client.state());                        
             Serial.println(" try again in 5 seconds");

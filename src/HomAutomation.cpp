@@ -60,6 +60,17 @@ void Security(void);
  * @brief Collect and send light status to server as a JSON document
  * Relays are nomal close, so have to send inverse value of light status
  */
+void recognize_mode(void);
+/**
+ * @brief Turn on Flag Recognize
+ * Interupt hardware
+ */
+void lock_mode(void);
+/**
+ * @brief Turn on Flag Lock Door
+ * Interupt hardware
+ */
+void auto_on_lock_door(void);
 static void sendLightStatus(void);
 /************************************************
  * Codes
@@ -83,12 +94,32 @@ static void getActiveStatus(String &message){
     Serial.println(str);
 
     if (strcmp(str, "OpenDoor") == 0){
+        if (state_Door != 1) {
         doorOpen();
         state_Door = 1;
+
+        }
     }
     else if (strcmp(str, "OpenClose") == 0) {
+        if (state_Door != 0) {
         doorClose();
         state_Door = 0;
+        }
+    }
+    else if (strcmp(str, "SercurityOFF") == 0) {
+        WarningState = WARNING_OFF;
+        FlagWarning = LOW;
+        
+    }
+    else if (strcmp(str, "SercurityON") == 0) {
+        FlagWarning = HIGH;
+        
+    }
+
+    else if (strcmp(str, "Recognize") == 0) {
+        doorOpen();
+        state_Door = 1;
+        FlagRecognize = 0;
     }
 
     else{
@@ -106,10 +137,10 @@ static void getTimeToUpdate(String &message){
     display(0, 4, "Time to update:", String(timeToUpdate) + " ms");
 }
 void Security(void) {
-    if (warning_Security == WARNING_ON) {
+
     for (int i= 0; i<10; i++)
     buzzer();
-    }
+    
 }
 
 void ReadSensors(void *pvParameters)
@@ -125,7 +156,8 @@ void ReadSensors(void *pvParameters)
         power = ina219.getPower_mW();
         lightSensor = digitalRead(LIGHT_SENSOR);  // LightSensor
         humanDetected = digitalRead(HUMAN_DETECT);
-
+        state_Lw = digitalRead(LIMITSWITCH_STATE);
+        
         if((now - lastSentMsg > timeToUpdate) && (client.connected())){
             sendSensorsData();
             lastSentMsg = now;
@@ -143,22 +175,30 @@ static void sendSensorsData(void){
     doc["power"] = power;
     doc["yardlight"] = yardLightSwitchStatus;
     doc["hallwaylight"] = hallwayLightSwitchStatus;
+    doc["recognize_status"] = "";
     String message;
     serializeJson(doc, message);
     // Serial.println(message);
     //Send data to publish topic
-    client.publish("outdoor", message.c_str());
+    if (FlagRecognize == 1) {
+        client.publish("kook", "DETECT");
+        FlagRecognize = 0;
+    }
+    else client.publish("outdoor", message.c_str());
     if (digitalRead(STATUS_LED_RED == 0))
     digitalWrite(STATUS_LED_GREEN, HIGH);
 }
 
 void buzzer(void){
+    if (WarningState != WARNING_OFF) {
     long now = millis();
     if(now - lastTimeBuzzer > TIME_TO_DELAY_BUZZER){
     digitalWrite(BUZZER, !digitalRead(BUZZER));
 
     lastTimeBuzzer = now;
   }
+
+    }
 }
 
 void controlDevice(void){
@@ -171,6 +211,14 @@ void controlDevice(void){
         hallwayLightSwitchStatus = digitalRead(HUMAN_DETECT);
         hallwayLightStatus = !hallwayLightSwitchStatus;
         //if (digitalRead(HUMAN_DETECT) == 1) Flag_wait = 1;
+
+    }
+    if (state_Door == LOCK_ON && state_Lw == LOW && FlagWarning == HIGH) {
+        WarningState = WARNING_ON;
+        FlagWarning = LOW;
+    }
+    if (WarningState == WARNING_ON) {
+        Security();
 
     }
     /*Update to the relay*/
@@ -205,6 +253,27 @@ void doorClose(void) {
     delay(15);                       // waits 15ms for the servo to reach the position
   }
 }
+
+void recognize_mode(void) {
+    FlagRecognize = HIGH;
+    Serial.println("recognize_mode");
+    //client.publish("kook", "DETECT");
+
+}
+
+void lock_mode(void) {
+    FlagOnDoor = HIGH;
+    Serial.println("lock_mode");
+}
+void auto_on_lock_door(void) {
+    if (state_Lw == HIGH && FlagOnDoor == HIGH && state_Door != LOCK_ON) {
+        delay(1000);
+        doorClose();
+        state_Door = LOCK_ON;
+    }
+    Serial.println("auto_on_lock_door");
+}
+
 
 /**********************************************************
  * End of file
