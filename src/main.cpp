@@ -57,6 +57,7 @@ bool FlagRecognize;
 bool FlagOnDoor;
 bool WarningState;
 bool FlagWarning;
+portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
 
 
 bool warning_Security = WARNING_OFF;
@@ -81,7 +82,6 @@ void setup(){
     pinMode(LIMITSWITCH_STATE, INPUT);
     pinMode(BTN_ON_LOCK, INPUT);
 
-    attachInterrupt(RECOGNIZE_BUTTON, recognize_mode, RISING);
     attachInterrupt(BTN_ON_LOCK, lock_mode, RISING);
 
     /*Turn off the lights at the start*/
@@ -109,7 +109,7 @@ void setup(){
 
     EEPROM.begin(512);
     pinMode(CONFIG_BUTTON, INPUT);
-    attachInterrupt(CONFIG_BUTTON, buttonPressedInterrupt, RISING);
+
 
     Serial.println("\n");
     Serial.println("Starting up");
@@ -125,7 +125,7 @@ void setup(){
     ,  "Read_Sensor"   // A name just for humans
     ,  4000  // This stack size can be checked & adjusted by reading the Stack Highwater
     ,  NULL
-    ,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+    ,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
     ,  NULL
     ,  1);
 }
@@ -138,10 +138,11 @@ void loop(){
     if (!client.connected()) {
         setupMQTTConnection();
     }
-
+    recognize_check();
     controlDevice();
     parametersDisplay();
     auto_on_lock_door();
+    auto_open_lock();
     client.loop();
     Serial.print("State of WarningState:"); Serial.println(WarningState);
     Serial.print("State of state_Door:"); Serial.println(state_Door);

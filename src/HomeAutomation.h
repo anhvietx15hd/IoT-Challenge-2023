@@ -70,10 +70,11 @@ void callback(char* topic, byte* payload, uint16_t length);
 void controlDevice(void);
 void doorOpen(void);
 void doorClose(void);
-void recognize_mode(void);
-void lock_mode(void);
+void recognize_check(void);
+void IRAM_ATTR lock_mode(void);
 void auto_on_lock_door(void);
 void Security(void);
+void auto_open_lock(void);
 #endif /* Home Automation*/
 /**********************************************************
  * End of file

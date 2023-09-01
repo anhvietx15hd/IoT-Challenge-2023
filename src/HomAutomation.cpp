@@ -97,6 +97,9 @@ static void getActiveStatus(String &message){
         if (state_Door != 1) {
         doorOpen();
         state_Door = 1;
+        WarningState = WARNING_OFF;
+        FlagWarning = LOW;
+        
 
         }
     }
@@ -113,8 +116,16 @@ static void getActiveStatus(String &message){
     }
     else if (strcmp(str, "SercurityON") == 0) {
         FlagWarning = HIGH;
+        WarningState = WARNING_ON;
         
     }
+    else if (strcmp(str, "ON_yardLight") == 0) {
+        yardLightStatus = LOW;
+    }
+    else if (strcmp(str, "OFF_yardLight") == 0) {
+        yardLightStatus = HIGH;
+    }
+
 
     else if (strcmp(str, "Recognize") == 0) {
         doorOpen();
@@ -150,9 +161,9 @@ void ReadSensors(void *pvParameters)
         long now = millis();
         
         client.loop();
-        client.subscribe(subscribe_topic.c_str());
+        // client.subscribe(subscribe_topic.c_str());
+        client.subscribe("outdoor_sub");
         hallwayLightSwitchStatus = digitalRead(HUMAN_DETECT);
-        yardLightSwitchStatus = digitalRead(LIGHT_SENSOR);
         power = ina219.getPower_mW();
         lightSensor = digitalRead(LIGHT_SENSOR);  // LightSensor
         humanDetected = digitalRead(HUMAN_DETECT);
@@ -173,7 +184,7 @@ static void sendSensorsData(void){
     doc["lightSensor"] = lightSensor;
     doc["humanDetected"] = humanDetected;
     doc["power"] = power;
-    doc["yardlight"] = yardLightSwitchStatus;
+    doc["yardlight"] = yardLightStatus;
     doc["hallwaylight"] = hallwayLightSwitchStatus;
     doc["recognize_status"] = "";
     String message;
@@ -181,7 +192,7 @@ static void sendSensorsData(void){
     // Serial.println(message);
     //Send data to publish topic
     if (FlagRecognize == 1) {
-        client.publish("kook", "DETECT");
+        client.publish("recognize", "DETECT");
         FlagRecognize = 0;
     }
     else client.publish("outdoor", message.c_str());
@@ -197,16 +208,17 @@ void buzzer(void){
 
     lastTimeBuzzer = now;
   }
-
     }
+    if  (WarningState == WARNING_OFF && FlagWarning == LOW)
+    digitalWrite(BUZZER, 0);
 }
 
 void controlDevice(void){
     /*Update the light state with local switch*/
-    if(digitalRead(YARD_LIGHT) != yardLightSwitchStatus){
-        yardLightSwitchStatus = digitalRead(LIGHT_SENSOR);
-        yardLightStatus = !yardLightSwitchStatus;
-    }
+    // if(digitalRead(YARD_LIGHT) != yardLightSwitchStatus){
+    //     yardLightSwitchStatus = digitalRead(LIGHT_SENSOR);
+    //     yardLightStatus = !yardLightSwitchStatus;
+    // }
     if(digitalRead(HALLWAY_LIGHT) != hallwayLightSwitchStatus){
         hallwayLightSwitchStatus = digitalRead(HUMAN_DETECT);
         hallwayLightStatus = !hallwayLightSwitchStatus;
@@ -254,24 +266,41 @@ void doorClose(void) {
   }
 }
 
-void recognize_mode(void) {
+void recognize_check(void) {
+    if (digitalRead(RECOGNIZE_BUTTON) == 1)
+    {
+
     FlagRecognize = HIGH;
     Serial.println("recognize_mode");
     //client.publish("kook", "DETECT");
+    }
 
 }
-
-void lock_mode(void) {
+bool FlagAutoLock = LOW;
+void IRAM_ATTR lock_mode(void) {
     FlagOnDoor = HIGH;
+    FlagAutoLock = LOW;
     Serial.println("lock_mode");
 }
 void auto_on_lock_door(void) {
-    if (state_Lw == HIGH && FlagOnDoor == HIGH && state_Door != LOCK_ON) {
-        delay(1000);
+    if (state_Lw == HIGH && state_Door != LOCK_ON && FlagAutoLock == HIGH) {
+        delay(500);
         doorClose();
         state_Door = LOCK_ON;
+        FlagOnDoor = LOW;
+        FlagWarning = HIGH;
     }
+    if (state_Lw == LOW) FlagAutoLock = HIGH;
     Serial.println("auto_on_lock_door");
+}
+void auto_open_lock() {
+    if (WarningState == WARNING_OFF && FlagOnDoor == HIGH) {
+        if (state_Door != 1) {
+        doorOpen();
+        state_Door = LOCK_OFF;
+        FlagOnDoor = LOW;
+        }
+    }
 }
 
 
