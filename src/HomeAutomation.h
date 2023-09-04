@@ -44,6 +44,8 @@ extern bool FlagRecognize;
 extern bool FlagOnDoor;
 extern bool WarningState;
 extern bool FlagWarning;
+extern bool checkMail;
+extern portMUX_TYPE mux;
 
 
 
@@ -71,7 +73,7 @@ void controlDevice(void);
 void doorOpen(void);
 void doorClose(void);
 void recognize_check(void);
-void IRAM_ATTR lock_mode(void);
+void lock_mode(void);
 void auto_on_lock_door(void);
 void Security(void);
 void auto_open_lock(void);

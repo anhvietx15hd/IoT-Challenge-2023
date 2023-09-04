@@ -57,7 +57,8 @@ bool FlagRecognize;
 bool FlagOnDoor;
 bool WarningState;
 bool FlagWarning;
-portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
+bool checkMail;
+// portMUX_TYPE mux;
 
 
 bool warning_Security = WARNING_OFF;
@@ -82,7 +83,7 @@ void setup(){
     pinMode(LIMITSWITCH_STATE, INPUT);
     pinMode(BTN_ON_LOCK, INPUT);
 
-    attachInterrupt(BTN_ON_LOCK, lock_mode, RISING);
+    // attachInterrupt(BTN_ON_LOCK, lock_mode, RISING);
 
     /*Turn off the lights at the start*/
     digitalWrite(HALLWAY_LIGHT, LIGHT_OFF); 
@@ -127,7 +128,8 @@ void setup(){
     ,  NULL
     ,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
     ,  NULL
-    ,  1);
+    ,  0);
+
 }
 
 void loop(){
@@ -144,11 +146,8 @@ void loop(){
     auto_on_lock_door();
     auto_open_lock();
     client.loop();
-    Serial.print("State of WarningState:"); Serial.println(WarningState);
-    Serial.print("State of state_Door:"); Serial.println(state_Door);
-    Serial.print("State of state_Lw:"); Serial.println(state_Lw);
-    
-    delay(1000);
+   
+    // delay(1000);
 }
 /**********************************************************
  * End of file

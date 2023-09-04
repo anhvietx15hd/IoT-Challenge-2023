@@ -7,6 +7,7 @@
  * Variable
 ************************************************/
 long lastTimeBuzzer;
+portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
 static DynamicJsonDocument lightStatus(256);
 /***********************************************
  * Prototype
@@ -132,6 +133,9 @@ static void getActiveStatus(String &message){
         state_Door = 1;
         FlagRecognize = 0;
     }
+    else if (strcmp(str, "stateMail") == 0) {
+        checkMail = 1;
+    }
 
     else{
         getTimeToUpdate(message);
@@ -168,7 +172,7 @@ void ReadSensors(void *pvParameters)
         lightSensor = digitalRead(LIGHT_SENSOR);  // LightSensor
         humanDetected = digitalRead(HUMAN_DETECT);
         state_Lw = digitalRead(LIMITSWITCH_STATE);
-        
+      
         if((now - lastSentMsg > timeToUpdate) && (client.connected())){
             sendSensorsData();
             lastSentMsg = now;
@@ -191,7 +195,12 @@ static void sendSensorsData(void){
     serializeJson(doc, message);
     // Serial.println(message);
     //Send data to publish topic
-    if (FlagRecognize == 1) {
+    if (WarningState == WARNING_ON && checkMail == 0 ) {
+        client.publish("sercurity", "THREAF");      //Threaf
+        FlagRecognize = 0;
+        checkMail = 1;
+    }  
+    else if (FlagRecognize == 1) {
         client.publish("recognize", "DETECT");
         FlagRecognize = 0;
     }
@@ -229,6 +238,10 @@ void controlDevice(void){
         WarningState = WARNING_ON;
         FlagWarning = LOW;
     }
+    if (digitalRead(BTN_ON_LOCK) == HIGH) {
+        lock_mode();
+
+    }
     if (WarningState == WARNING_ON) {
         Security();
 
@@ -248,6 +261,7 @@ void controlDevice(void){
         }
 
     }
+    state_Lw = digitalRead(LIMITSWITCH_STATE);
     digitalWrite(YARD_LIGHT, yardLightStatus);
     Security();
 }
@@ -255,14 +269,14 @@ void doorOpen(void) {
     for (int pos =180; pos >= 90; pos -= 1) { // goes from 0 degrees to 180 degrees
     // in steps of 1 degree
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
+    delay(5);                       // waits 15ms for the servo to reach the position
   }
 }
 
 void doorClose(void) {
     for (int pos = 90; pos <= 179; pos += 1) { // goes from 180 degrees to 0 degrees
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
+    delay(5);                       // waits 15ms for the servo to reach the position
   }
 }
 
@@ -277,21 +291,19 @@ void recognize_check(void) {
 
 }
 bool FlagAutoLock = LOW;
-void IRAM_ATTR lock_mode(void) {
+void lock_mode(void) {
     FlagOnDoor = HIGH;
     FlagAutoLock = LOW;
     Serial.println("lock_mode");
 }
 void auto_on_lock_door(void) {
     if (state_Lw == HIGH && state_Door != LOCK_ON && FlagAutoLock == HIGH) {
-        delay(500);
         doorClose();
         state_Door = LOCK_ON;
         FlagOnDoor = LOW;
         FlagWarning = HIGH;
     }
     if (state_Lw == LOW) FlagAutoLock = HIGH;
-    Serial.println("auto_on_lock_door");
 }
 void auto_open_lock() {
     if (WarningState == WARNING_OFF && FlagOnDoor == HIGH) {
