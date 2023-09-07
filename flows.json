@@ -2,15 +2,7 @@
     {
         "id": "476a12a01ee6b415",
         "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "fb7b6ef3825348ee",
-        "type": "tab",
-        "label": "Flow 2",
+        "label": "Main",
         "disabled": false,
         "info": "",
         "env": []
@@ -43,14 +35,6 @@
         "id": "2c4429803f3685c6",
         "type": "tab",
         "label": "Flow 5",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "ec422cf8e0f8b2b2",
-        "type": "tab",
-        "label": "Flow 3",
         "disabled": false,
         "info": "",
         "env": []
@@ -184,7 +168,7 @@
         "type": "ui_tab",
         "name": "Dashboard",
         "icon": "dashboard",
-        "order": 1,
+        "order": 4,
         "disabled": false,
         "hidden": false
     },
@@ -215,7 +199,7 @@
         "type": "ui_tab",
         "name": "File Manager",
         "icon": "dashboard",
-        "order": 15,
+        "order": 2,
         "disabled": false,
         "hidden": false
     },
@@ -235,6 +219,7 @@
         "type": "ui_tab",
         "name": "Home",
         "icon": "dashboard",
+        "order": 1,
         "disabled": false,
         "hidden": false
     },
@@ -274,9 +259,9 @@
     {
         "id": "95bf4b7585a836fb",
         "type": "ui_group",
-        "name": "Download",
+        "name": "LOG",
         "tab": "ebb1ed1c.5ebe2",
-        "order": 7,
+        "order": 8,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -285,7 +270,7 @@
     {
         "id": "80d4c61b8d7e332f",
         "type": "ui_group",
-        "name": "temperature",
+        "name": "Temperature",
         "tab": "b63d1f91.68095",
         "order": 2,
         "disp": true,
@@ -296,7 +281,7 @@
     {
         "id": "330c74fd56fb8a42",
         "type": "ui_group",
-        "name": "humidity",
+        "name": "Humidity",
         "tab": "b63d1f91.68095",
         "order": 3,
         "disp": true,
@@ -307,7 +292,7 @@
     {
         "id": "81a1a0f86dbd7ea7",
         "type": "ui_group",
-        "name": "power",
+        "name": "Power",
         "tab": "b63d1f91.68095",
         "order": 4,
         "disp": true,
@@ -328,9 +313,9 @@
     {
         "id": "4f2da75b4445f277",
         "type": "ui_group",
-        "name": "Settings",
+        "name": "STATUS",
         "tab": "ebb1ed1c.5ebe2",
-        "order": 8,
+        "order": 7,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -339,7 +324,7 @@
     {
         "id": "2223d35ff079f419",
         "type": "ui_group",
-        "name": "Control",
+        "name": "INDOOR",
         "tab": "ebb1ed1c.5ebe2",
         "order": 5,
         "disp": true,
@@ -372,22 +357,11 @@
     {
         "id": "2705407d6eaae13c",
         "type": "ui_tab",
-        "name": "Detect",
+        "name": "Setting",
         "icon": "dashboard",
-        "order": 5,
+        "order": 3,
         "disabled": false,
         "hidden": false
-    },
-    {
-        "id": "75cd05531acc8dd7",
-        "type": "ui_group",
-        "name": "Clock",
-        "tab": "2705407d6eaae13c",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
     },
     {
         "id": "f5695f99a4099ee6",
@@ -414,7 +388,7 @@
     {
         "id": "d433431f2eeffbef",
         "type": "ui_group",
-        "name": "Status",
+        "name": "OUTDOOR",
         "tab": "ebb1ed1c.5ebe2",
         "order": 6,
         "disp": true,
@@ -481,11 +455,22 @@
         "className": ""
     },
     {
+        "id": "d7c576bae3f1d2a0",
+        "type": "ui_group",
+        "name": "Time to update",
+        "tab": "2705407d6eaae13c",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "3f3de6d2b3134f6c",
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "split temperature",
-        "func": "msg.payload = parseFloat((msg.payload.temperature).toFixed(2));\nmsg.topic = \"temperature\";\nreturn msg;",
+        "func": "msg.payload = parseFloat((flow.get(\"current_temperature\")).toFixed(2));\nmsg.topic = \"temperature\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -504,7 +489,7 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "split humidity",
-        "func": "msg.payload = parseFloat((msg.payload.humidity).toFixed(2));\nmsg.topic = \"humidity\";\nmsg.value = msg.payload.toString() + ' %';\nreturn msg;",
+        "func": "msg.payload = parseFloat((flow.get(\"current_humidity\")).toFixed(2));\nmsg.topic = \"humidity\";\nmsg.value = msg.payload.toString() + ' %';\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -522,14 +507,14 @@
         "id": "79da4b005c701d13",
         "type": "function",
         "z": "476a12a01ee6b415",
-        "name": "split power",
-        "func": "msg.payload = parseFloat((msg.payload.power).toFixed(2));\nmsg.topic = \"power\";\nmsg.value = msg.payload.toString() + 'mW'\nreturn msg;",
+        "name": "prepare power data",
+        "func": "msg.payload = parseFloat(msg.current_sum_power.toFixed(2));\nmsg.topic = \"power\";\nmsg.value = msg.payload.toString() + 'mW'\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
+        "x": 570,
         "y": 160,
         "wires": [
             [
@@ -623,7 +608,7 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "Create new file",
-        "func": "var currentDate = new Date();\nvar data = {};\n//File sẽ được tạo từ 23h59 hôm trước nên cần cộng thêm 1\nvar day = currentDate.getDate() + 1 ;\nvar month = currentDate.getMonth() +1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentDate.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nvar fileName = '/home/viet/IoT_data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\nmsg.fileName = fileName;\nmsg.payload = {};\nreturn msg;",
+        "func": "var currentDate = new Date();\nvar data = {};\nvar day = currentDate.getDate() ;\nvar month = currentDate.getMonth() +1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentDate.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nvar fileName = '/home/viet/IoT_data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\nmsg.fileName = fileName;\nmsg.payload = {};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -652,8 +637,8 @@
             }
         ],
         "repeat": "",
-        "crontab": "59 23 * * *",
-        "once": true,
+        "crontab": "00 00 * * *",
+        "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "0",
@@ -1140,7 +1125,7 @@
         "z": "476a12a01ee6b415",
         "name": "Time to update",
         "label": "",
-        "group": "4f2da75b4445f277",
+        "group": "d7c576bae3f1d2a0",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -1210,9 +1195,9 @@
         "id": "aa1feae2bc9c6c94",
         "type": "ui_led",
         "z": "476a12a01ee6b415",
-        "order": 2,
-        "group": "d433431f2eeffbef",
-        "width": 1,
+        "order": 3,
+        "group": "4f2da75b4445f277",
+        "width": "1",
         "height": 1,
         "label": "",
         "labelPlacement": "left",
@@ -1232,8 +1217,8 @@
         "allowColorForValueInMessage": false,
         "shape": "circle",
         "showGlow": true,
-        "name": "",
-        "x": 1110,
+        "name": "GAS STATUS",
+        "x": 1130,
         "y": 560,
         "wires": []
     },
@@ -1242,7 +1227,7 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "function 9",
-        "func": "if (msg.payload.gas != 0){\n    msg.payload = true;\n    msg.notification = \"ĐANG CÓ RÒ RỈ KHÍ GAS\";\n} else {\n    msg.payload = false;\n    msg.topic = [];\n    msg.notification = \"Không phát hiện khí gas\"\n}\n\nreturn msg;",
+        "func": "if (msg.payload.gas != 0){\n    msg.payload = true;\n    msg.notification = \"GAS LEAK DETECTED\";\n} else {\n    msg.payload = false;\n    msg.topic = [];\n    msg.notification = \"No gas leak detected\"\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1286,11 +1271,11 @@
         "id": "a23d2e724fd30093",
         "type": "ui_text",
         "z": "476a12a01ee6b415",
-        "group": "d433431f2eeffbef",
-        "order": 1,
-        "width": 5,
+        "group": "4f2da75b4445f277",
+        "order": 2,
+        "width": "5",
         "height": 1,
-        "name": "",
+        "name": "GAS STATUS",
         "label": "",
         "format": "{{msg.notification}}",
         "layout": "row-left",
@@ -1299,7 +1284,7 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 710,
+        "x": 730,
         "y": 620,
         "wires": []
     },
@@ -1354,7 +1339,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 70,
+        "x": 130,
         "y": 580,
         "wires": [
             [
@@ -1374,8 +1359,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 150,
-        "y": 440,
+        "x": 70,
+        "y": 500,
         "wires": [
             [
                 "ec09c4429c033963",
@@ -1618,8 +1603,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
-        "y": 220,
+        "x": 790,
+        "y": 200,
         "wires": [
             [
                 "37277a90685732cc"
@@ -1652,8 +1637,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 780,
-        "y": 220,
+        "x": 1000,
+        "y": 200,
         "wires": [
             []
         ]
@@ -1717,29 +1702,6 @@
         ]
     },
     {
-        "id": "073711812a5044d8",
-        "type": "function",
-        "z": "476a12a01ee6b415",
-        "name": "add timestamp",
-        "func": "var data = {};\nvar currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = flow.get(\"hours\");\nvar minutes = flow.get(\"minutes\");\nvar seconds = flow.get(\"seconds\");\n\n// Chuyển đổi thành chuỗi dạng HH:mm:ss\nvar timeStamp = hours.toString().padStart(2, '0') + ':' +\n    minutes.toString().padStart(2, '0') + ':' +\n    seconds.toString().padStart(2, '0');\nvar day = flow.get(\"days\");\nvar month = flow.get(\"months\"); // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = flow.get(\"years\");\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nmsg.fileName = '/home/viet/IoT_data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n\n\ndata.timeStamp = timeStamp;\ndata.temperature = msg.payload.temperature;\ndata.power = msg.payload.power;\ndata.gas = msg.payload.gas;\ndata.humidity = msg.payload.humidity;\n\nmsg.payload = data;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 220,
-        "y": 160,
-        "wires": [
-            [
-                "79da4b005c701d13",
-                "336f53f2d20d46db",
-                "3f3de6d2b3134f6c",
-                "d40fc52f438ce7d5",
-                "85020ac092047280"
-            ]
-        ]
-    },
-    {
         "id": "34525a03125290eb",
         "type": "function",
         "z": "476a12a01ee6b415",
@@ -1761,12 +1723,12 @@
         "type": "ui_switch",
         "z": "476a12a01ee6b415",
         "name": "",
-        "label": "Đèn trần",
+        "label": "BEDROOM 1",
         "tooltip": "",
         "group": "2223d35ff079f419",
-        "order": 2,
-        "width": 0,
-        "height": 0,
+        "order": 1,
+        "width": "4",
+        "height": "1",
         "passthru": true,
         "decouple": "false",
         "topic": "topic",
@@ -1782,11 +1744,10 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 720,
+        "x": 730,
         "y": 680,
         "wires": [
             [
-                "5c6a64e73ea8bf27",
                 "2d6d9ced9abab94b",
                 "cefc5807d2ecae1e"
             ]
@@ -1797,12 +1758,12 @@
         "type": "ui_switch",
         "z": "476a12a01ee6b415",
         "name": "",
-        "label": "Đèn tường",
+        "label": "BEDROOM 2",
         "tooltip": "",
         "group": "2223d35ff079f419",
         "order": 3,
-        "width": 0,
-        "height": 0,
+        "width": "4",
+        "height": "1",
         "passthru": true,
         "decouple": "false",
         "topic": "topic",
@@ -1824,7 +1785,8 @@
             [
                 "5c6a64e73ea8bf27",
                 "d89705ea9e4eed52",
-                "72e21795980e97e3"
+                "72e21795980e97e3",
+                "9184368bfd7d0129"
             ]
         ]
     },
@@ -1833,7 +1795,7 @@
         "type": "mqtt out",
         "z": "476a12a01ee6b415",
         "name": "",
-        "topic": "sub",
+        "topic": "outdoor_sub",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -1842,7 +1804,7 @@
         "correl": "",
         "expiry": "",
         "broker": "26bb56a265ba606e",
-        "x": 930,
+        "x": 950,
         "y": 740,
         "wires": []
     },
@@ -1851,9 +1813,9 @@
         "type": "ui_form",
         "z": "476a12a01ee6b415",
         "name": "",
-        "label": "hẹn giờ Đèn Sân",
-        "group": "2223d35ff079f419",
-        "order": 1,
+        "label": "Light Schedule",
+        "group": "d433431f2eeffbef",
+        "order": 3,
         "width": 0,
         "height": 0,
         "options": [
@@ -1883,7 +1845,7 @@
         "topicType": "msg",
         "splitLayout": true,
         "className": "",
-        "x": 650,
+        "x": 640,
         "y": 880,
         "wires": [
             [
@@ -2010,13 +1972,13 @@
         "id": "5487d2544ad04b75",
         "type": "ui_led",
         "z": "476a12a01ee6b415",
-        "order": 5,
+        "order": 7,
         "group": "d433431f2eeffbef",
-        "width": 0,
-        "height": 0,
-        "label": "Đèn sân",
-        "labelPlacement": "left",
-        "labelAlignment": "left",
+        "width": "1",
+        "height": "1",
+        "label": "",
+        "labelPlacement": "right",
+        "labelAlignment": "right",
         "colorForValue": [
             {
                 "color": "#4c4848",
@@ -2092,11 +2054,11 @@
         "id": "2d6d9ced9abab94b",
         "type": "ui_led",
         "z": "476a12a01ee6b415",
-        "order": 4,
-        "group": "d433431f2eeffbef",
-        "width": 0,
-        "height": 0,
-        "label": "Đèn trần",
+        "order": 2,
+        "group": "2223d35ff079f419",
+        "width": "2",
+        "height": "1",
+        "label": "",
         "labelPlacement": "left",
         "labelAlignment": "left",
         "colorForValue": [
@@ -2123,11 +2085,11 @@
         "id": "d89705ea9e4eed52",
         "type": "ui_led",
         "z": "476a12a01ee6b415",
-        "order": 3,
-        "group": "d433431f2eeffbef",
-        "width": 0,
-        "height": 0,
-        "label": "Đèn tường",
+        "order": 4,
+        "group": "2223d35ff079f419",
+        "width": "2",
+        "height": "1",
+        "label": "",
         "labelPlacement": "left",
         "labelAlignment": "left",
         "colorForValue": [
@@ -2167,7 +2129,8 @@
         "y": 160,
         "wires": [
             [
-                "073711812a5044d8"
+                "d40fc52f438ce7d5",
+                "494831346402dbe1"
             ]
         ]
     },
@@ -2195,9 +2158,7 @@
         "x": 110,
         "y": 800,
         "wires": [
-            [
-                "06a824fb905259d3"
-            ]
+            []
         ]
     },
     {
@@ -2244,7 +2205,7 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "yard Light message",
-        "func": "if(msg.payload){\n    msg.payload = \"ON_ceilingLight\";\n} else {\n    msg.payload = \"OFF_ceilingLight\";\n}\n// msg.topic = \"yardLight\";\nreturn msg;",
+        "func": "if(msg.payload){\n    msg.payload = \"ON_yardLight\";\n} else {\n    msg.payload = \"OFF_yardLight\";\n}\n// msg.topic = \"yardLight\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2393,18 +2354,18 @@
         "type": "ui_text",
         "z": "476a12a01ee6b415",
         "group": "d433431f2eeffbef",
-        "order": 6,
-        "width": "3",
+        "order": 5,
+        "width": "1",
         "height": "1",
-        "name": "",
-        "label": "On at",
+        "name": "ON",
+        "label": "",
         "format": "{{msg.onTime}}",
-        "layout": "col-center",
+        "layout": "row-center",
         "className": "",
-        "style": false,
+        "style": true,
         "font": "",
         "fontSize": 16,
-        "color": "#000000",
+        "color": "#008000",
         "x": 1070,
         "y": 940,
         "wires": []
@@ -2415,17 +2376,17 @@
         "z": "476a12a01ee6b415",
         "group": "d433431f2eeffbef",
         "order": 6,
-        "width": "3",
+        "width": "2",
         "height": "1",
-        "name": "",
-        "label": "Off at",
+        "name": "OFF",
+        "label": "",
         "format": "{{msg.offTime}}",
-        "layout": "col-center",
+        "layout": "row-center",
         "className": "",
-        "style": false,
+        "style": true,
         "font": "",
         "fontSize": 16,
-        "color": "#000000",
+        "color": "#ff0000",
         "x": 1070,
         "y": 980,
         "wires": []
@@ -2456,9 +2417,9 @@
         "type": "ui_text",
         "z": "476a12a01ee6b415",
         "group": "4f2da75b4445f277",
-        "order": 3,
+        "order": 1,
         "width": "6",
-        "height": "2",
+        "height": "1",
         "name": "",
         "label": "{{msg.topic}}",
         "format": "{{msg.payload}}",
@@ -2468,8 +2429,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 330,
-        "y": 420,
+        "x": 250,
+        "y": 500,
         "wires": []
     },
     {
@@ -2504,7 +2465,7 @@
         "type": "function",
         "z": "476a12a01ee6b415",
         "name": "prepare data to write to the file",
-        "func": "if((flow.get(\"minutes\") % 5 == 0) && (!flow.get(\"dataWrote\")) ){\n    var data = {};\n    data.timeStamp = msg.payload.timeStamp;\n    data.temperature = parseFloat((flow.get(\"temperature\")).toFixed(2));\n    data.humidity = parseFloat((flow.get(\"humidity\")).toFixed(2)); \n    data.power = parseFloat((flow.get(\"power\")).toFixed(2));  \n     \n    // flow.set(\"lastMinuteWriteData\", flow.get(\"minutes\"));\n    flow.set(\"temperature\", msg.payload.temperature);\n    flow.set(\"power\", msg.payload.power);\n    flow.set(\"humidity\", msg.payload.humidity);\n    msg.payload = data;\n    flow.set(\"dataWrote\", 1);\n    return msg;\n} else {\n    if(flow.get(\"minutes\") % 5 > 0){\n        flow.set(\"dataWrote\", 0);\n    }\n    \n    var currentTemperature = flow.get(\"temperature\");\n    var currentPower = flow.get(\"power\");\n    var currentHumidity = flow.get(\"humidity\");\n    var cycle = 5 * 60 * 1000 / flow.get(\"timeToUpdate\");\n    \n    flow.set(\"temperature\", currentTemperature + (msg.payload.temperature - currentTemperature) / cycle);\n    flow.set(\"power\", currentPower + (msg.payload.power - currentPower) / cycle);\n    flow.set(\"humidity\", currentHumidity + (msg.payload.humidity - currentHumidity) / cycle);\n}",
+        "func": "if ((flow.get(\"minutes\") % 5 == 0) && (!flow.get(\"dataWrote\"))) {\n    var data = {};\n    var currentTime = new Date();\n\n    // Lấy giờ, phút, giây\n    var hours = flow.get(\"hours\");\n    var minutes = flow.get(\"minutes\");\n    var seconds = flow.get(\"seconds\");\n\n    // Chuyển đổi thành chuỗi dạng HH:mm:ss\n    var timeStamp = hours.toString().padStart(2, '0') + ':' +\n        minutes.toString().padStart(2, '0') + ':' +\n        seconds.toString().padStart(2, '0');\n    var day = flow.get(\"days\");\n    var month = flow.get(\"months\");\n    var year = flow.get(\"years\");\n\n    // Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\n    msg.fileName = '/home/viet/IoT_data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n    \n    data.timeStamp = timeStamp;\n    data.temperature = parseFloat((flow.get(\"avg_temperature\")).toFixed(2));\n    data.humidity = parseFloat((flow.get(\"avg_humidity\")).toFixed(2));\n    data.power = parseFloat((flow.get(\"avg_sum_power\")).toFixed(2));\n\n    flow.set(\"avg_temperature\", flow.get(\"current_temperature\"));\n    flow.set(\"avg_sum_power\", msg.current_sum_power);\n    flow.set(\"avg_humidity\", flow.get(\"current_humidity\"));\n    msg.payload = data;\n    flow.set(\"dataWrote\", 1);\n    return msg;\n} else {\n    if (flow.get(\"minutes\") % 5 > 0) {\n        flow.set(\"dataWrote\", 0);\n    }\n\n    var avg_temperature = flow.get(\"avg_temperature\");\n    var avg_power = flow.get(\"avg_sum_power\");\n    var avg_humidity = flow.get(\"avg_humidity\");\n    var cycle = 5 * 60 * 1000 / flow.get(\"timeToUpdate\");\n\n    flow.set(\"avg_temperature\", avg_temperature + (flow.get(\"current_temperature\") - avg_temperature) / cycle);\n    flow.set(\"avg_sum_power\", avg_power + (msg.current_sum_power - avg_power) / cycle);\n    flow.set(\"avg_humidity\", avg_humidity + (flow.get(\"current_humidity\") - avg_humidity) / cycle);\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2539,12 +2500,10 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 70,
-        "y": 300,
+        "x": 90,
+        "y": 740,
         "wires": [
-            [
-                "cec15f723901825f"
-            ]
+            []
         ]
     },
     {
@@ -2555,21 +2514,21 @@
         "rules": [
             {
                 "t": "set",
-                "p": "temperature",
+                "p": "avg_temperature",
                 "pt": "flow",
                 "to": "35",
                 "tot": "num"
             },
             {
                 "t": "set",
-                "p": "power",
+                "p": "avg_sum_power",
                 "pt": "flow",
                 "to": "0",
                 "tot": "num"
             },
             {
                 "t": "set",
-                "p": "humidity",
+                "p": "avg_humidity",
                 "pt": "flow",
                 "to": "60",
                 "tot": "num"
@@ -2583,17 +2542,31 @@
             },
             {
                 "t": "set",
-                "p": "power_indoor",
+                "p": "current_power_indoor",
                 "pt": "flow",
                 "to": "0",
-                "tot": "str"
+                "tot": "num"
             },
             {
                 "t": "set",
-                "p": "power_outdoor",
+                "p": "current_power_outdoor",
                 "pt": "flow",
                 "to": "0",
-                "tot": "str"
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "current_temperature",
+                "pt": "flow",
+                "to": "35",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "current_humidity",
+                "pt": "flow",
+                "to": "60",
+                "tot": "num"
             }
         ],
         "action": "",
@@ -2601,729 +2574,93 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 260,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "26545d1f33d95d30",
-        "type": "mqtt in",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "topic": "Pub",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26bb56a265ba606e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 270,
-        "y": 220,
-        "wires": [
-            [
-                "343b4b7827b627ce",
-                "55fc0ceecb6a52ae"
-            ]
-        ]
-    },
-    {
-        "id": "343b4b7827b627ce",
-        "type": "function",
-        "z": "fb7b6ef3825348ee",
-        "name": "add timestamp",
-        "func": "var data = {};\nvar currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = currentTime.getHours();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\n\n// Chuyển đổi thành chuỗi dạng HH:mm:ss\nvar timeStamp = hours.toString().padStart(2, '0') + ':' +\n    minutes.toString().padStart(2, '0') + ':' +\n    seconds.toString().padStart(2, '0');\nvar day = currentTime.getDate();\nvar month = currentTime.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentTime.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nmsg.fileName = '/home/viet/data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n\n\ndata.timeStamp = timeStamp;\ndata.temperature = parseFloat(msg.payload.temperature.toFixed(2));\nmsg.payload = data;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 480,
-        "y": 220,
-        "wires": [
-            [
-                "0992b06598018f6d",
-                "b13b7d22e0e1e2a1"
-            ]
-        ]
-    },
-    {
-        "id": "2fccc20909298aa6",
-        "type": "ui_gauge",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "group": "dfb4a60f.d788f8",
-        "order": 1,
-        "width": "0",
-        "height": "0",
-        "gtype": "gage",
-        "title": "Temperature",
-        "label": "℃",
-        "format": "{{value}}",
-        "min": 0,
-        "max": "50",
-        "colors": [
-            "#00b500",
-            "#e6e600",
-            "#ca3838"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "diff": false,
-        "className": "gauge",
-        "x": 1090,
-        "y": 220,
-        "wires": []
-    },
-    {
-        "id": "0992b06598018f6d",
-        "type": "function",
-        "z": "fb7b6ef3825348ee",
-        "name": "split sensor data",
-        "func": "msg.payload = msg.payload.temperature;\nmsg.topic = \"temperature\";\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 760,
-        "y": 220,
-        "wires": [
-            [
-                "2fccc20909298aa6",
-                "c4d35706b7d26fbf",
-                "46fde3ee4a3f1d85"
-            ]
-        ]
-    },
-    {
-        "id": "835d95d24e1fd5ec",
-        "type": "ui_template",
-        "z": "fb7b6ef3825348ee",
-        "group": "e8d3a60cfc58017f",
-        "name": "",
-        "order": 1,
-        "width": "0",
-        "height": "0",
-        "format": "<style>\n    body{\n    background-color:#eef5f9 !important;}\n    .gauge tspan{\n    font-size: 15px;\n    color:green !important;}\n\n</style>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 1060,
-        "y": 280,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "b13b7d22e0e1e2a1",
-        "type": "csv",
-        "z": "fb7b6ef3825348ee",
-        "name": "Create csv row",
-        "sep": ",",
-        "hdrin": "",
-        "hdrout": "none",
-        "multi": "one",
-        "ret": "\\n",
-        "temp": "timeStamp, temperature",
-        "skip": "0",
-        "strings": true,
-        "include_empty_strings": "",
-        "include_null_values": "",
-        "x": 800,
-        "y": 140,
-        "wires": [
-            [
-                "cdad48ea5641629e"
-            ]
-        ]
-    },
-    {
-        "id": "cdad48ea5641629e",
-        "type": "file",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "filename": "fileName",
-        "filenameType": "msg",
-        "appendNewline": false,
-        "createDir": true,
-        "overwriteFile": "false",
-        "encoding": "none",
-        "x": 1100,
-        "y": 140,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f3accdb5d3bc7345",
-        "type": "function",
-        "z": "fb7b6ef3825348ee",
-        "name": "Set base path",
-        "func": "var basePath = \"/home/viet/data/\";\nvar filename = msg.req.params.fn;\n\n\nif (filename.includes(\"..\\\\\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n} else if (filename.includes(\"../\")) {\n    msg.payload = \"Illegal file path\";\n    msg.statusCode = 405;//not allowed\n    return [null, msg];//fire output 2\n}\n//TODO: add more checks\n\nmsg.filename = basePath + filename;\nreturn msg\n\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 540,
-        "y": 340,
-        "wires": [
-            [
-                "7c640db501d9413f"
-            ]
-        ]
-    },
-    {
-        "id": "a650f7533aafbca3",
-        "type": "http response",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 930,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "7c640db501d9413f",
-        "type": "file in",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "filename": "filename",
-        "filenameType": "msg",
-        "format": "",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 760,
-        "y": 340,
-        "wires": [
-            [
-                "a650f7533aafbca3"
-            ]
-        ]
-    },
-    {
-        "id": "33320dc6a340d263",
-        "type": "http in",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "url": "/download/:fn",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 290,
-        "y": 340,
-        "wires": [
-            [
-                "f3accdb5d3bc7345"
-            ]
-        ]
-    },
-    {
-        "id": "8d9d6b2b60a0f241",
-        "type": "ui_template",
-        "z": "fb7b6ef3825348ee",
-        "group": "e8d3a60cfc58017f",
-        "name": "Download",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "format": "<!DOCTYPE html>\n<html>\n\n<head>\n  <style>\n    .download {\n      font-family: BlinkMacSystemFont, sans-serif;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: center;\n      margin: 0 30px;\n      max-width: 350px;\n      background-color: #ffffff;\n      border-radius: 8px;\n      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n      padding: 20px;\n    }\n\n    .Picker {\n      display: flex;\n      background-color: #eeeeee;\n      border-radius: 8px;\n      overflow: hidden;\n      margin-bottom: 5px;\n    }\n\n    .datePicker {\n      flex: 1;\n      height: 30px;\n      padding: 0 10px;\n      border: none;\n      font-size: 16px;\n      color: blueviolet;\n    }\n\n    .my-button {\n      margin-top: 5px;\n      padding: 10px 20px;\n      width: 80%;\n      background-color: #0094ce;\n      color: white;\n      border: none;\n      display:flex;\n      align-items: center;\n      justify-content: center;\n      border-radius: 4px;\n      transition: background-color 0.3s ease;\n    }\n\n    .my-button:hover {\n      background-color: #00aaed;\n    }\n  </style>\n</head>\n\n<body>\n  <div class=\"download\">\n    <div class=\"Picker\">\n      <input type=\"date\" class=\"datePicker\">\n    </div>\n    <button class=\"my-button\" id=\"myButton\">DOWNLOAD</button>\n  </div>\n\n  <script>\n    const Day = document.querySelector('.datePicker');\n        var selectedDate;\n        var fileName;\n        var link;\n\n        Day.addEventListener('change', function() {\n            var dateObject = new Date(Day.value);\n            var day = dateObject.getDate();\n            var month = dateObject.getMonth() + 1;\n            var year = dateObject.getFullYear();\n            selectedDate = day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year;\n            fileName = selectedDate + '.csv';\n            link = '/download/' + fileName;\n        });\n\n        var button = document.getElementById(\"myButton\");\n        button.addEventListener(\"click\", function() {\n            console.log(link);\n            window.location.href =link;\n        });\n  </script>\n</body>\n\n</html>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": false,
-        "templateScope": "local",
-        "className": "",
-        "x": 1080,
-        "y": 340,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "96bf7a4a0ab50e36",
-        "type": "inject",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "props": [
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "59 23 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 350,
-        "y": 40,
-        "wires": [
-            [
-                "29bc2b3201bd7d8c"
-            ]
-        ]
-    },
-    {
-        "id": "29bc2b3201bd7d8c",
-        "type": "function",
-        "z": "fb7b6ef3825348ee",
-        "name": "Create new file",
-        "func": "var currentDate = new Date();\nvar data = {};\n\nvar day = currentDate.getDate() +1 ;\nvar month = currentDate.getMonth() +1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nvar year = currentDate.getFullYear();\n\n// Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\nvar fileName = '/home/viet/data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\nmsg.fileName = fileName;\nmsg.payload = {};\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 580,
-        "y": 40,
-        "wires": [
-            [
-                "f8da16a662a9cbbe"
-            ]
-        ]
-    },
-    {
-        "id": "f8da16a662a9cbbe",
-        "type": "csv",
-        "z": "fb7b6ef3825348ee",
-        "name": "Create csv header",
-        "sep": ",",
-        "hdrin": true,
-        "hdrout": "once",
-        "multi": "one",
-        "ret": "\\n",
-        "temp": "timeStamp, temperature",
-        "skip": "0",
-        "strings": true,
-        "include_empty_strings": "",
-        "include_null_values": "",
-        "x": 890,
-        "y": 40,
-        "wires": [
-            [
-                "e5600123bb815e1d"
-            ]
-        ]
-    },
-    {
-        "id": "e5600123bb815e1d",
-        "type": "file",
-        "z": "fb7b6ef3825348ee",
-        "name": "new file at the start of new day",
-        "filename": "fileName",
-        "filenameType": "msg",
-        "appendNewline": false,
-        "createDir": true,
-        "overwriteFile": "false",
-        "encoding": "none",
-        "x": 1190,
-        "y": 40,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "a11269f998162254",
-        "type": "ui_form",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "label": "",
-        "group": "dfb4a60f.d788f8",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "options": [
-            {
-                "label": "Time to update",
-                "value": "timeToUpdate",
-                "type": "number",
-                "required": true,
-                "rows": null
-            }
-        ],
-        "formValue": {
-            "timeToUpdate": ""
-        },
-        "payload": "",
-        "submit": "submit",
-        "cancel": "cancel",
-        "topic": "topic",
-        "topicType": "msg",
-        "splitLayout": "",
-        "className": "",
-        "x": 250,
-        "y": 560,
-        "wires": [
-            [
-                "95ef3d77bf239562"
-            ]
-        ]
-    },
-    {
-        "id": "95ef3d77bf239562",
-        "type": "json",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "property": "payload",
-        "action": "str",
-        "pretty": false,
-        "x": 390,
-        "y": 560,
-        "wires": [
-            [
-                "25c5fb2df4d3288e"
-            ]
-        ]
-    },
-    {
-        "id": "25c5fb2df4d3288e",
-        "type": "mqtt out",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "topic": "Sub",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "26bb56a265ba606e",
-        "x": 570,
-        "y": 560,
-        "wires": []
-    },
-    {
-        "id": "cd7b94397e87e625",
-        "type": "catch",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "scope": null,
-        "uncaught": false,
-        "x": 400,
-        "y": 420,
-        "wires": [
-            [
-                "84a3ade8101421cb",
-                "e814553f4e33c384"
-            ]
-        ]
-    },
-    {
-        "id": "84a3ade8101421cb",
-        "type": "function",
-        "z": "fb7b6ef3825348ee",
-        "name": "Set 404",
-        "func": "msg.payload = msg.error;\nmsg.statusCode = 404;//resource not found\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 780,
-        "y": 420,
-        "wires": [
-            [
-                "a650f7533aafbca3"
-            ]
-        ]
-    },
-    {
-        "id": "e814553f4e33c384",
-        "type": "debug",
-        "z": "fb7b6ef3825348ee",
-        "name": "debug 8",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 540,
-        "y": 400,
-        "wires": []
-    },
-    {
-        "id": "c4d35706b7d26fbf",
-        "type": "ui_chart",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "group": "dfb4a60f.d788f8",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "label": "chart",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "0",
-        "ymax": "50",
-        "removeOlder": "30",
-        "removeOlderPoints": "",
-        "removeOlderUnit": "60",
-        "cutout": 0,
-        "useOneColor": false,
-        "useUTC": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "useDifferentColor": false,
-        "className": "",
-        "x": 1110,
-        "y": 180,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "46fde3ee4a3f1d85",
-        "type": "power-monitor",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "startthreshold": "0",
-        "stopthreshold": 0,
-        "startafter": 1,
-        "stopafter": 1,
-        "energydecimals": 4,
-        "emitidle": false,
-        "x": 1080,
-        "y": 520,
-        "wires": [
-            [
-                "6869dce844db60f7"
-            ]
-        ]
-    },
-    {
-        "id": "6869dce844db60f7",
-        "type": "function",
-        "z": "fb7b6ef3825348ee",
-        "name": "function 10",
-        "func": "var currentTime = new Date();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\nvar data = {};\n\nif(seconds > 56){\n    data.energy = msg.payload.energy;\n    data.topic = minutes;\n    msg.data = data;\n    msg.payload = \"stop\";\n    return msg;\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1350,
-        "y": 460,
-        "wires": [
-            [
-                "1c914b076c925d28",
-                "46fde3ee4a3f1d85",
-                "954f89c8eb90604e"
-            ]
-        ]
-    },
-    {
-        "id": "1c914b076c925d28",
-        "type": "debug",
-        "z": "fb7b6ef3825348ee",
-        "name": "debug 17",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "data",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1500,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "954f89c8eb90604e",
-        "type": "function",
-        "z": "fb7b6ef3825348ee",
-        "name": "function 11",
-        "func": "msg.payload = msg.data.energy;\nmsg.topic = msg.data.topic;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1590,
-        "y": 480,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "55fc0ceecb6a52ae",
-        "type": "debug",
-        "z": "fb7b6ef3825348ee",
-        "name": "debug 28",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 420,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "47c86ddb1063503d",
-        "type": "ui_template",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "format": "<div ng-bind-html=\"msg.payload\"></div>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 360,
-        "y": 1040,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "af14f70825ad2535",
-        "type": "inject",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "ON_ceilingLight",
-        "payloadType": "str",
-        "x": 320,
-        "y": 840,
-        "wires": [
-            [
-                "36279a13ae2afdf7"
-            ]
-        ]
-    },
-    {
-        "id": "36279a13ae2afdf7",
-        "type": "ui_switch",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "label": "Đèn trần",
-        "tooltip": "",
-        "group": "29d197dfa34e9696",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "ON_ceilingLight",
-        "onvalueType": "str",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "OFF_ceilingLight",
-        "offvalueType": "str",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 500,
-        "y": 840,
-        "wires": [
-            [
-                "f70bf69cc2750582"
-            ]
-        ]
-    },
-    {
-        "id": "84972de2e253c27c",
-        "type": "inject",
-        "z": "fb7b6ef3825348ee",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 280,
+        "x": 300,
         "y": 740,
         "wires": [
             []
         ]
     },
     {
-        "id": "f70bf69cc2750582",
-        "type": "debug",
-        "z": "fb7b6ef3825348ee",
-        "name": "debug 40",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 680,
-        "y": 840,
-        "wires": []
+        "id": "494831346402dbe1",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "write indoor data to global variable",
+        "func": "flow.set(\"current_power_indoor\", msg.payload.power);\nflow.set(\"current_temperature\", msg.payload.temperature);\nflow.set(\"current_humidity\", msg.payload.humidity);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 160,
+        "wires": [
+            []
+        ]
     },
     {
-        "id": "4ee6e89f6d2c1b71",
+        "id": "0d1ee65834d00285",
+        "type": "mqtt in",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "topic": "outdoor",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 50,
+        "y": 420,
+        "wires": [
+            [
+                "5c2b837367c24752"
+            ]
+        ]
+    },
+    {
+        "id": "5c2b837367c24752",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "write outdoor data to global variable",
+        "func": "flow.set(\"current_power_outdoor\", msg.payload.power);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "073711812a5044d8",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "Get sum power",
+        "func": "msg.current_indoor_power = flow.get(\"current_power_indoor\");\nmsg.current_outdoor_power = flow.get(\"current_power_outdoor\");\nmsg.current_sum_power = msg.current_indoor_power + msg.current_outdoor_power;\n//Reset the global current power value\nflow.set(\"current_power_indoor\", 0);\nflow.set(\"current_power_outdoor\", 0);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 240,
+        "wires": [
+            [
+                "79da4b005c701d13",
+                "336f53f2d20d46db",
+                "3f3de6d2b3134f6c",
+                "85020ac092047280"
+            ]
+        ]
+    },
+    {
+        "id": "d189e55b7eb65819",
         "type": "inject",
-        "z": "fb7b6ef3825348ee",
+        "z": "476a12a01ee6b415",
         "name": "",
         "props": [
             {
@@ -3334,58 +2671,257 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "3",
         "crontab": "",
-        "once": false,
+        "once": true,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "OFF_ceilingLight",
-        "payloadType": "str",
-        "x": 320,
-        "y": 920,
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 240,
         "wires": [
             [
-                "36279a13ae2afdf7"
+                "073711812a5044d8"
             ]
         ]
     },
     {
-        "id": "13584e465a1529a8",
-        "type": "mqtt in",
-        "z": "fb7b6ef3825348ee",
+        "id": "341f4a8334cb6343",
+        "type": "comment",
+        "z": "476a12a01ee6b415",
         "name": "",
-        "topic": "LightStatus",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26bb56a265ba606e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 180,
-        "y": 140,
-        "wires": [
-            [
-                "183b0690765cda39"
-            ]
-        ]
+        "info": "Nối lại nếu cần reset\n",
+        "x": 160,
+        "y": 700,
+        "wires": []
     },
     {
-        "id": "183b0690765cda39",
+        "id": "9184368bfd7d0129",
         "type": "debug",
-        "z": "fb7b6ef3825348ee",
-        "name": "debug 41",
+        "z": "476a12a01ee6b415",
+        "name": "debug 62",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 400,
-        "y": 140,
+        "x": 1140,
+        "y": 800,
         "wires": []
+    },
+    {
+        "id": "fd5584f8cbcac275",
+        "type": "comment",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "info": "Đưa hiển thị hẹn giờ về 1 dòng ON/OFF, màu khác nhau\nThêm tình trạng cửa mở hay đống, nháy cửa khi phát hiện cửa bị cạy\nHiển thị thêm đèn IR, bố trí theo từng phòng, nút control bên cạnh đèn hiển thị\n",
+        "x": 1240,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "aee96fb97614da45",
+        "type": "ui_text",
+        "z": "476a12a01ee6b415",
+        "group": "d433431f2eeffbef",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "name": "",
+        "label": "YARD LIGHT",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 810,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "b24b27c5ce435f89",
+        "type": "function",
+        "z": "476a12a01ee6b415",
+        "name": "function 46",
+        "func": "if (msg.payload) {\n    msg.notification = \"OPEN\";\n} else {\n    msg.notification = \"CLOSE\"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 1640,
+        "wires": [
+            [
+                "8bd5e09b0be45338",
+                "4aafaf849239412e"
+            ]
+        ]
+    },
+    {
+        "id": "8bd5e09b0be45338",
+        "type": "ui_text",
+        "z": "476a12a01ee6b415",
+        "group": "4f2da75b4445f277",
+        "order": 5,
+        "width": "3",
+        "height": 1,
+        "name": "DOOR STATE",
+        "label": "",
+        "format": "{{msg.notification}}",
+        "layout": "row-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 720,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "5e2a25d2756e97a5",
+        "type": "ui_led",
+        "z": "476a12a01ee6b415",
+        "order": 6,
+        "group": "4f2da75b4445f277",
+        "width": "1",
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            },
+            {
+                "color": "#505050",
+                "value": "false",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "DOOR STATE",
+        "x": 1100,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "46c03778028c52ec",
+        "type": "inject",
+        "z": "476a12a01ee6b415",
+        "name": "DOOR STATE",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 200,
+        "y": 1640,
+        "wires": [
+            [
+                "b24b27c5ce435f89"
+            ]
+        ]
+    },
+    {
+        "id": "53e602882b3ed4a5",
+        "type": "ui_text",
+        "z": "476a12a01ee6b415",
+        "group": "4f2da75b4445f277",
+        "order": 4,
+        "width": "2",
+        "height": "1",
+        "name": "",
+        "label": "DOOR",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 510,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "1ee945573419b1d6",
+        "type": "trigger",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "op1": "true",
+        "op2": "false",
+        "op1type": "bool",
+        "op2type": "bool",
+        "duration": "1500",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 880,
+        "y": 1620,
+        "wires": [
+            [
+                "5e2a25d2756e97a5"
+            ]
+        ]
+    },
+    {
+        "id": "4aafaf849239412e",
+        "type": "switch",
+        "z": "476a12a01ee6b415",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 710,
+        "y": 1640,
+        "wires": [
+            [
+                "1ee945573419b1d6"
+            ],
+            [
+                "5e2a25d2756e97a5"
+            ]
+        ]
     },
     {
         "id": "c9d918bd737c7df1",
@@ -3707,9 +3243,9 @@
         "order": 1,
         "width": 6,
         "height": 6,
-        "label": "{{msg.filename}}",
+        "label": "℃",
         "chartType": "line",
-        "legend": "true",
+        "legend": "false",
         "xformat": "HH:mm:ss",
         "interpolate": "linear",
         "nodata": "",
@@ -3803,8 +3339,7 @@
                 "90e9249810cef4a3",
                 "a1be6d78badacf07",
                 "7747dfb48313cf06",
-                "fd7679b440fe665d",
-                "9a36148acf043e5e"
+                "fd7679b440fe665d"
             ]
         ]
     },
@@ -3921,9 +3456,9 @@
         "order": 1,
         "width": 6,
         "height": 6,
-        "label": "{{msg.filename}}",
+        "label": "%",
         "chartType": "line",
-        "legend": "true",
+        "legend": "false",
         "xformat": "HH:mm:ss",
         "interpolate": "linear",
         "nodata": "",
@@ -3965,9 +3500,9 @@
         "order": 1,
         "width": 6,
         "height": 6,
-        "label": "{{msg.filename}}",
+        "label": "mW",
         "chartType": "line",
-        "legend": "true",
+        "legend": "false",
         "xformat": "HH:mm:ss",
         "interpolate": "linear",
         "nodata": "",
@@ -4005,7 +3540,7 @@
         "type": "function",
         "z": "f44abf5a8dec2d0a",
         "name": "energy",
-        "func": "msg.sum = msg.payload.sum_energy;\nmsg.sum = 'Total: ' + msg.sum.toFixed(2) + ' Wh ';\nmsg.payload = msg.payload.energy;\nmsg.topic = \"Energy\";\nreturn msg;",
+        "func": "msg.sum = msg.payload.sum_energy;\nmsg.sum = 'Total: ' + msg.sum.toFixed(2) + ' mWh ';\nmsg.payload = msg.payload.energy;\nmsg.topic = \"Energy\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4139,23 +3674,6 @@
         ]
     },
     {
-        "id": "9a36148acf043e5e",
-        "type": "debug",
-        "z": "f44abf5a8dec2d0a",
-        "name": "debug 22",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 900,
-        "y": 820,
-        "wires": []
-    },
-    {
         "id": "6f1e9a4af5aac80e",
         "type": "function",
         "z": "f44abf5a8dec2d0a",
@@ -4204,96 +3722,6 @@
         "wires": []
     },
     {
-        "id": "92c7f23125feb38e",
-        "type": "inject",
-        "z": "675b79776999a17a",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 110,
-        "y": 140,
-        "wires": [
-            [
-                "219b90cf165ab245"
-            ]
-        ]
-    },
-    {
-        "id": "219b90cf165ab245",
-        "type": "function",
-        "z": "675b79776999a17a",
-        "name": "function 16",
-        "func": "var currentTime = new Date();\n\n// Lấy giờ, phút, giây\nvar hours = currentTime.getHours();\nvar minutes = currentTime.getMinutes();\nvar seconds = currentTime.getSeconds();\nmsg.payload = hours.toString().padStart(2, '0') + ' : ' + minutes.toString().padStart(2, '0') + ' : ' + seconds.toString().padStart(2, '0')\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 270,
-        "y": 140,
-        "wires": [
-            [
-                "7028c8b54ef5ea3d"
-            ]
-        ]
-    },
-    {
-        "id": "7028c8b54ef5ea3d",
-        "type": "ui_text",
-        "z": "675b79776999a17a",
-        "group": "75cd05531acc8dd7",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "text",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 470,
-        "y": 140,
-        "wires": []
-    },
-    {
-        "id": "e58e76a4bc241bd5",
-        "type": "ui_template",
-        "z": "675b79776999a17a",
-        "group": "75cd05531acc8dd7",
-        "name": "",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "format": "<style>\n    .value{\n    font-size: 20px;}\n</style>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 660,
-        "y": 140,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "942659ace3b62545",
         "type": "mqtt in",
         "z": "675b79776999a17a",
@@ -4306,12 +3734,11 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 140,
-        "y": 240,
+        "x": 160,
+        "y": 180,
         "wires": [
             [
-                "2564391c73838363",
-                "dfdc9b2aa0227cc9"
+                "2564391c73838363"
             ]
         ]
     },
@@ -4338,19 +3765,17 @@
             "name": ""
         },
         "payload": "",
-        "submit": "Oke! Thêm",
-        "cancel": "Hủy",
+        "submit": "SUBMIT",
+        "cancel": "CANCEL",
         "topic": "detect",
         "topicType": "str",
         "splitLayout": "",
         "className": "",
-        "x": 210,
-        "y": 400,
+        "x": 310,
+        "y": 340,
         "wires": [
             [
-                "d2447c58008b9764",
-                "5a3f803813567105",
-                "9666f081e114ba06"
+                "d2447c58008b9764"
             ]
         ]
     },
@@ -4389,89 +3814,16 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 350,
-        "y": 200,
+        "x": 370,
+        "y": 140,
         "wires": []
-    },
-    {
-        "id": "50826d1c53e0c8ee",
-        "type": "inject",
-        "z": "675b79776999a17a",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 170,
-        "y": 60,
-        "wires": [
-            [
-                "3fd3c715211cdd7f"
-            ]
-        ]
-    },
-    {
-        "id": "0fc49bf401585e75",
-        "type": "change",
-        "z": "675b79776999a17a",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "listName",
-                "pt": "flow",
-                "to": "payload",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 650,
-        "y": 60,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "3fd3c715211cdd7f",
-        "type": "function",
-        "z": "675b79776999a17a",
-        "name": "function 34",
-        "func": "var emptyArray = [];\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 350,
-        "y": 60,
-        "wires": [
-            [
-                "0fc49bf401585e75"
-            ]
-        ]
     },
     {
         "id": "d2447c58008b9764",
         "type": "function",
         "z": "675b79776999a17a",
         "name": "add new user",
-        "func": "var list = [];\nconst temp = flow.get(\"listName\");\nfor(let i = 0; i < temp.length; i++){\n    list.push(temp[i]);\n}\nif (list.indexOf(msg.payload.name) >= 0){\n    msg.error = true;\n} else {\n    list.push(msg.payload.name);\n    flow.set(\"listName\", list);\n}\nmsg.payload = flow.get(\"listName\");\nreturn msg;",
+        "func": "const listName = flow.get(\"listName\");\nif(listName.includes(msg.payload.name)){\n    msg.error = true;\n} else{\n    msg.error = false;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4481,7 +3833,9 @@
         "y": 340,
         "wires": [
             [
-                "741ebb652ec971c0"
+                "741ebb652ec971c0",
+                "9666f081e114ba06",
+                "2c66e92d5c8a28bf"
             ]
         ]
     },
@@ -4511,7 +3865,7 @@
         "topicType": "msg",
         "className": "",
         "x": 610,
-        "y": 540,
+        "y": 580,
         "wires": [
             [
                 "e18be4c956db619d"
@@ -4522,15 +3876,15 @@
         "id": "e18be4c956db619d",
         "type": "function",
         "z": "675b79776999a17a",
-        "name": "Get index in list name",
-        "func": "var list = flow.get('listName');\nconst index = list.indexOf(msg.payload);\nflow.set(\"nameIndex\", index);\nreturn msg;",
+        "name": "Get the name to delete",
+        "func": "flow.set(\"nameToDelete\", msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
         "x": 840,
-        "y": 540,
+        "y": 580,
         "wires": [
             []
         ]
@@ -4616,7 +3970,7 @@
         "type": "function",
         "z": "675b79776999a17a",
         "name": "Delete user",
-        "func": "var list = flow.get('listName');\nif (flow.get(\"nameIndex\") >= 0) {\n    list.splice(flow.get(\"nameIndex\"), 1);\n    flow.set(\"listName\", list);\n}\nmsg.payload = flow.get(\"listName\");\nreturn msg;",
+        "func": "var listName = flow.get('listName');\nconst index = listName.indexOf(flow.get(\"nameToDelete\"));\n\nif (index !== -1) {\n    listName.splice(index, 1); // Xóa 1 phần tử tại vị trí index\n}\nmsg.payload = listName.join(\",\");\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4626,7 +3980,7 @@
         "y": 720,
         "wires": [
             [
-                "5a3f803813567105"
+                "a0b24f0f47921876"
             ]
         ]
     },
@@ -4642,58 +3996,12 @@
         "finalize": "",
         "libs": [],
         "x": 390,
-        "y": 540,
+        "y": 580,
         "wires": [
             [
-                "32c5c4dd17f56686",
-                "0937217f17efe11a"
+                "32c5c4dd17f56686"
             ]
         ]
-    },
-    {
-        "id": "bf3da1609f24de1c",
-        "type": "inject",
-        "z": "675b79776999a17a",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 190,
-        "y": 540,
-        "wires": [
-            [
-                "5a3f803813567105"
-            ]
-        ]
-    },
-    {
-        "id": "dfdc9b2aa0227cc9",
-        "type": "debug",
-        "z": "675b79776999a17a",
-        "name": "debug 45",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 320,
-        "y": 260,
-        "wires": []
     },
     {
         "id": "90762313d50604fd",
@@ -4740,18 +4048,17 @@
         "type": "function",
         "z": "675b79776999a17a",
         "name": "send add user command",
-        "func": "msg.payload = 'ADD:' + msg.payload.name;\nreturn msg;",
+        "func": "if(!msg.error){\n    msg.payload = 'ADD:' + msg.payload.name;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 550,
-        "y": 400,
+        "x": 910,
+        "y": 380,
         "wires": [
             [
-                "08b1650a0b38f4c9",
-                "d19481086a3d2fd0"
+                "08b1650a0b38f4c9"
             ]
         ]
     },
@@ -4760,7 +4067,7 @@
         "type": "function",
         "z": "675b79776999a17a",
         "name": "Send delete user command",
-        "func": "var list = flow.get('listName');\nmsg.payload = 'DELETE:' + list[flow.get(\"nameIndex\")];\nreturn msg;",
+        "func": "msg.payload = 'DELETE:' +flow.get(\"nameToDelete\");\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4771,70 +4078,7 @@
         "wires": [
             [
                 "b1e9f3c8d174a976",
-                "08b1650a0b38f4c9",
-                "d19481086a3d2fd0"
-            ]
-        ]
-    },
-    {
-        "id": "0937217f17efe11a",
-        "type": "debug",
-        "z": "675b79776999a17a",
-        "name": "debug 49",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "options",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 560,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "d19481086a3d2fd0",
-        "type": "debug",
-        "z": "675b79776999a17a",
-        "name": "debug 50",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 920,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "a989c75fb9674355",
-        "type": "ui_button",
-        "z": "675b79776999a17a",
-        "name": "",
-        "group": "75cd05531acc8dd7",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Detect",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "DETECT",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 230,
-        "y": 840,
-        "wires": [
-            [
-                "f108d7d0493d68f4",
-                "49611d173f21395e"
+                "08b1650a0b38f4c9"
             ]
         ]
     },
@@ -4852,102 +4096,12 @@
         "correl": "",
         "expiry": "",
         "broker": "26bb56a265ba606e",
-        "x": 370,
-        "y": 860,
-        "wires": []
-    },
-    {
-        "id": "49611d173f21395e",
-        "type": "debug",
-        "z": "675b79776999a17a",
-        "name": "debug 57",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 400,
-        "y": 780,
+        "x": 730,
+        "y": 820,
         "wires": []
     },
     {
         "id": "022463bb1dfff053",
-        "type": "mqtt in",
-        "z": "675b79776999a17a",
-        "name": "",
-        "topic": "kook",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26bb56a265ba606e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 130,
-        "y": 940,
-        "wires": [
-            [
-                "73ca899728a33ab6"
-            ]
-        ]
-    },
-    {
-        "id": "73ca899728a33ab6",
-        "type": "debug",
-        "z": "675b79776999a17a",
-        "name": "debug 58",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 320,
-        "y": 940,
-        "wires": []
-    },
-    {
-        "id": "d410b5014aa839d6",
-        "type": "mqtt in",
-        "z": "675b79776999a17a",
-        "name": "",
-        "topic": "outdoor",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "26bb56a265ba606e",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 550,
-        "y": 260,
-        "wires": [
-            [
-                "08d7e77a4c733696"
-            ]
-        ]
-    },
-    {
-        "id": "08d7e77a4c733696",
-        "type": "debug",
-        "z": "675b79776999a17a",
-        "name": "debug 59",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 700,
-        "y": 260,
-        "wires": []
-    },
-    {
-        "id": "8fe3fa65b36795bd",
         "type": "mqtt in",
         "z": "675b79776999a17a",
         "name": "",
@@ -4960,37 +4114,237 @@
         "rh": 0,
         "inputs": 0,
         "x": 140,
-        "y": 1040,
+        "y": 940,
         "wires": [
             [
-                "b2c57e6bec5b9174"
+                "2ea19132b7771469"
             ]
         ]
     },
     {
-        "id": "b2c57e6bec5b9174",
+        "id": "3fd3c715211cdd7f",
         "type": "function",
         "z": "675b79776999a17a",
-        "name": "function 38",
-        "func": "if (msg.payload !== \"unknown\")\n    msg.payload = \"OpenDoor\";\nreturn msg;",
+        "name": "copy list of usernames to the global array",
+        "func": "var inputString = msg.payload;\n//Delete line break character\ninputString = inputString.replace(/\\n/g, \"\");\n//Split String to username array\nconst names = (inputString).split(\",\");\nflow.set(\"listName\", names);\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 480,
+        "wires": [
+            [
+                "5a3f803813567105"
+            ]
+        ]
+    },
+    {
+        "id": "17810248efaa79f4",
+        "type": "file in",
+        "z": "675b79776999a17a",
+        "name": "read list of username from file",
+        "filename": "/home/viet/username/test.txt",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 370,
+        "y": 480,
+        "wires": [
+            [
+                "3fd3c715211cdd7f"
+            ]
+        ]
+    },
+    {
+        "id": "372a67f76d3a0e7f",
+        "type": "inject",
+        "z": "675b79776999a17a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 90,
+        "y": 480,
+        "wires": [
+            [
+                "17810248efaa79f4"
+            ]
+        ]
+    },
+    {
+        "id": "2c66e92d5c8a28bf",
+        "type": "function",
+        "z": "675b79776999a17a",
+        "name": "Update the list",
+        "func": "if(!msg.error){\n    var listName = flow.get(\"listName\");\n    listName.push(msg.payload.name);\n    msg.payload = listName.join(\",\");\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 440,
+        "wires": [
+            [
+                "a0b24f0f47921876"
+            ]
+        ]
+    },
+    {
+        "id": "a0b24f0f47921876",
+        "type": "file",
+        "z": "675b79776999a17a",
+        "name": "",
+        "filename": "/home/viet/username/test.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1220,
+        "y": 560,
+        "wires": [
+            [
+                "17810248efaa79f4"
+            ]
+        ]
+    },
+    {
+        "id": "2ea19132b7771469",
+        "type": "function",
+        "z": "675b79776999a17a",
+        "name": "function 43",
+        "func": "const listName = flow.get(\"listName\");\nif(listName.includes(msg.payload)){\n    msg.payload = \"OpenDoor\";\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
         "x": 350,
-        "y": 1040,
+        "y": 1020,
         "wires": [
             [
-                "6bd613a3b5b4809c"
+                "240490cc048dd7c6",
+                "5dfa302c68fc54dd"
             ]
         ]
     },
     {
-        "id": "6bd613a3b5b4809c",
+        "id": "240490cc048dd7c6",
+        "type": "mqtt out",
+        "z": "675b79776999a17a",
+        "name": "Send open door command",
+        "topic": "outdoor_sub",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "26bb56a265ba606e",
+        "x": 600,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "40d96f8df198134b",
+        "type": "e-mail",
+        "z": "675b79776999a17a",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": true,
+        "tls": true,
+        "name": "20020741@vnu.edu.vn",
+        "dname": "",
+        "x": 660,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "37bca0214ed2210d",
+        "type": "function",
+        "z": "675b79776999a17a",
+        "name": "function 44",
+        "func": "msg = {\n    payload : '<!DOCTYPE html>\\\n<html>\\\n<head>\\\n<style>\\\n  .red-text {\\\n    color: red;\\\n  }\\\n</style>\\\n</head>\\\n<body>\\\n\\\n<h1 class=\"red-text\">THEFT DETECTED</h1>\\\n\\\n</body>\\\n</html>',\n    topic: \"HOME_AUTOMATION_SYSTEM\"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4bfe51b18082fac0",
+        "type": "mqtt in",
+        "z": "675b79776999a17a",
+        "name": "",
+        "topic": "recognize",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "26bb56a265ba606e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 860,
+        "wires": [
+            [
+                "2b320d91c093d22b",
+                "50793c9d764c8275"
+            ]
+        ]
+    },
+    {
+        "id": "2b320d91c093d22b",
+        "type": "function",
+        "z": "675b79776999a17a",
+        "name": "function 45",
+        "func": "if(msg.payload == \"DETECT\"){\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 860,
+        "wires": [
+            [
+                "f108d7d0493d68f4"
+            ]
+        ]
+    },
+    {
+        "id": "50793c9d764c8275",
         "type": "debug",
         "z": "675b79776999a17a",
-        "name": "debug 60",
+        "name": "debug 63",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -4998,9 +4352,104 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 580,
-        "y": 1040,
+        "x": 280,
+        "y": 820,
         "wires": []
+    },
+    {
+        "id": "5dfa302c68fc54dd",
+        "type": "debug",
+        "z": "675b79776999a17a",
+        "name": "debug 64",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "4e88652a3884a2e5",
+        "type": "inject",
+        "z": "675b79776999a17a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "DETECT",
+        "payloadType": "str",
+        "x": 220,
+        "y": 900,
+        "wires": [
+            [
+                "2b320d91c093d22b"
+            ]
+        ]
+    },
+    {
+        "id": "c3bd3b7b3dc065fe",
+        "type": "ui_toast",
+        "z": "675b79776999a17a",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 310,
+        "y": 1200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f35f02a2ea74c0df",
+        "type": "ui_button",
+        "z": "675b79776999a17a",
+        "name": "",
+        "group": "4f2da75b4445f277",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "BUTTON",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "THIEF DECTECTED",
+        "payloadType": "str",
+        "topic": "WARNING",
+        "topicType": "str",
+        "x": 100,
+        "y": 1180,
+        "wires": [
+            [
+                "c3bd3b7b3dc065fe",
+                "37bca0214ed2210d"
+            ]
+        ]
     },
     {
         "id": "43a62c5cd6382c8c",
@@ -5549,7 +4998,7 @@
         "type": "mqtt in",
         "z": "2c4429803f3685c6",
         "name": "",
-        "topic": "outdoor",
+        "topic": "kook",
         "qos": "2",
         "datatype": "auto-detect",
         "broker": "26bb56a265ba606e",
@@ -5574,7 +5023,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
         "x": 440,
@@ -5586,7 +5036,7 @@
         "type": "mqtt out",
         "z": "2c4429803f3685c6",
         "name": "",
-        "topic": "OutDoorControl",
+        "topic": "outdoor_sub",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -5595,7 +5045,7 @@
         "correl": "",
         "expiry": "",
         "broker": "26bb56a265ba606e",
-        "x": 660,
+        "x": 650,
         "y": 520,
         "wires": []
     },
@@ -5652,7 +5102,7 @@
         "type": "mqtt out",
         "z": "2c4429803f3685c6",
         "name": "",
-        "topic": "OutDoorControl",
+        "topic": "outdoor_sub",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -5661,7 +5111,7 @@
         "correl": "",
         "expiry": "",
         "broker": "26bb56a265ba606e",
-        "x": 640,
+        "x": 630,
         "y": 600,
         "wires": []
     },
@@ -5718,7 +5168,7 @@
         "type": "mqtt out",
         "z": "2c4429803f3685c6",
         "name": "",
-        "topic": "sub",
+        "topic": "outdoor_sub",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -5727,7 +5177,7 @@
         "correl": "",
         "expiry": "",
         "broker": "26bb56a265ba606e",
-        "x": 590,
+        "x": 610,
         "y": 700,
         "wires": []
     },
@@ -5736,7 +5186,7 @@
         "type": "function",
         "z": "2c4429803f3685c6",
         "name": "Sercurity On",
-        "func": "msg.payload = \"SercurityOn\";\nreturn msg;",
+        "func": "msg.payload = \"SercurityON\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5784,7 +5234,7 @@
         "type": "mqtt out",
         "z": "2c4429803f3685c6",
         "name": "",
-        "topic": "sub",
+        "topic": "outdoor_sub",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -5793,7 +5243,7 @@
         "correl": "",
         "expiry": "",
         "broker": "26bb56a265ba606e",
-        "x": 570,
+        "x": 590,
         "y": 760,
         "wires": []
     },
@@ -5978,28 +5428,11 @@
         ]
     },
     {
-        "id": "8f8f4605495d1e31",
-        "type": "function",
-        "z": "ec422cf8e0f8b2b2",
-        "name": "add timestamp",
-        "func": "flow.set(\"current_power_indoor\", msg.payload.power);\nflow.set(\"current_temperature\", msg.payload.temperature);\nflow.set(\"current_humidity\", msg.payload.humidity);\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 240,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "c18fde21d60a6c31",
+        "id": "51ee27e3f298861f",
         "type": "mqtt in",
-        "z": "ec422cf8e0f8b2b2",
+        "z": "2c4429803f3685c6",
         "name": "",
-        "topic": "esp32",
+        "topic": "sercurity",
         "qos": "2",
         "datatype": "auto-detect",
         "broker": "26bb56a265ba606e",
@@ -6007,288 +5440,29 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 150,
-        "y": 240,
-        "wires": [
-            [
-                "8f8f4605495d1e31"
-            ]
-        ]
-    },
-    {
-        "id": "6a55129cbf8ac8cb",
-        "type": "function",
-        "z": "ec422cf8e0f8b2b2",
-        "name": "prepare data to write to the file",
-        "func": "if((flow.get(\"minutes\") % 2 == 0) && (!flow.get(\"dataWrote\")) ){\n    var data = {};\n    var currentTime = new Date();\n\n    // Lấy giờ, phút, giây\n    var hours = flow.get(\"hours\");\n    var minutes = flow.get(\"minutes\");\n    var seconds = flow.get(\"seconds\");\n\n    // Chuyển đổi thành chuỗi dạng HH:mm:ss\n    var timeStamp = hours.toString().padStart(2, '0') + ':' +\n        minutes.toString().padStart(2, '0') + ':' +\n        seconds.toString().padStart(2, '0');\n    var day = flow.get(\"days\");\n    var month = flow.get(\"months\"); // Tháng bắt đầu từ 0, cần cộng thêm 1\n    var year = flow.get(\"years\");\n\n    // Chuyển đổi thành chuỗi và định dạng ngày_tháng_năm\n    data.fileName = '/home/viet/IoT_data/' + day.toString().padStart(2, '0') + '_' + month.toString().padStart(2, '0') + '_' + year + '.csv';\n    data.timeStamp = timeStamp;\n    data.temperature = parseFloat((flow.get(\"temperature\")).toFixed(2));\n    data.humidity = parseFloat((flow.get(\"humidity\")).toFixed(2)); \n    data.power = parseFloat((flow.get(\"power\")).toFixed(2));  \n     \n    // flow.set(\"lastMinuteWriteData\", flow.get(\"minutes\"));\n    flow.set(\"temperature\", flow.get(\"current_temperature\"));\n    flow.set(\"power\", (flow.get(\"current_power_indoor\") + flow.get(\"current_power_outdoor\")));\n    flow.set(\"current_power_indoor\", 0);\n    flow.set(\"current_power_outdoor\", 0);\n    flow.set(\"humidity\", flow.get(\"current_humidity\"));\n    msg.payload = data;\n    flow.set(\"dataWrote\", 1);\n    return msg;\n} else {\n    if(flow.get(\"minutes\") % 2 > 0){\n        flow.set(\"dataWrote\", 0);\n    }\n    \n    var currentTemperature = flow.get(\"temperature\");\n    var currentPower = flow.get(\"power\");\n    var currentHumidity = flow.get(\"humidity\");\n    var cycle = 5 * 60 * 1000 / flow.get(\"timeToUpdate\");\n    \n    flow.set(\"temperature\", currentTemperature + (flow.get(\"current_temperature\") - currentTemperature) / cycle);\n    flow.set(\"power\", currentPower + (flow.get(\"current_power_indoor\") + flow.get(\"current_power_outdoor\") - currentPower) / cycle);\n    flow.set(\"current_power_indoor\", 0);\n    flow.set(\"current_power_outdoor\", 0);\n    flow.set(\"humidity\", currentHumidity + (flow.get(\"current_humidity\") - currentHumidity) / cycle);\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 670,
-        "y": 140,
-        "wires": [
-            [
-                "878f12841fbc986e"
-            ]
-        ]
-    },
-    {
-        "id": "440942fdc095da2f",
-        "type": "change",
-        "z": "ec422cf8e0f8b2b2",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "temperature",
-                "pt": "flow",
-                "to": "35",
-                "tot": "num"
-            },
-            {
-                "t": "set",
-                "p": "power",
-                "pt": "flow",
-                "to": "0",
-                "tot": "num"
-            },
-            {
-                "t": "set",
-                "p": "humidity",
-                "pt": "flow",
-                "to": "60",
-                "tot": "num"
-            },
-            {
-                "t": "set",
-                "p": "timeToUpdate",
-                "pt": "flow",
-                "to": "3000",
-                "tot": "num"
-            },
-            {
-                "t": "set",
-                "p": "current_power_indoor",
-                "pt": "flow",
-                "to": "0",
-                "tot": "num"
-            },
-            {
-                "t": "set",
-                "p": "current_power_outdoor",
-                "pt": "flow",
-                "to": "0",
-                "tot": "num"
-            },
-            {
-                "t": "set",
-                "p": "current_temperature",
-                "pt": "flow",
-                "to": "35",
-                "tot": "num"
-            },
-            {
-                "t": "set",
-                "p": "current_humidity",
-                "pt": "flow",
-                "to": "60",
-                "tot": "num"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 420,
-        "y": 380,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "810f3d51f580803a",
-        "type": "inject",
-        "z": "ec422cf8e0f8b2b2",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 230,
-        "y": 380,
-        "wires": [
-            [
-                "440942fdc095da2f"
-            ]
-        ]
-    },
-    {
-        "id": "d50fee84e49925c5",
-        "type": "inject",
-        "z": "ec422cf8e0f8b2b2",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 130,
+        "x": 220,
         "y": 160,
         "wires": [
             [
-                "75c81e924ec0f25a"
+                "5326d7ce1916ed51"
             ]
         ]
     },
     {
-        "id": "75c81e924ec0f25a",
-        "type": "function",
-        "z": "ec422cf8e0f8b2b2",
-        "name": "function 41",
-        "func": "var currentTime = new Date();\n\n// Lấy giờ, phút, giây\nmsg.hours = currentTime.getHours();\nmsg.minutes = currentTime.getMinutes();\nmsg.seconds = currentTime.getSeconds();\nmsg.payload = msg.hours.toString().padStart(2, '0') + ' : ' + msg.minutes.toString().padStart(2, '0') + ' : ' + msg.seconds.toString().padStart(2, '0');\nmsg.days = currentTime.getDate();\nmsg.months = currentTime.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1\nmsg.years = currentTime.getFullYear();\nmsg.topic = msg.days.toString().padStart(2, '0') + ' / ' + msg.months.toString().padStart(2, '0') + ' / ' + msg.years.toString();\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 210,
-        "y": 20,
-        "wires": [
-            [
-                "3a12073e8ca26e40"
-            ]
-        ]
-    },
-    {
-        "id": "3a12073e8ca26e40",
-        "type": "change",
-        "z": "ec422cf8e0f8b2b2",
-        "name": "Clock",
-        "rules": [
-            {
-                "t": "set",
-                "p": "hours",
-                "pt": "flow",
-                "to": "hours",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "minutes",
-                "pt": "flow",
-                "to": "minutes",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "seconds",
-                "pt": "flow",
-                "to": "seconds",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "days",
-                "pt": "flow",
-                "to": "days",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "months",
-                "pt": "flow",
-                "to": "months",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "years",
-                "pt": "flow",
-                "to": "years",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 510,
-        "y": 60,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "878f12841fbc986e",
+        "id": "5326d7ce1916ed51",
         "type": "debug",
-        "z": "ec422cf8e0f8b2b2",
-        "name": "debug 61",
+        "z": "2c4429803f3685c6",
+        "name": "debug 65",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 900,
-        "y": 140,
+        "x": 440,
+        "y": 160,
         "wires": []
-    },
-    {
-        "id": "f2d8611c212d8e8f",
-        "type": "inject",
-        "z": "ec422cf8e0f8b2b2",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "3",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 350,
-        "y": 140,
-        "wires": [
-            [
-                "6a55129cbf8ac8cb"
-            ]
-        ]
     }
 ]
